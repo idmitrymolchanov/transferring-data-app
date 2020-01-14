@@ -38,6 +38,13 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="MavenImportPreferences">
+    <option name="enabledProfiles">
+      <list>
+        <option value="local" />
+      </list>
+    </option>
+  </component>
   <component name="ProjectId" id="1W3x7JaIWmd78294qG8UNPW7b2k" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
@@ -51,7 +58,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../IdeaProjects/psychotestJNDI" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Documents/psychotestJNDI" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -106,7 +113,9 @@
       <workItem from="1578553752067" duration="13660000" />
       <workItem from="1578845373176" duration="1111000" />
       <workItem from="1578981536983" duration="755000" />
-      <workItem from="1578982761367" duration="7544000" />
+      <workItem from="1578982761367" duration="8187000" />
+      <workItem from="1578993647439" duration="6833000" />
+      <workItem from="1579001460874" duration="334000" />
     </task>
     <servers />
   </component>

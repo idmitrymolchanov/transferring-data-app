@@ -9,6 +9,7 @@ import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletCon
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jndi.JndiObjectFactoryBean;
 
@@ -16,10 +17,11 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 @Configuration
+@Profile(value = "local")
 public class DatabasesConfiguration {
 
     @Bean
-    public TomcatEmbeddedServletContainerFactory tomcatFactory() {  // if datasouce defind in tomcat xml configuration then no need to create this bean
+    public TomcatEmbeddedServletContainerFactory tomcatFactory() {
 
         return new TomcatEmbeddedServletContainerFactory() {
 
