@@ -5,9 +5,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import psychotest.entity.EntitySbertest;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Repository
@@ -16,26 +13,9 @@ public class SourceRepository extends SbertestRepository{
     @Autowired
     @Qualifier("mySqljdbcTemplate2")
     private JdbcTemplate jdbcTemplate;
-    private static Date mainDate;
 
     private static final String SQL_SELECT = "select * from T_REPORT_SBERTEST_USER_PSYCHOTEST1";
     private static final String SQL_INSERT = "INSERT INTO T_REPORT_SBERTEST_USER_PSYCHOTEST1(id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
-
-    public static Date getMainDate() {
-        return mainDate;
-    }
-
-    public static void setMainDate(Date mainDate) {
-        psychotest.repository.SourceRepository.mainDate = mainDate;
-    }
-
-    static {
-        try {
-            mainDate = new SimpleDateFormat("yyyy-MM-dd").parse("2018-03-28");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
 
     public List<EntitySbertest> getDataCall(){
         return getData(SQL_SELECT, jdbcTemplate);
@@ -55,13 +35,13 @@ public class SourceRepository extends SbertestRepository{
         super.saveData(employeeList, SQL, jdbcTemplate);
     }
 
-    public List<EntitySbertest> getDataSinceCurrentDate(Date date) {
+    public List<EntitySbertest> getDataSinceCurrentDate(Long lastTargetTime) {
         try {
             String sql = "select * from T_REPORT_SBERTEST_USER_PSYCHOTEST1 where unix_timestamp(end_DATE_SCORE)*1000 > ?;";
 
             List<EntitySbertest> sberTest2s = new ArrayList<>();
 
-            List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, mainDate.getTime());
+            List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, lastTargetTime);
 
             for (Map<String, Object> row : rows) {
                 EntitySbertest entitySbertest = new EntitySbertest();
@@ -83,8 +63,6 @@ public class SourceRepository extends SbertestRepository{
 
                 sberTest2s.add(entitySbertest);
             }
-
-            setMainDate(date);
             return sberTest2s;
         } catch (Exception e){
             return Collections.EMPTY_LIST;

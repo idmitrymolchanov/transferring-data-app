@@ -13,7 +13,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-@Repository
 public abstract class SbertestRepository {
 
     public List<EntitySbertest> getData(String SQL, JdbcTemplate jdbcTemplate){

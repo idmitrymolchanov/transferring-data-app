@@ -10,7 +10,6 @@ import psychotest.entity.EntitySbertest;
 import psychotest.repository.SourceRepository;
 import psychotest.repository.TargetRepository;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -28,8 +27,8 @@ public class SourceToTarget {
     @GetMapping(value = "/sbertest2-to-sbertest1")
     @ResponseStatus(HttpStatus.OK)
     private void storeSourceToTarget() {
-        Date date1 = new Date();
-        List<EntitySbertest> customers = sourceRepository.getDataSinceCurrentDate(date1);
+        Long lastTargetTime = targetRepository.getLastDate();
+        List<EntitySbertest> customers = sourceRepository.getDataSinceCurrentDate(lastTargetTime);
         targetRepository.saveDataCall(customers);
     }
 
@@ -37,8 +36,8 @@ public class SourceToTarget {
     @GetMapping("/sbertest-data-since-current-time")
     @ResponseStatus(HttpStatus.OK)
     public List<EntitySbertest> getSourceDataSinceCurrentTime() {
-        Date date = new Date();
-        List<EntitySbertest> customers = sourceRepository.getDataSinceCurrentDate(date);
+        Long lastTargetTime = targetRepository.getLastDate();
+        List<EntitySbertest> customers = sourceRepository.getDataSinceCurrentDate(lastTargetTime);
         return customers;
     }
 
