@@ -37,14 +37,14 @@ public class TargetControllerTest {
     //get values from database1
     @GetMapping("/sbertest71")
     @ResponseStatus(HttpStatus.OK)
-    public List<EntitySbertest> customerInformation() {
+    public List<EntitySbertest> getTargetData() {
         List<EntitySbertest> customers = targetRepository.getDataCall();
         return customers;
     }
 
 
     @Test
-    public void givenEmployees_whenGetEmployees_thenReturnJsonArray()
+    public void testGetTargetData()
             throws Exception {
 
         EntitySbertest alex = new EntitySbertest(Long.parseLong("999999"), "", "", "", "","","","","","","","","",7.3);

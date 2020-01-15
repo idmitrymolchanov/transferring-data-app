@@ -17,14 +17,14 @@ public class TargetController {
     //get values from database1
     @GetMapping("/sbertest1")
     @ResponseStatus(HttpStatus.OK)
-    public List<EntitySbertest> customerInformation() {
+    public List<EntitySbertest> getTargetData() {
         List<EntitySbertest> customers = targetRepository.getDataCall();
         return customers;
     }
 
     @PostMapping(value = "/sbertest1")
     @ResponseStatus(HttpStatus.CREATED)
-    private void storeData(@RequestBody List<EntitySbertest> customObjects) {
+    private void storeTargetData(@RequestBody List<EntitySbertest> customObjects) {
         targetRepository.saveDataCall(customObjects);
     }
 

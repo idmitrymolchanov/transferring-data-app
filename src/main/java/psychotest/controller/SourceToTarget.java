@@ -27,16 +27,16 @@ public class SourceToTarget {
     @Scheduled(cron = "0 0 0 * * 5")
     @GetMapping(value = "/sbertest2-to-sbertest1")
     @ResponseStatus(HttpStatus.OK)
-    private void storeData2() {
+    private void storeSourceToTarget() {
         Date date1 = new Date();
         List<EntitySbertest> customers = sourceRepository.getDataSinceCurrentDate(date1);
         targetRepository.saveDataCall(customers);
     }
 
     //get values from database2 since enter date
-    @GetMapping("/sbertest222")
+    @GetMapping("/sbertest-data-since-current-time")
     @ResponseStatus(HttpStatus.OK)
-    public List<EntitySbertest> customerInformation2() {
+    public List<EntitySbertest> getSourceDataSinceCurrentTime() {
         Date date = new Date();
         List<EntitySbertest> customers = sourceRepository.getDataSinceCurrentDate(date);
         return customers;
