@@ -5,12 +5,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.web.bind.annotation.*;
 import psychotest.entity.EntitySbertest;
 import psychotest.repository.TargetRepository;
 
@@ -34,22 +32,13 @@ public class TargetControllerTest {
     @MockBean
     public TargetRepository targetRepository;
 
-    //get values from database1
-    @GetMapping("/sbertest71")
-    @ResponseStatus(HttpStatus.OK)
-    public List<EntitySbertest> getTargetData() {
-        List<EntitySbertest> customers = targetRepository.getDataCall();
-        return customers;
-    }
-
-
     @Test
     public void testGetTargetData()
             throws Exception {
 
-        EntitySbertest alex = new EntitySbertest(Long.parseLong("999999"), "", "", "", "","","","","","","","","",7.3);
+        EntitySbertest entitySbertest = new EntitySbertest(Long.parseLong("1243551"), "", "", "", "","","","","","","","","",7.3);
 
-        List<EntitySbertest> allEmployees = Arrays.asList(alex);
+        List<EntitySbertest> allEmployees = Arrays.asList(entitySbertest);
 
         given(targetRepository.getDataCall()).willReturn(allEmployees);
 
@@ -57,7 +46,7 @@ public class TargetControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect((ResultMatcher) jsonPath("$", hasSize(14)))
-                .andExpect((ResultMatcher) jsonPath("$[0].extid_bckgr", is(alex.getId())));
+                .andExpect((ResultMatcher) jsonPath("$[0].id", is(entitySbertest.getId())));
     }
 
 }
