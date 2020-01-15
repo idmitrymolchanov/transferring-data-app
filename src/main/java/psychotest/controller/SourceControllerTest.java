@@ -23,8 +23,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(TargetController.class)
-public class TargetControllerTest {
+@WebMvcTest(SourceController.class)
+public class SourceControllerTest {
 
     @Autowired
     private MockMvc mvc;
@@ -35,13 +35,13 @@ public class TargetControllerTest {
     @Test
     public void testGetTargetData() throws Exception {
 
-        EntitySbertest entitySbertest = new EntitySbertest(Long.parseLong("1243550"), "2168779357", "154708", "1497935", "2019-01-25 08:21:32.0000000", "personal-char", "valueNeRabotaet!", "0 - 10", "2019-01-25 00:00:00.0000000", "value", "2019-01-21 00:00:00.0000000", "27f18987-bf6d-4d08-8aec-d6f145cafOff", "value", 1.0);
+        EntitySbertest entitySbertest = new EntitySbertest(Long.parseLong("124350"), "2168779357", "154708", "1497935", "2019-01-25 08:21:32.0000000", "personal-char", "valueNeRabotaet!", "0 - 10", "2019-01-25 00:00:00.0000000", "value", "2019-01-21 00:00:00.0000000", "27f18987-bf6d-4d08-8aec-d6f145cafOff", "value", 1.0);
 
         List<EntitySbertest> allEmployees = Arrays.asList(entitySbertest);
 
         given(targetRepository.getDataCall()).willReturn(allEmployees);
 
-        mvc.perform(get("/sbertest1")
+        mvc.perform(get("/sbertest2")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect((ResultMatcher) jsonPath("$", hasSize(14)))
