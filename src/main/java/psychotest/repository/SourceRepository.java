@@ -14,8 +14,8 @@ public class SourceRepository extends SbertestRepository{
     @Qualifier("mySqljdbcTemplate2")
     private JdbcTemplate jdbcTemplate;
 
-    private static final String SQL_SELECT = "select * from T_REPORT_SBERTEST_USER_PSYCHOTEST1";
-    private static final String SQL_INSERT = "INSERT INTO T_REPORT_SBERTEST_USER_PSYCHOTEST1(id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+    private final String SQL_SELECT = "select * from T_REPORT_SBERTEST_USER_PSYCHOTEST1";
+    private final String SQL_INSERT = "INSERT INTO T_REPORT_SBERTEST_USER_PSYCHOTEST1(id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
     public List<EntitySbertest> getDataCall(){
         return getData(SQL_SELECT, jdbcTemplate);
