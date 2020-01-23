@@ -1,24 +1,24 @@
-package psychotest.config;
+package psychotest.Config;
 
 import org.apache.catalina.Context;
-import org.apache.catalina.startup.Tomcat;
-import org.apache.tomcat.util.descriptor.web.ContextResource;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jndi.JndiObjectFactoryBean;
+        import org.apache.catalina.startup.Tomcat;
+        import org.apache.tomcat.util.descriptor.web.ContextResource;
+        import org.springframework.beans.factory.annotation.Qualifier;
+        import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer;
+        import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
+        import org.springframework.context.annotation.Bean;
+        import org.springframework.context.annotation.Configuration;
+        import org.springframework.context.annotation.Primary;
+        import org.springframework.context.annotation.Profile;
+        import org.springframework.jdbc.core.JdbcTemplate;
+        import org.springframework.jndi.JndiObjectFactoryBean;
 
-import javax.naming.NamingException;
-import javax.sql.DataSource;
+        import javax.naming.NamingException;
+        import javax.sql.DataSource;
 
 @Configuration
 @Profile(value = "local")
-public class Config {
+public class ConfigTest {
 
     @Bean
     public TomcatEmbeddedServletContainerFactory tomcatFactory() {

@@ -22,7 +22,6 @@ public class TargetRepository extends SbertestRepository {
     private final String SQL_INSERT = "INSERT INTO "+ DBConstants.T_REPORT_SBERTEST_USER_PSYCHOTEST +"(id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
     public List<EntitySbertest> getDataCall(){
-        System.out.println(getLastDate());
         return getData(SQL_SELECT, jdbcTemplate);
     }
 
