@@ -2,28 +2,36 @@ package psychotest.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import psychotest.core.DBConstants;
 import psychotest.entity.EntitySbertest;
 import java.util.*;
 
 @Repository
 public class SourceRepository extends SbertestRepository{
 
+    private static String sourceTableName;
+    @Value("${datasource.two.name}")
+    public void setSourceTableName(String sourceTableName) {
+        this.sourceTableName = sourceTableName;
+    }
+
     @Autowired
     @Qualifier("mySqljdbcTemplate2")
     private JdbcTemplate jdbcTemplate;
 
-    private final String SQL_SELECT = "select * from "+ DBConstants.T_REPORT_SBERTEST_USER_PSYCHOTEST1 +"";
-    private final String SQL_INSERT = "INSERT INTO "+ DBConstants.T_REPORT_SBERTEST_USER_PSYCHOTEST1 +"(id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+    private String sqlSelect;
+    private String sqlInsert;
 
     public List<EntitySbertest> getDataCall(){
-        return getData(SQL_SELECT, jdbcTemplate);
+        sqlSelect = "select * from "+ sourceTableName +"";
+        return getData(sqlSelect, jdbcTemplate);
     }
 
     public void saveDataCall(List<EntitySbertest> employeeList){
-        saveData(employeeList, SQL_INSERT, jdbcTemplate);
+        sqlInsert = "INSERT INTO "+ sourceTableName +"(id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        saveData(employeeList, sqlInsert, jdbcTemplate);
     }
 
     @Override
@@ -38,7 +46,7 @@ public class SourceRepository extends SbertestRepository{
 
     public List<EntitySbertest> getDataSinceCurrentDate(Long lastTargetTime) {
         try {
-            String sql = "select * from "+ DBConstants.T_REPORT_SBERTEST_USER_PSYCHOTEST1 +" where unix_timestamp(end_DATE_SCORE)*1000 > ?;";
+            String sql = "select * from "+ sourceTableName +" where unix_timestamp(end_DATE_SCORE)*1000 > ?;";
 
             List<EntitySbertest> sberTest2s = new ArrayList<>();
 

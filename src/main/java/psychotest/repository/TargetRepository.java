@@ -2,9 +2,10 @@ package psychotest.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import psychotest.core.DBConstants;
 import psychotest.entity.EntitySbertest;
 
 import java.text.ParseException;
@@ -12,21 +13,31 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Repository
+@PropertySource("classpath:application.properties")
 public class TargetRepository extends SbertestRepository {
+
+    private static String targetTableName;
+
+    @Value("${datasource.one.name}")
+    public void setTargetTableName(String targetTableName) {
+        this.targetTableName = targetTableName;
+    }
 
     @Autowired
     @Qualifier("mySqljdbcTemplate")
     private JdbcTemplate jdbcTemplate;
 
-    private final String SQL_SELECT = "select * from "+ DBConstants.T_REPORT_SBERTEST_USER_PSYCHOTEST +"";
-    private final String SQL_INSERT = "INSERT INTO "+ DBConstants.T_REPORT_SBERTEST_USER_PSYCHOTEST +"(id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+    private String sqlSelect;
+    private String sqlInsert;
 
     public List<EntitySbertest> getDataCall(){
-        return getData(SQL_SELECT, jdbcTemplate);
+        sqlSelect = "select * from "+ targetTableName +"";
+        return getData(sqlSelect, jdbcTemplate);
     }
 
     public void saveDataCall(List<EntitySbertest> employeeList){
-        saveData(employeeList, SQL_INSERT, jdbcTemplate);
+        sqlInsert = "INSERT INTO "+ targetTableName +"(id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        saveData(employeeList, sqlInsert, jdbcTemplate);
     }
 
     @Override
@@ -41,7 +52,7 @@ public class TargetRepository extends SbertestRepository {
 
     public Long getLastDate(){
         try {
-            String sql = "select max(cast(end_DATE_SCORE as date)) from "+ DBConstants.T_REPORT_SBERTEST_USER_PSYCHOTEST +"";
+            String sql = "select max(cast(end_DATE_SCORE as date)) from "+ targetTableName +"";
             String lastData = jdbcTemplate.queryForObject(sql, new Object[]{}, String.class);
             return new SimpleDateFormat("yyyy-MM-dd").parse(lastData).getTime();
         } catch (ParseException e){

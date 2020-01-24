@@ -18,7 +18,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @Profile(value = "local")
-public class Config {
+public class ConfigLocal {
 
     @Bean
     public TomcatEmbeddedServletContainerFactory tomcatFactory() {

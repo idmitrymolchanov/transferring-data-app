@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @Profile(value = "prod")
-public class ConfigCloud {
+public class ConfigProd {
 
     @Value("${psychotest.jndi.datasource.one}")
     private String jndiStringOne;
