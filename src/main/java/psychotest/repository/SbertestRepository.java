@@ -3,7 +3,6 @@ package psychotest.repository;
 import com.google.common.collect.Lists;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 import psychotest.entity.EntitySbertest;
 
 import java.sql.PreparedStatement;
