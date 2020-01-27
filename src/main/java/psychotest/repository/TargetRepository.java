@@ -24,7 +24,7 @@ public class TargetRepository extends SbertestRepository {
     }
 
     @Autowired
-    @Qualifier("mySqljdbcTemplate")
+    @Qualifier("jdbcTemplate1")
     private JdbcTemplate jdbcTemplate;
 
     private String sqlSelect;
