@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import psychotest.entity.EntitySbertest;
-import psychotest.repository.TargetRepository;
+import psychotest.service.TargetService;
 
 import java.util.List;
 
@@ -12,20 +12,23 @@ import java.util.List;
 public class TargetController {
 
     @Autowired
-    public TargetRepository targetRepository;
+    public TargetService targetService;
 
-    //get values from database1
-    @GetMapping("/sbertest1")
+    @GetMapping("/target")
     @ResponseStatus(HttpStatus.OK)
     public List<EntitySbertest> getTargetData() {
-        List<EntitySbertest> customers = targetRepository.getDataCall();
-        return customers;
+        return targetService.getAll();
     }
 
-    @PostMapping(value = "/sbertest1")
+    @PostMapping(value = "/target")
     @ResponseStatus(HttpStatus.CREATED)
     private void storeTargetData(@RequestBody List<EntitySbertest> customObjects) {
-        targetRepository.saveDataCall(customObjects);
+        targetService.saveAll(customObjects);
     }
 
+    @GetMapping(value = "/target/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<EntitySbertest> getAllById(@PathVariable Long id){
+        return targetService.getAllById(id);
+    }
 }

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import psychotest.entity.EntitySbertest;
-import psychotest.repository.SourceRepository;
+import psychotest.service.SourceService;
 
 import java.util.List;
 
@@ -12,21 +12,18 @@ import java.util.List;
 public class SourceController {
 
     @Autowired
-    public SourceRepository sourceRepository;
+    public SourceService sourceService;
 
-    //get values from database2
-    @GetMapping("/sbertest2")
+    @GetMapping("/source")
     @ResponseStatus(HttpStatus.OK)
     public List<EntitySbertest> getSourceData() {
-        List<EntitySbertest> customers = sourceRepository.getDataCall();
-        return customers;
+        return sourceService.getAll();
     }
 
-    //insert values into database2
-    @PostMapping(value = "/sbertest2")
+    @PostMapping(value = "/source")
     @ResponseStatus(HttpStatus.CREATED)
     private void storeSourceData(@RequestBody List<EntitySbertest> customObjects) {
-        sourceRepository.saveDataCall(customObjects);
+        sourceService.saveAll(customObjects);
     }
 
 }

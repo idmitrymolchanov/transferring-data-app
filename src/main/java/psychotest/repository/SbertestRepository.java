@@ -21,23 +21,23 @@ public abstract class SbertestRepository {
             List<Map<String, Object>> rows = jdbcTemplate.queryForList(SQL);
 
             for (Map<String, Object> row : rows) {
-                EntitySbertest entitySbertest = new EntitySbertest();
-
-                entitySbertest.setId((Long) row.get("id"));
-                entitySbertest.setExtidBckgr((String) row.get("extid_BCKGR"));
-                entitySbertest.setExtidUser((String) row.get("extid_USER"));
-                entitySbertest.setTabnum((String) row.get("tabnum"));
-                entitySbertest.setChangeDate((String) row.get("change_DATE"));
-                entitySbertest.setExtidProgram((String) row.get("extid_PROGRAM"));
-                entitySbertest.setNameProgram((String) row.get("name_PROGRAM"));
-                entitySbertest.setScale((String) row.get("scale"));
-                entitySbertest.setEndDateScore((String) row.get("end_DATE_SCORE"));
-                entitySbertest.setNameScore((String) row.get("name_SCORE"));
-                entitySbertest.setStartDateScore((String) row.get("start_DATE_SCORE"));
-                entitySbertest.setExtidTest((String) row.get("extid_TEST"));
-                entitySbertest.setNameTest((String) row.get("name_TEST"));
-                entitySbertest.setResultScoreNum((Double) row.get("result_SCORE_NUM"));
-
+                EntitySbertest entitySbertest = EntitySbertest
+                        .builder()
+                        .id((Long) row.get("id"))
+                        .extidBckgr((String) row.get("extid_BCKGR"))
+                        .extidUser((String) row.get("extid_USER"))
+                        .tabnum((String) row.get("tabnum"))
+                        .changeDate((String) row.get("change_DATE"))
+                        .extidProgram((String) row.get("extid_PROGRAM"))
+                        .nameProgram((String) row.get("name_PROGRAM"))
+                        .scale((String) row.get("scale"))
+                        .endDateScore((String) row.get("end_DATE_SCORE"))
+                        .nameScore((String) row.get("name_SCORE"))
+                        .startDateScore((String) row.get("start_DATE_SCORE"))
+                        .extidTest((String) row.get("extid_TEST"))
+                        .nameTest((String) row.get("name_TEST"))
+                        .resultScoreNum((Double) row.get("result_SCORE_NUM"))
+                        .build();
                 sberTest1s.add(entitySbertest);
             }
             return sberTest1s;

@@ -16,34 +16,34 @@ import javax.sql.DataSource;
 @Profile(value = "prod")
 public class ConfigProd {
 
-    @Value("${psychotest.jndi.datasource.one}")
-    private String jndiStringOne;
+    @Value("${psychotest.jndi.datasource.target")
+    private String jndiTarget;
 
-    @Value("${psychotest.jndi.datasource.two}")
-    private String jndiStringTwo;
+    @Value("${psychotest.jndi.datasource.source")
+    private String jndiSource;
 
     @Bean(name = "jndiDataSource")
     @Primary
     public DataSource jndiDataSource() throws IllegalArgumentException, NamingException {
         JndiTemplate jndiTemplate = new JndiTemplate();
-        return (DataSource) jndiTemplate.lookup(jndiStringOne);
+        return (DataSource) jndiTemplate.lookup(jndiTarget);
     }
 
     @Bean(name = "jndiDataSource2")
     public DataSource jndiDataSource2() throws IllegalArgumentException, NamingException {
         JndiTemplate jndiTemplate = new JndiTemplate();
-        return (DataSource) jndiTemplate.lookup(jndiStringTwo);
+        return (DataSource) jndiTemplate.lookup(jndiSource);
     }
 
     @Bean
-    @Qualifier("mySqljdbcTemplate")
-    public JdbcTemplate mySqljdbcTemplate() throws IllegalArgumentException, NamingException {
+    @Qualifier("jdbcTemplateTarget")
+    public JdbcTemplate jdbcTemplateTarget() throws IllegalArgumentException, NamingException {
         return new JdbcTemplate(jndiDataSource());
     }
 
     @Bean
-    @Qualifier("mySqljdbcTemplate2")
-    public JdbcTemplate mySqljdbcTemplate2() throws IllegalArgumentException, NamingException {
+    @Qualifier("jdbcTemplateSource")
+    public JdbcTemplate jdbcTemplateSource() throws IllegalArgumentException, NamingException {
         return new JdbcTemplate(jndiDataSource2());
     }
 }

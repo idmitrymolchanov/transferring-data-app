@@ -5,12 +5,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import psychotest.entity.EntitySbertest;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @PropertySource("classpath:application.properties")
@@ -24,7 +27,7 @@ public class TargetRepository extends SbertestRepository {
     }
 
     @Autowired
-    @Qualifier("jdbcTemplate1")
+    @Qualifier("jdbcTemplateTarget")
     private JdbcTemplate jdbcTemplate;
 
     private String sqlSelect;
@@ -50,13 +53,44 @@ public class TargetRepository extends SbertestRepository {
         super.saveData(employeeList, SQL, jdbcTemplate);
     }
 
-    public Long getLastDate(){
+    public LocalDate getLastDate(){
+        String sql = "select max(cast(end_DATE_SCORE as date)) from "+ targetTableName +"";
+        String lastData = jdbcTemplate.queryForObject(sql, new Object[]{}, String.class);
+        System.out.println(LocalDate.parse(lastData));
+        return LocalDate.parse(lastData);
+    }
+
+    public List<EntitySbertest> getAllById(Long id) {
         try {
-            String sql = "select max(cast(end_DATE_SCORE as date)) from "+ targetTableName +"";
-            String lastData = jdbcTemplate.queryForObject(sql, new Object[]{}, String.class);
-            return new SimpleDateFormat("yyyy-MM-dd").parse(lastData).getTime();
-        } catch (ParseException e){
-            return null;
+            String sql = "select * from "+ targetTableName +" where id = ?;";
+
+            List<EntitySbertest> sberTest2s = new ArrayList<>();
+            List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, id);
+
+            for (Map<String, Object> row : rows) {
+                EntitySbertest entitySbertest = EntitySbertest
+                        .builder()
+                        .id((Long) row.get("id"))
+                        .extidBckgr((String) row.get("extid_BCKGR"))
+                        .extidUser((String) row.get("extid_USER"))
+                        .tabnum((String) row.get("tabnum"))
+                        .changeDate((String) row.get("change_DATE"))
+                        .extidProgram((String) row.get("extid_PROGRAM"))
+                        .nameProgram((String) row.get("name_PROGRAM"))
+                        .scale((String) row.get("scale"))
+                        .endDateScore((String) row.get("end_DATE_SCORE"))
+                        .nameScore((String) row.get("name_SCORE"))
+                        .startDateScore((String) row.get("start_DATE_SCORE"))
+                        .extidTest((String) row.get("extid_TEST"))
+                        .nameTest((String) row.get("name_TEST"))
+                        .resultScoreNum((Double) row.get("result_SCORE_NUM"))
+                        .build();
+
+                sberTest2s.add(entitySbertest);
+            }
+            return sberTest2s;
+        } catch (Exception e){
+            return Collections.EMPTY_LIST;
         }
     }
 }

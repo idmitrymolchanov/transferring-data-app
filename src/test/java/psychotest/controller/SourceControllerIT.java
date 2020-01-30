@@ -50,15 +50,26 @@ public class SourceControllerIT {
 
     @Test
     public void saveSourceData() throws URISyntaxException {
+        EntitySbertest entitySbertest0 = EntitySbertest
+                .builder()
+                .id(Long.parseLong("1243593"))
+                .extidBckgr("21")
+                .extidUser("1111")
+                .tabnum("1111")
+                .changeDate("1111")
+                .extidProgram("1111")
+                .nameProgram("1111")
+                .scale("1111")
+                .endDateScore("1111")
+                .nameScore("1111")
+                .startDateScore("1111")
+                .extidTest("1111")
+                .nameTest("1111")
+                .resultScoreNum(23.0)
+                .build();
 
-        EntitySbertest entitySbertest0 = new EntitySbertest(Long.parseLong("1243593"), "21", "154708", "1497935", "2019-01-25 08:21:32.0000000", "personal-char", "MongoValue", "0 - 10", "2019-07-25 00:00:00.0000000", "value", "2019-01-21 00:00:00.0000000", "27f18987-bf6d-4d08-8aec-d6f145cafOff", "value", 1.0);
-        EntitySbertest entitySbertest1 = new EntitySbertest(Long.parseLong("1243594"), "216", "154708", "1497935", "2019-01-25 08:21:32.0000000", "personal-char", "MongoValue", "0 - 10", "2019-07-25 00:00:00.0000000", "value", "2019-01-21 00:00:00.0000000", "27f18987-bf6d-4d08-8aec-d6f145cafOff", "value", 1.0);
-        EntitySbertest entitySbertest2 = new EntitySbertest(Long.parseLong("1243505"), "2", "154708", "1497935", "2019-01-25 08:21:32.0000000", "personal-char", "MongoValue", "0 - 10", "2019-07-25 00:00:00.0000000", "value", "2019-01-21 00:00:00.0000000", "27f18987-bf6d-4d08-8aec-d6f145cafOff", "value", 1.0);
         List<EntitySbertest> list = new ArrayList<>();
-
         list.add(entitySbertest0);
-        list.add(entitySbertest1);
-        list.add(entitySbertest2);
 
         restTemplate.postForObject("http://localhost:8090/sbertest2", list, ResponseEntity.class);
 
@@ -69,10 +80,10 @@ public class SourceControllerIT {
                         });
 
         List<EntitySbertest> actualList = responseEntity.getBody();
-        assertThat(actualList.size(), Matchers.is(7));
+        assertThat(actualList.size(), Matchers.is(5));
         List<String> actualId = actualList.stream()
                 .map(entitySbertest -> entitySbertest.getExtidBckgr())
                 .collect(Collectors.collectingAndThen(Collectors.toList(), ImmutableList::copyOf));
-        assertThat(actualId, Matchers.containsInAnyOrder("2168779357", "2168779358", "2168779359", "2168779360", "21", "216", "2"));
+        assertThat(actualId, Matchers.containsInAnyOrder("2168779357", "2168779358", "2168779359", "2168779360", "21"));
     }
 }

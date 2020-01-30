@@ -1,22 +1,32 @@
 package psychotest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import psychotest.entity.EntitySbertest;
+import psychotest.repository.SourceRepository;
+import psychotest.repository.TargetRepository;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.List;
 
-
-//class just for see that app is started
+@Slf4j
 @Component
 public class Scheduler {
-    private static Logger logger = LoggerFactory.getLogger(Scheduler.class);
-    private static Date date;
+
+    @Autowired
+    public TargetRepository targetRepository;
+
+    @Autowired
+    public SourceRepository sourceRepository;
 
     @Scheduled(cron = "0 0 0 * * 5")
-    public void reportCurrentData() {
-        date = new Date();
-        logger.info("Scheduler working: " + date);
+    private void storeSourceToTarget() {
+        try {
+            log.info("Scheduler working: " + LocalDate.now());
+            List<EntitySbertest> customers = sourceRepository.getAllSinceCurrentDate(targetRepository.getLastDate());
+            targetRepository.saveDataCall(customers);
+        } catch (Exception e) { }
     }
 }
