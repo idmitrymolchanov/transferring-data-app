@@ -47,7 +47,7 @@ public class TargetRepository extends SbertestRepository {
     public LocalDate getLastDate(){
         String sql = "select max(cast(end_DATE_SCORE as date)) from "+ targetTableName +"";
         String lastData = jdbcTemplate.queryForObject(sql, new Object[]{}, String.class);
-        System.out.println(LocalDate.parse(lastData));
         return LocalDate.parse(lastData);
     }
+
 }

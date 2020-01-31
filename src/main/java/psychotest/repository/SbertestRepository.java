@@ -7,6 +7,7 @@ import psychotest.entity.EntitySbertest;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -81,6 +82,11 @@ public abstract class SbertestRepository {
         } catch (Exception e){
             return;
         }
+    }
+
+    public LocalDate getLastDateTest(String sql, JdbcTemplate jdbcTemplate){
+        String lastData = jdbcTemplate.queryForObject(sql, new Object[]{}, String.class);
+        return LocalDate.parse(lastData);
     }
 
 }

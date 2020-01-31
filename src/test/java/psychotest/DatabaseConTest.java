@@ -1,13 +1,19 @@
 package psychotest;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.BeforeClass;
+import org.hamcrest.Matchers;
 import org.junit.Test;
-import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import psychotest.Config.TestConfig;
 import psychotest.entity.EntitySbertest;
 
 import javax.sql.DataSource;
@@ -15,25 +21,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+
+@Import(TestConfig.class)
 @Slf4j
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest
 public class DatabaseConTest {
 
-    private static DataSource dataSource;
-
-    @BeforeClass
-    public static void init() throws InterruptedException{
-        Thread.sleep(5_000); //wait for the docker container to start
-        String port = System.getProperty("mysql.port", "3306");
-        String pw = System.getProperty("mysql.pw", "root");
-        String url = "jdbc:mysql://localhost:" + port + "?useUnicode=true&serverTimezone=UTC";
-        log.info("MySQL URL: " + url +" with pw " + pw);
-        dataSource = DataSourceBuilder.create()
-                .url(url)
-                .username("root")
-                .password(pw)
-                .driverClassName("com.mysql.cj.jdbc.Driver")
-                .build();
-    }
+    @Autowired
+    @Qualifier("testConfig")
+    private DataSource dataSource;
 
     @Test
     public void createData() throws Exception {
@@ -62,9 +60,6 @@ public class DatabaseConTest {
                 ");");
 
         jdbcTemplate.execute("INSERT INTO testdb1.T_REPORT_SBERTEST_USER_PSYCHOTEST(id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES (1243550, '2168779357', '154708', '1497935', '2019-01-25 08:21:32.0000000', 'personal-char', 'valueNeRabotaet!', '0 - 10', '2019-01-25 00:00:00.0000000', 'value', '2019-01-21 00:00:00.0000000', '27f18987-bf6d-4d08-8aec-d6f145cafOff', 'value', 1);");
-        jdbcTemplate.execute("INSERT INTO testdb1.T_REPORT_SBERTEST_USER_PSYCHOTEST(id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES (1243551, '2168779357', '154708', '1497935', '2019-01-26 08:21:32.0000000', 'personal-char', 'valueNeRabotaet!', '0 - 10', '2019-01-26 00:00:00.0000000', 'value', '2019-01-22 00:00:00.0000000', '27f18987-bf6d-4d08-8aec-d6f145cafOff', 'value', 1);");
-        jdbcTemplate.execute("INSERT INTO testdb1.T_REPORT_SBERTEST_USER_PSYCHOTEST(id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES (1243552, '2168779357', '154708', '1497935', '2019-01-27 08:21:32.0000000', 'personal-char', 'valueNeRabotaet!', '0 - 10', '2019-01-27 00:00:00.0000000', 'value', '2019-01-23 00:00:00.0000000', '27f18987-bf6d-4d08-8aec-d6f145cafOff', 'value', 1);");
-        jdbcTemplate.execute("INSERT INTO testdb1.T_REPORT_SBERTEST_USER_PSYCHOTEST(id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES (1243553, '2168779357', '154708', '1497935', '2019-01-28 08:21:32.0000000', 'personal-char', 'valueNeRabotaet!', '0 - 10', '2019-01-28 00:00:00.0000000', 'value', '2019-01-24 00:00:00.0000000', '27f18987-bf6d-4d08-8aec-d6f145cafOff', 'value', 1);");
 
         String sql = "SELECT * from testdb1.T_REPORT_SBERTEST_USER_PSYCHOTEST where id = ?";
         Long id = Long.parseLong("1243550");
@@ -93,9 +88,8 @@ public class DatabaseConTest {
             list.add(entitySbertest);
         }
 
-        if(list.get(0).getExtidBckgr().equals("2168779357")){
-            log.info("values are equal");
-        } else throw new Exception();
+        assertThat(list.get(0).getExtidBckgr(), Matchers.is("2168779357"));
+        assertThat(list.size(), Matchers.is(1));
 
         txManager.commit(transaction);
     }

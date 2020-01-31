@@ -71,8 +71,4 @@ public class SourceControllerIT {
         assertThat(actualId, Matchers.containsInAnyOrder("21"));
     }
 
-    @Test
-    public void checkMethods(){
-
-    }
 }
