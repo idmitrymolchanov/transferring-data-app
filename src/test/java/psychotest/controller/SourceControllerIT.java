@@ -4,18 +4,15 @@ import com.google.common.collect.ImmutableList;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.web.client.RestTemplate;
-import psychotest.SpringBootApp;
+import org.springframework.test.context.junit4.SpringRunner;
 import psychotest.entity.EntitySbertest;
 
 import java.net.URISyntaxException;
@@ -25,28 +22,16 @@ import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@Profile("local")
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = SpringBootApp.class)
-@WebAppConfiguration
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-@TestExecutionListeners({DirtiesContextTestExecutionListener.class})
 public class SourceControllerIT {
-    RestTemplate restTemplate = new RestTemplate();
 
-    @Test
-    public void getSourceData() {
-        ResponseEntity<List<EntitySbertest>> responseEntity =
-                restTemplate.exchange("http://localhost:8090/sbertest2", HttpMethod.GET, null,
-                        new ParameterizedTypeReference<List<EntitySbertest>>() {
-                        });
-        List<EntitySbertest> actualList = responseEntity.getBody();
-        assertThat(actualList.size(), Matchers.is(4));
-        List<String> actualId = actualList.stream()
-                .map(entitySbertest -> entitySbertest.getExtidBckgr())
-                .collect(Collectors.collectingAndThen(Collectors.toList(), ImmutableList::copyOf));
-        assertThat(actualId, Matchers.containsInAnyOrder("2168779357", "2168779358", "2168779359", "2168779360"));
-    }
+    @Autowired
+    TestRestTemplate restTemplate;
+
+    @LocalServerPort
+    private int port;
 
     @Test
     public void saveSourceData() throws URISyntaxException {
@@ -71,19 +56,23 @@ public class SourceControllerIT {
         List<EntitySbertest> list = new ArrayList<>();
         list.add(entitySbertest0);
 
-        restTemplate.postForObject("http://localhost:8090/sbertest2", list, ResponseEntity.class);
+        restTemplate.postForObject("http://localhost:" + port + "/source", list, ResponseEntity.class);
 
 
         ResponseEntity<List<EntitySbertest>> responseEntity =
-                restTemplate.exchange("http://localhost:8090/sbertest2", HttpMethod.GET, null,
+                restTemplate.exchange("http://localhost:" + port + "/source/1243593", HttpMethod.GET, null,
                         new ParameterizedTypeReference<List<EntitySbertest>>() {
                         });
 
         List<EntitySbertest> actualList = responseEntity.getBody();
-        assertThat(actualList.size(), Matchers.is(5));
         List<String> actualId = actualList.stream()
                 .map(entitySbertest -> entitySbertest.getExtidBckgr())
                 .collect(Collectors.collectingAndThen(Collectors.toList(), ImmutableList::copyOf));
-        assertThat(actualId, Matchers.containsInAnyOrder("2168779357", "2168779358", "2168779359", "2168779360", "21"));
+        assertThat(actualId, Matchers.containsInAnyOrder("21"));
+    }
+
+    @Test
+    public void checkMethods(){
+
     }
 }

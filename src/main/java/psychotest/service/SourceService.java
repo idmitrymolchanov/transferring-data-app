@@ -14,15 +14,15 @@ public class SourceService {
     @Autowired
     public SourceRepository sourceRepository;
 
-    public List<EntitySbertest> getAll(){
-        return sourceRepository.getDataCall();
+    public List<EntitySbertest> findAllSinceLastTargetDate(LocalDate localDate){
+        return sourceRepository.findAllSinceLastTargetDate(localDate);
     }
 
-    public List<EntitySbertest> getAllSinceCurrentDate(LocalDate localDate){
-        return sourceRepository.getAllSinceCurrentDate(localDate);
+    public void save(List<EntitySbertest> entitySbertests){
+        sourceRepository.save(entitySbertests);
     }
 
-    public void saveAll(List<EntitySbertest> entitySbertests){
-        sourceRepository.saveDataCall(entitySbertests);
+    public List<EntitySbertest> findById(Long id){
+        return sourceRepository.findById(id);
     }
 }

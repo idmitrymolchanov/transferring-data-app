@@ -26,19 +26,14 @@ public class SourceRepository extends SbertestRepository{
     private String sqlSelect;
     private String sqlInsert;
 
-    public List<EntitySbertest> getDataCall(){
-        sqlSelect = "select * from "+ sourceTableName +"";
-        return getData(sqlSelect, jdbcTemplate);
-    }
-
-    public void saveDataCall(List<EntitySbertest> employeeList){
+    public void save(List<EntitySbertest> employeeList){
         sqlInsert = "INSERT INTO "+ sourceTableName +"(id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
         saveData(employeeList, sqlInsert, jdbcTemplate);
     }
 
-    @Override
-    public List<EntitySbertest> getData(String SQL, JdbcTemplate jdbcTemplate) {
-        return super.getData(SQL, jdbcTemplate);
+    public List<EntitySbertest> findById(Long id){
+        sqlSelect = "select * from "+ sourceTableName +" where id = ?;";
+        return findById(sqlSelect, jdbcTemplate, id);
     }
 
     @Override
@@ -46,7 +41,7 @@ public class SourceRepository extends SbertestRepository{
         super.saveData(employeeList, SQL, jdbcTemplate);
     }
 
-    public List<EntitySbertest> getAllSinceCurrentDate(LocalDate lastTargetTime) {
+    public List<EntitySbertest> findAllSinceLastTargetDate(LocalDate lastTargetTime) {
         try {
             String sql = "select * from "+ sourceTableName +" where cast(end_DATE_SCORE as date) > ?;";
 

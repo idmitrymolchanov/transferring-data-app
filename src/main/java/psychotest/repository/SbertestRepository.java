@@ -14,11 +14,11 @@ import java.util.Map;
 
 public abstract class SbertestRepository {
 
-    public List<EntitySbertest> getData(String SQL, JdbcTemplate jdbcTemplate){
+    public List<EntitySbertest> findById(String SQL, JdbcTemplate jdbcTemplate, Long id){
         try {
             List<EntitySbertest> sberTest1s = new ArrayList<EntitySbertest>();
 
-            List<Map<String, Object>> rows = jdbcTemplate.queryForList(SQL);
+            List<Map<String, Object>> rows = jdbcTemplate.queryForList(SQL, id);
 
             for (Map<String, Object> row : rows) {
                 EntitySbertest entitySbertest = EntitySbertest
@@ -45,6 +45,7 @@ public abstract class SbertestRepository {
             return Collections.emptyList();
         }
     }
+
     public void saveData(final List<EntitySbertest> employeeList, String SQL, JdbcTemplate jdbcTemplate){
         try {
             final int batchSize = 500;

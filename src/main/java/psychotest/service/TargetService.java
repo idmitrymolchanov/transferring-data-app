@@ -14,20 +14,16 @@ public class TargetService {
     @Autowired
     public TargetRepository targetRepository;
 
-    public List<EntitySbertest> getAll(){
-        return targetRepository.getDataCall();
-    }
-
     public void saveAll(List<EntitySbertest> entitySbertests){
-        targetRepository.saveDataCall(entitySbertests);
+        targetRepository.save(entitySbertests);
     }
 
     public LocalDate getLastDate(){
         return targetRepository.getLastDate();
     }
 
-    public List<EntitySbertest> getAllById(Long id){
-        return targetRepository.getAllById(id);
+    public List<EntitySbertest> findById(Long id){
+        return targetRepository.findById(id);
     }
 
 }

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import psychotest.entity.EntitySbertest;
 import psychotest.service.SourceService;
+import psychotest.service.TargetService;
 
 import java.util.List;
 
@@ -14,16 +15,26 @@ public class SourceController {
     @Autowired
     public SourceService sourceService;
 
-    @GetMapping("/source")
+    @Autowired
+    public TargetService targetService;
+
+    @GetMapping(value = "/source/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<EntitySbertest> getSourceData() {
-        return sourceService.getAll();
+    public List<EntitySbertest> findAllById(@PathVariable Long id){
+        return sourceService.findById(id);
     }
 
     @PostMapping(value = "/source")
     @ResponseStatus(HttpStatus.CREATED)
-    private void storeSourceData(@RequestBody List<EntitySbertest> customObjects) {
-        sourceService.saveAll(customObjects);
+    private void saveAll(@RequestBody List<EntitySbertest> customObjects) {
+        sourceService.save(customObjects);
+    }
+
+    @GetMapping("/source-since-last-target-date")
+    @ResponseStatus(HttpStatus.OK)
+    public List<EntitySbertest> findDataSinceLastTargetDate() {
+        List<EntitySbertest> customers = sourceService.findAllSinceLastTargetDate(targetService.getLastDate());
+        return customers;
     }
 
 }

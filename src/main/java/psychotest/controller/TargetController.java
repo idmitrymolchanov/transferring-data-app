@@ -14,21 +14,15 @@ public class TargetController {
     @Autowired
     public TargetService targetService;
 
-    @GetMapping("/target")
+    @GetMapping(value = "/target/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<EntitySbertest> getTargetData() {
-        return targetService.getAll();
+    public List<EntitySbertest> getAllById(@PathVariable Long id){
+        return targetService.findById(id);
     }
 
     @PostMapping(value = "/target")
     @ResponseStatus(HttpStatus.CREATED)
     private void storeTargetData(@RequestBody List<EntitySbertest> customObjects) {
         targetService.saveAll(customObjects);
-    }
-
-    @GetMapping(value = "/target/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<EntitySbertest> getAllById(@PathVariable Long id){
-        return targetService.getAllById(id);
     }
 }
