@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 @TestConfiguration
 public class TestConfig {
 
-    @Bean(name = "testConfig")
+    @Bean(name = "config")
     public DataSource init() throws InterruptedException{
         Thread.sleep(5_000); //wait for the docker container to start
         String port = System.getProperty("mysql.port", "3306");

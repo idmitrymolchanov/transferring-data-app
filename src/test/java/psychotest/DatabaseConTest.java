@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -24,13 +25,14 @@ import java.util.Map;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @Import(TestConfig.class)
+@Profile("local")
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class DatabaseConTest {
 
     @Autowired
-    @Qualifier("testConfig")
+    @Qualifier("config")
     private DataSource dataSource;
 
     @Test

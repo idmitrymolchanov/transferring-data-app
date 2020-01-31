@@ -33,7 +33,7 @@ public class SourceRepositoryTest {
     private static JdbcTemplate jdbcTemplate;
 
     @Autowired
-    @Qualifier("testConfig")
+    @Qualifier("config")
     private DataSource dataSource;
 
     @Autowired

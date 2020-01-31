@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -34,7 +35,7 @@ public class TargetRepositoryTest {
     private static JdbcTemplate jdbcTemplate;
 
     @Autowired
-    @Qualifier("testConfig")
+    @Qualifier("config")
     private DataSource dataSource;
 
     @Autowired
