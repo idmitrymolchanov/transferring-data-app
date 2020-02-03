@@ -1,4 +1,5 @@
 package psychotest.controller;
+import com.google.common.collect.ImmutableList;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +16,7 @@ import psychotest.entity.EntitySbertest;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -27,16 +29,6 @@ public class TargetControllerIT {
 
     @Autowired
     private TestRestTemplate restTemplate;
-
-    @Test
-    public void greetingShouldReturnDefaultMessage() {
-        ResponseEntity<List<EntitySbertest>> responseEntity =
-                restTemplate.exchange("http://localhost:" + port + "/target", HttpMethod.GET, null,
-                        new ParameterizedTypeReference<List<EntitySbertest>>() {
-                        });
-        List<EntitySbertest> actualList = responseEntity.getBody();
-        assertThat(actualList.size(), Matchers.is(13));
-    }
 
     @Test
     public void saveSourceData() throws URISyntaxException {
@@ -64,11 +56,14 @@ public class TargetControllerIT {
         restTemplate.postForObject("http://localhost:" + port + "/target", list, ResponseEntity.class);
 
         ResponseEntity<List<EntitySbertest>> responseEntity =
-                restTemplate.exchange("http://localhost:" + port + "/target", HttpMethod.GET, null,
+                restTemplate.exchange("http://localhost:" + port + "/target/12455555", HttpMethod.GET, null,
                         new ParameterizedTypeReference<List<EntitySbertest>>() {
                         });
 
         List<EntitySbertest> actualList = responseEntity.getBody();
-        assertThat(actualList.size(), Matchers.is(13));
+        List<String> actualId = actualList.stream()
+                .map(entitySbertest -> entitySbertest.getExtidBckgr())
+                .collect(Collectors.collectingAndThen(Collectors.toList(), ImmutableList::copyOf));
+        assertThat(actualId, Matchers.containsInAnyOrder("21212121"));
     }
 }
