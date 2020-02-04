@@ -51,12 +51,6 @@
             <artifactId>spring-boot-test-autoconfigure</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>mysql</artifactId>
-            <version>1.12.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
             <version>2.4.0</version>
@@ -72,16 +66,18 @@
         </activation>
         <dependencies>
             <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-            </dependency>
-            <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
             </dependency>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>mysql</artifactId>
+                <version>1.12.2</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
         <properties>
-            <spring.profiles.active>dev</spring.profiles.active>
+            <spring.profiles.active>local</spring.profiles.active>
         </properties>
     </profile>
 
@@ -120,36 +116,6 @@
                         <annotationProcessor>lombok.launch.AnnotationProcessorHider$AnnotationProcessor
                         </annotationProcessor>
                     </annotationProcessors>
-                </configuration>
-            </plugin>
-            <!-- Spock related Plugins -->
-            <!-- Mandatory plugins for using Spock -->
-            <plugin>
-                <!-- The gmavenplus plugin is used to compile Groovy code. To learn more about this plugin,
-                visit https://github.com/groovy/GMavenPlus/wiki -->
-                <groupId>org.codehaus.gmavenplus</groupId>
-                <artifactId>gmavenplus-plugin</artifactId>
-                <version>1.5</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                            <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- Optional plugins for using Spock -->
-            <!-- Only required if names of spec classes don't match default Surefire patterns (`*Test` etc.) -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.20</version>
-                <configuration>
-                    <useFile>false</useFile>
-                    <includes>
-                        <include>**/*Spec.java</include>
-                    </includes>
                 </configuration>
             </plugin>
         </plugins>

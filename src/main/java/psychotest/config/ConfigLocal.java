@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-@Profile("local")
 @Configuration
+@Profile("local")
 public class ConfigLocal {
 
     @Bean(name = "target")
