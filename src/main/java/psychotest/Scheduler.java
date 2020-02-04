@@ -21,6 +21,11 @@ public class Scheduler {
     @Autowired
     public SourceRepository sourceRepository;
 
+    /**
+     * determine the date of the last record in "target"DB.
+     * Based on it, we are looking for records in "source"DB that appeared later.
+     * If there are such records, copy them to "target"DB
+     */
     @Scheduled(cron = "0 0 0 * * 5")
     private void storeSourceToTarget() {
         try {
