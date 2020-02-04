@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -33,6 +32,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TargetRepositoryTest {
 
     private static JdbcTemplate jdbcTemplate;
+    private static EntitySbertest entitySbertest;
 
     @Autowired
     @Qualifier("config")
@@ -91,31 +91,48 @@ public class TargetRepositoryTest {
     @Test
     public void saveTest(){
         String sql = "INSERT INTO testdb1.T_REPORT_SBERTEST_USER_PSYCHOTEST(id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
-        EntitySbertest entitySbertest1 = EntitySbertest
+        entitySbertest = EntitySbertest
                 .builder()
                 .id(Long.parseLong("1243593"))
                 .extidBckgr("2168779359")
-                .extidUser("1111")
-                .tabnum("1111")
-                .changeDate("1111")
-                .extidProgram("1111")
-                .nameProgram("1111")
-                .scale("1111")
-                .endDateScore("1111")
-                .nameScore("1111")
-                .startDateScore("1111")
-                .extidTest("1111")
-                .nameTest("1111")
-                .resultScoreNum(23.0)
+                .extidUser("154708")
+                .tabnum("1497935")
+                .changeDate("2019-01-25 08:21:32.0000000")
+                .extidProgram("personal-char")
+                .nameProgram("value")
+                .scale("0 - 10")
+                .endDateScore("2019-01-25 00:00:00.0000000")
+                .nameScore("value")
+                .startDateScore("2019-01-21 00:00:00.0000000")
+                .extidTest("27f18987-bf6d-4d08-8aec-d6f145cafOff")
+                .nameTest("value")
+                .resultScoreNum(1.0)
                 .build();
 
         List<EntitySbertest> list = new ArrayList<>();
-        list.add(entitySbertest1);
+        list.add(entitySbertest);
 
         targetRepository.saveData(list, sql, jdbcTemplate);
 
+        sql = "select * from testdb1.T_REPORT_SBERTEST_USER_PSYCHOTEST where id = ?;";
         Long id = Long.parseLong("1243593");
         List<EntitySbertest> resultList = targetRepository.findById(sql, jdbcTemplate, id);
         assertThat(list.get(0).getExtidBckgr(), Matchers.is("2168779359"));
     }
+
+    @Test
+    public void saveTwoEntriesWithTheSameValues(){
+        String sql = "INSERT INTO testdb1.T_REPORT_SBERTEST_USER_PSYCHOTEST(id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+
+        List<EntitySbertest> list = new ArrayList<>();
+        list.add(entitySbertest);
+        targetRepository.saveData(list, sql, jdbcTemplate);
+
+        sql = "select * from testdb1.T_REPORT_SBERTEST_USER_PSYCHOTEST where id = ?;";
+
+        Long id = Long.parseLong("1243593");
+        List<EntitySbertest> resultList = targetRepository.findById(sql, jdbcTemplate, id);
+        assertThat(list.size(), Matchers.is(1));
+    }
+
 }
