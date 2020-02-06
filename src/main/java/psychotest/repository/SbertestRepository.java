@@ -84,9 +84,42 @@ public abstract class SbertestRepository {
         }
     }
 
-    public LocalDate getLastDateTest(String sql, JdbcTemplate jdbcTemplate){
+    public LocalDate getLastDate(String sql, JdbcTemplate jdbcTemplate){
         String lastData = jdbcTemplate.queryForObject(sql, new Object[]{}, String.class);
         return LocalDate.parse(lastData);
+    }
+
+    public List<EntitySbertest> findAllSinceLastTargetDate(String sql, JdbcTemplate jdbcTemplate, LocalDate lastTargetTime) {
+        try {
+
+            List<EntitySbertest> sberTest2s = new ArrayList<>();
+            List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, lastTargetTime.plusDays(1));
+
+            for (Map<String, Object> row : rows) {
+                EntitySbertest entitySbertest = EntitySbertest
+                        .builder()
+                        .id((Long) row.get("id"))
+                        .extidBckgr((String) row.get("extid_BCKGR"))
+                        .extidUser((String) row.get("extid_USER"))
+                        .tabnum((String) row.get("tabnum"))
+                        .changeDate((String) row.get("change_DATE"))
+                        .extidProgram((String) row.get("extid_PROGRAM"))
+                        .nameProgram((String) row.get("name_PROGRAM"))
+                        .scale((String) row.get("scale"))
+                        .endDateScore((String) row.get("end_DATE_SCORE"))
+                        .nameScore((String) row.get("name_SCORE"))
+                        .startDateScore((String) row.get("start_DATE_SCORE"))
+                        .extidTest((String) row.get("extid_TEST"))
+                        .nameTest((String) row.get("name_TEST"))
+                        .resultScoreNum((Double) row.get("result_SCORE_NUM"))
+                        .build();
+
+                sberTest2s.add(entitySbertest);
+            }
+            return sberTest2s;
+        } catch (Exception e){
+            return Collections.EMPTY_LIST;
+        }
     }
 
 }
