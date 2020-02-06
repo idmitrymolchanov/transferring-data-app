@@ -20,7 +20,7 @@ public class SourceController {
 
     @GetMapping(value = "/source/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<EntitySbertest> findAllById(@PathVariable Long id){
+    public List<EntitySbertest> findById(@PathVariable Long id){
         return sourceService.findById(id);
     }
 
@@ -32,9 +32,9 @@ public class SourceController {
 
     @GetMapping("/source-since-last-target-date")
     @ResponseStatus(HttpStatus.OK)
-    public List<EntitySbertest> findDataSinceLastTargetDate() {
-        List<EntitySbertest> customers = sourceService.findAllSinceLastTargetDate(targetService.getLastDate());
-        return customers;
+    public List<EntitySbertest> findAllSinceLastTargetDate() {
+        List<EntitySbertest> entitySbertestList = sourceService.findAllSinceLastTargetDate(targetService.getLastDate());
+        return entitySbertestList;
     }
 
 }
