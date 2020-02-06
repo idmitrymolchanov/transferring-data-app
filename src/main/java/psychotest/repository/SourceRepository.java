@@ -42,36 +42,7 @@ public class SourceRepository extends SbertestRepository{
     }
 
     public List<EntitySbertest> findAllSinceLastTargetDate(LocalDate lastTargetTime) {
-        try {
             String sql = "select * from "+ sourceTableName +" where cast(end_DATE_SCORE as date) > ?;";
-
-            List<EntitySbertest> sberTest2s = new ArrayList<>();
-            List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, lastTargetTime.plusDays(1));
-
-            for (Map<String, Object> row : rows) {
-                EntitySbertest entitySbertest = EntitySbertest
-                        .builder()
-                        .id((Long) row.get("id"))
-                        .extidBckgr((String) row.get("extid_BCKGR"))
-                        .extidUser((String) row.get("extid_USER"))
-                        .tabnum((String) row.get("tabnum"))
-                        .changeDate((String) row.get("change_DATE"))
-                        .extidProgram((String) row.get("extid_PROGRAM"))
-                        .nameProgram((String) row.get("name_PROGRAM"))
-                        .scale((String) row.get("scale"))
-                        .endDateScore((String) row.get("end_DATE_SCORE"))
-                        .nameScore((String) row.get("name_SCORE"))
-                        .startDateScore((String) row.get("start_DATE_SCORE"))
-                        .extidTest((String) row.get("extid_TEST"))
-                        .nameTest((String) row.get("name_TEST"))
-                        .resultScoreNum((Double) row.get("result_SCORE_NUM"))
-                        .build();
-
-                sberTest2s.add(entitySbertest);
-            }
-            return sberTest2s;
-        } catch (Exception e){
-            return Collections.EMPTY_LIST;
-        }
+            return findAllSinceLastTargetDate(sql, jdbcTemplate, lastTargetTime);
     }
 }
