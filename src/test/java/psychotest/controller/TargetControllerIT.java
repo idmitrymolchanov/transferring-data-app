@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import psychotest.entity.EntitySbertest;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,23 +30,23 @@ public class TargetControllerIT {
     private TestRestTemplate restTemplate;
 
     @Test
-    public void saveSourceData() throws URISyntaxException {
+    public void saveAll_testSaveAndGetSameEntry_ListByIdReturned() {
         EntitySbertest entitySbertest1 = EntitySbertest
                 .builder()
-                .id(Long.parseLong("12455555"))
-                .extidBckgr("21212121")
-                .extidUser("1111")
-                .tabnum("1111")
-                .changeDate("1111")
-                .extidProgram("1111")
-                .nameProgram("1111")
-                .scale("1111")
-                .endDateScore("1111")
-                .nameScore("1111")
-                .startDateScore("1111")
-                .extidTest("1111")
-                .nameTest("1111")
-                .resultScoreNum(23.0)
+                .id(Long.valueOf(12455555))
+                .extidBckgr("2168779357")
+                .extidUser("154708")
+                .tabnum("1497935")
+                .changeDate("2019-01-25 08:21:32.0000000")
+                .extidProgram("personal-char")
+                .nameProgram("value")
+                .scale("0 - 10")
+                .endDateScore("2019-03-25 00:00:00.0000000")
+                .nameScore("value")
+                .startDateScore("2019-01-21 00:00:00.0000000")
+                .extidTest("27f18987-bf6d-4d08-8aec-d6f145cafOff")
+                .nameTest("value")
+                .resultScoreNum(1.0)
                 .build();
 
         List<EntitySbertest> list = new ArrayList<>();
@@ -64,6 +63,6 @@ public class TargetControllerIT {
         List<String> actualId = actualList.stream()
                 .map(entitySbertest -> entitySbertest.getExtidBckgr())
                 .collect(Collectors.collectingAndThen(Collectors.toList(), ImmutableList::copyOf));
-        assertThat(actualId, Matchers.containsInAnyOrder("21212121"));
+        assertThat(actualId, Matchers.containsInAnyOrder("2168779357"));
     }
 }
