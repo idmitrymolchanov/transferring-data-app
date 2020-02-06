@@ -1,4 +1,4 @@
-package psychotest.Config;
+package psychotest.config;
 
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.test.context.TestConfiguration;
