@@ -7,6 +7,8 @@ To do this, the date of the last record in the database is checked, then,
 if there are records made later in the "target", they are transferred (copied) from "source". 
 The process starts at intervals of 5 days.
 
+On github: [psychotestJNDI](https://github.com/idmitrymolchanov/psychotestJNDI).
+
 ## Databases
 The project has two profiles ("local" and "prod"). 
 The application contains a connection to two databases. Therefore, in the properties we see two data sources.
@@ -31,3 +33,13 @@ We have only reserved headers for databases in properties.
 * psychotest.jndi.datasource.two=java:comp/env/jdbc/source 
 
 The names of the tables are indicated in the project properties.
+
+## Testing
+For testing database connections and to test some methods using them, the "mysql-container" was used:
+
+    \<dependency>\
+        \<groupId>org.testcontainers\</groupId>\
+        \<artifactId>mysql\</artifactId>\
+        \<version>1.12.2\</version>\
+        \<scope>test\</scope>\
+    \</dependency>
