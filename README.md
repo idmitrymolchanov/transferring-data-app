@@ -12,7 +12,7 @@ On github: [psychotestJNDI](https://github.com/idmitrymolchanov/psychotestJNDI).
 ## Databases
 The project has two profiles ("local" and "prod"). 
 The application contains a connection to two databases. Therefore, in the properties we see two data sources.
-The local profile contains mysql connection with the following parameters: 
+The local profile (configuration class - ConfigLocal) contains mysql connection with the following parameters: 
 
 * target\
 spring.target.jdbcUrl=jdbc:mysql://localhost:3306/testdb?useUnicode=true&serverTimezone=UTC\
@@ -26,13 +26,27 @@ spring.source.username=root\
 spring.source.password=root\
 spring.source.driverClassName=com.mysql.cj.jdbc.Driver
 
-Connection in the "prod" profile is carried out according to JNDI. 
+Connection in the "prod" profile (configuration class - ConfigProd) is carried out according to JNDI. 
 We have only reserved headers for databases in properties.
 
 * psychotest.jndi.datasource.one=java:comp/env/jdbc/target
 * psychotest.jndi.datasource.two=java:comp/env/jdbc/source 
 
 The names of the tables are indicated in the project properties.
+
+Both configurations use a Jdbc connection for transactions (JdbcTemplate). 
+For example (target local):
+
+    @Bean(name = "target")
+    @ConfigurationProperties(prefix = "spring.target")
+    public DataSource dataSourceTarget() {
+        return DataSourceBuilder.create().build();
+    }
+
+    @Bean(name = "jdbcTemplateTarget")
+    public JdbcTemplate jdbcTemplateTarget(@Qualifier("target") DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
+    }
 
 ## Testing
 For testing database connections and to test some methods using them, the "mysql-container" was used:
