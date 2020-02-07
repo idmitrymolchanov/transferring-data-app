@@ -7,7 +7,7 @@ To do this, the date of the last record in the database is checked, then,
 if there are records made later in the "target", they are transferred (copied) from "source". 
 The process starts at intervals of 5 days.
 
-##Databases
+## Databases
 The project has two profiles ("local" and "prod"). 
 The application contains a connection to two databases. Therefore, in the properties we see two data sources.
 The local profile contains mysql connection with the following parameters: 
