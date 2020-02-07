@@ -51,9 +51,9 @@ For example (target local):
 ## Testing
 For testing database connections and to test some methods using them, the "mysql-container" was used:
 
-    \<dependency>\
-        \<groupId>org.testcontainers\</groupId>\
-        \<artifactId>mysql\</artifactId>\
-        \<version>1.12.2\</version>\
-        \<scope>test\</scope>\
-    \</dependency>
+    <dependency>
+        <groupId>org.testcontainers</groupId>
+        <artifactId>mysql</artifactId>
+        <version>1.12.2</version>
+        <scope>test</scope>
+    </dependency>
