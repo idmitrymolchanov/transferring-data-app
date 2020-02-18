@@ -31,8 +31,8 @@ public class Scheduler {
     private void storeSourceToTarget() {
         try {
             log.info("Scheduler working: " + LocalDate.now());
-            List<EntitySbertest> customers = sourceRepository.findAllSinceLastTargetDate(targetRepository.getLastDate());
-            targetRepository.save(customers);
+            List<EntitySbertest> entitySbertestList = sourceRepository.findAllSinceLastTargetDate(targetRepository.getLastDate());
+            targetRepository.save(entitySbertestList);
         } catch (Exception e) { }
     }
 }
