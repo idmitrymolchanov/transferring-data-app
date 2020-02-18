@@ -28,17 +28,12 @@ public class SourceRepository extends SbertestRepository{
 
     public void save(List<EntitySbertest> employeeList){
         sqlInsert = "INSERT INTO "+ sourceTableName +"(id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
-        saveData(employeeList, sqlInsert, jdbcTemplate);
+        super.saveAll(employeeList, sqlInsert, jdbcTemplate);
     }
 
     public List<EntitySbertest> findById(Long id){
         sqlSelect = "select * from "+ sourceTableName +" where id = ?;";
         return findById(sqlSelect, jdbcTemplate, id);
-    }
-
-    @Override
-    public void saveData(List<EntitySbertest> employeeList, String SQL, JdbcTemplate jdbcTemplate) {
-        super.saveData(employeeList, SQL, jdbcTemplate);
     }
 
     public List<EntitySbertest> findAllSinceLastTargetDate(LocalDate lastTargetTime) {

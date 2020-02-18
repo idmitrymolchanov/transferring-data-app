@@ -47,7 +47,7 @@ public abstract class SbertestRepository {
         }
     }
 
-    public void saveData(final List<EntitySbertest> employeeList, String SQL, JdbcTemplate jdbcTemplate){
+    public void saveAll(final List<EntitySbertest> employeeList, String SQL, JdbcTemplate jdbcTemplate){
         try {
             final int batchSize = 500;
             List<List<EntitySbertest>> batchLists = Lists.partition(employeeList, batchSize);
