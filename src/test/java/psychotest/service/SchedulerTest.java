@@ -75,7 +75,7 @@ public class SchedulerTest {
         assertThat(entitySbertestList.size(), Matchers.is(1));
 
         sql = "INSERT INTO " + targetTableName + "(id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
-        targetRepository.saveData(entitySbertestList, sql, jdbcTemplate);
+        targetRepository.saveAll(entitySbertestList, sql, jdbcTemplate);
 
         sql = "SELECT * from " + targetTableName + " where id = ?";
         List<EntitySbertest> list = targetRepository.findById(sql, jdbcTemplate, Long.valueOf(1243583));

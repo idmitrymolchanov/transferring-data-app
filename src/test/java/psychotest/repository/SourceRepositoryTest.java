@@ -94,7 +94,7 @@ public class SourceRepositoryTest {
         List<EntitySbertest> list = new ArrayList<>();
         list.add(entitySbertest);
 
-        sourceRepository.saveData(list, sql, jdbcTemplate);
+        sourceRepository.saveAll(list, sql, jdbcTemplate);
 
         sql = "select * from " + sourceTableName + " where id = ?;";
         List<EntitySbertest> resultList = sourceRepository.findById(sql, jdbcTemplate, Long.valueOf(1243593));
@@ -107,7 +107,7 @@ public class SourceRepositoryTest {
 
         List<EntitySbertest> list = new ArrayList<>();
         list.add(entitySbertest);
-        sourceRepository.saveData(list, sql, jdbcTemplate);
+        sourceRepository.saveAll(list, sql, jdbcTemplate);
 
         sql = "select * from " + sourceTableName + " where id = ?;";
         List<EntitySbertest> resultList = sourceRepository.findById(sql, jdbcTemplate, Long.valueOf(1243593));
