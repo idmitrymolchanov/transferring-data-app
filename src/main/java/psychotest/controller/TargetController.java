@@ -16,13 +16,13 @@ public class TargetController {
 
     @GetMapping(value = "/target/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<EntitySbertest> getAllById(@PathVariable Long id){
+    public List<EntitySbertest> findById(@PathVariable Long id){
         return targetService.findById(id);
     }
 
     @PostMapping(value = "/target")
     @ResponseStatus(HttpStatus.CREATED)
-    private void storeTargetData(@RequestBody List<EntitySbertest> customObjects) {
+    private void saveAll(@RequestBody List<EntitySbertest> customObjects) {
         targetService.saveAll(customObjects);
     }
 }
