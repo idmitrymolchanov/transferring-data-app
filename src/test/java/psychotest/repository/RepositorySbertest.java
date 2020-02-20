@@ -13,8 +13,7 @@ public class RepositorySbertest {
     public EntitySbertest findById(String tableName, JdbcTemplate jdbcTemplate, Long id) {
 
         try {
-            String sql = "select id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM from $tableName where id = ?;"
-                    .replace("$tableName", tableName);
+            String sql = "select id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM from " + tableName + " where id = ?;";
 
             return jdbcTemplate.queryForObject(sql, (resultSet, i) -> EntitySbertest
                     .builder()

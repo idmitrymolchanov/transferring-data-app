@@ -18,8 +18,7 @@ public abstract class SbertestRepository {
     public void saveAll(final List<EntitySbertest> employeeList, String tableName, JdbcTemplate jdbcTemplate){
         try {
             final int batchSize = 500;
-            String sql = "INSERT INTO $tableName (id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);"
-                    .replace("$tableName",tableName);
+            String sql = "INSERT INTO " + tableName + " (id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
             List<List<EntitySbertest>> batchLists = Lists.partition(employeeList, batchSize);
             for (List<EntitySbertest> batch : batchLists) {
                 jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
@@ -55,8 +54,7 @@ public abstract class SbertestRepository {
     }
 
     public LocalDate getLastDate(String tableName, JdbcTemplate jdbcTemplate){
-        String sql = "select max(cast(end_DATE_SCORE as date)) from $tableName"
-                .replace("$tableName", tableName);
+        String sql = "select max(cast(end_DATE_SCORE as date)) from " + tableName + "";
         String lastData = jdbcTemplate.queryForObject(sql, new Object[]{}, String.class);
         return LocalDate.parse(lastData);
     }
@@ -65,8 +63,7 @@ public abstract class SbertestRepository {
         try {
 
             List<EntitySbertest> sberTest2s = new ArrayList<>();
-            String sql = "select id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM from $tableName where cast(end_DATE_SCORE as date) > ?;"
-                    .replace("$tableName", tableName);
+            String sql = "select id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM from " + tableName + " where cast(end_DATE_SCORE as date) > ?;";
 
             List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, lastTargetTime.plusDays(1));
             for (Map<String, Object> row : rows) {
