@@ -15,8 +15,7 @@ import java.util.List;
 @PropertySource("classpath:application.properties")
 public class TargetRepository extends SbertestRepository {
 
-    private static String targetTableName;
-
+    private String targetTableName;
     @Value("${datasource.one.name}")
     public void setTargetTableName(String targetTableName) {
         this.targetTableName = targetTableName;
@@ -26,22 +25,12 @@ public class TargetRepository extends SbertestRepository {
     @Qualifier("jdbcTemplateTarget")
     private JdbcTemplate jdbcTemplate;
 
-    private String sqlSelect;
-    private String sqlInsert;
-
     public void save(List<EntitySbertest> employeeList){
-        sqlInsert = "INSERT INTO "+ targetTableName +"(id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
-        super.saveAll(employeeList, sqlInsert, jdbcTemplate);
-    }
-
-    public List<EntitySbertest> findById(Long id){
-        sqlSelect = "select * from "+ targetTableName +" where id = ?;";
-        return findById(sqlSelect, jdbcTemplate, id);
+        super.saveAll(employeeList, targetTableName, jdbcTemplate);
     }
 
     public LocalDate getLastDate(){
-        String sql = "select max(cast(end_DATE_SCORE as date)) from "+ targetTableName +"";
-        return getLastDate(sql, jdbcTemplate);
+        return getLastDate(targetTableName, jdbcTemplate);
     }
 
 }

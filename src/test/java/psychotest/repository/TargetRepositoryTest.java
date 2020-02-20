@@ -35,15 +35,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @SpringBootTest
 public class TargetRepositoryTest {
 
-    private static String targetTableName;
+    private String targetTableName;
     @Value("${datasource.target.name}")
     public void setTargetTableName(String targetTableName) {
         this.targetTableName = targetTableName;
     }
 
     private static JdbcTemplate jdbcTemplate;
-    private static EntitySbertest entitySbertest;
-    private String sql;
 
     @Autowired
     @Qualifier("config")
@@ -51,6 +49,9 @@ public class TargetRepositoryTest {
 
     @Autowired
     TargetRepository targetRepository;
+
+    @Autowired
+    RepositorySbertest repositorySbertest;
 
     @Before
     public void sqlScript(){
@@ -62,32 +63,25 @@ public class TargetRepositoryTest {
 
     @Test
     public void getLastDate_testGetDate_dateReturned(){
-        sql = "select max(cast(end_DATE_SCORE as date)) from " + targetTableName + "";
         LocalDate localDate = LocalDate.parse("2019-01-26");
-
-        assertThat(targetRepository.getLastDate(sql, jdbcTemplate), Matchers.is(localDate));
+        assertThat(targetRepository.getLastDate(targetTableName, jdbcTemplate), Matchers.is(localDate));
     }
 
     @Test
-    public void findById_canRetrieveByIdWhenExists_ListByIdReturned(){
-        sql = "SELECT * from " + targetTableName + " where id = ?";
-        List<EntitySbertest> list = targetRepository.findById(sql, jdbcTemplate, Long.valueOf(1243580));
-
-        assertThat(list.get(0).getExtidBckgr(), Matchers.is("2168779357"));
+    public void findById_canRetrieveByIdWhenExists_objectByIdReturned(){
+        EntitySbertest entitySbertest = repositorySbertest.findById(targetTableName, jdbcTemplate, Long.valueOf(1243580));
+        assertThat(entitySbertest.getExtidBckgr(), Matchers.is("2168779357"));
     }
 
     @Test
-    public void findById_canRetrieveByIdWhenDoesNotExist_emptyListReturned(){
-        sql = "SELECT * from " + targetTableName + " where id = ?";
-        List<EntitySbertest> list = targetRepository.findById(sql, jdbcTemplate, Long.valueOf(1243570));
-
-        assertThat(list.size(), Matchers.is(0));
+    public void findById_canRetrieveByIdWhenDoesNotExist_nullValueReturned(){
+        EntitySbertest entitySbertest = repositorySbertest.findById(targetTableName, jdbcTemplate, Long.valueOf(1243570));
+        assertThat(entitySbertest, Matchers.is(Matchers.nullValue()));
     }
 
     @Test
     public void save_canCreateANewEntry_ListWithNewEntryReturned(){
-        sql = "INSERT INTO " + targetTableName + "(id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
-        entitySbertest = EntitySbertest
+         EntitySbertest entitySbertest = EntitySbertest
                 .builder()
                 .id(Long.parseLong("1243593"))
                 .extidBckgr("2168779359")
@@ -107,27 +101,26 @@ public class TargetRepositoryTest {
 
         List<EntitySbertest> list = new ArrayList<>();
         list.add(entitySbertest);
+        targetRepository.saveAll(list, targetTableName, jdbcTemplate);
 
-        targetRepository.saveAll(list, sql, jdbcTemplate);
-
-        sql = "select * from " + targetTableName + " where id = ?;";
-        List<EntitySbertest> resultList = targetRepository.findById(sql, jdbcTemplate, Long.valueOf(1243593));
-
-        assertThat(resultList.get(0).getExtidBckgr(), Matchers.is("2168779359"));
+        EntitySbertest result = repositorySbertest.findById(targetTableName, jdbcTemplate, Long.valueOf(1243593));
+        assertThat(result.getExtidBckgr(), Matchers.is("2168779359"));
     }
 
     @Test
-    public void save_canCreateTwoEntriesWithTheSameValues_ListWithOneUniqEntryReturned(){
-        sql = "INSERT INTO " + targetTableName + "(id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+    public void save_canCreateTwoEntriesWithTheSameValues_oneUniqEntryReturned(){
+        EntitySbertest entitySbertest = EntitySbertest
+                .builder().id(Long.parseLong("1243593")).extidBckgr("2168779359").extidUser("154708").tabnum("1497935").changeDate("2019-01-25 08:21:32.0000000").extidProgram("personal-char").nameProgram("value").scale("0 - 10").endDateScore("2019-01-25 00:00:00.0000000").nameScore("value").startDateScore("2019-01-21 00:00:00.0000000").extidTest("27f18987-bf6d-4d08-8aec-d6f145cafOff").nameTest("value").resultScoreNum(1.0).build();
+        EntitySbertest entitySbertest2 = EntitySbertest
+                .builder().id(Long.parseLong("1243593")).extidBckgr("2168779359").extidUser("154708").tabnum("1497935").changeDate("2019-01-25 08:21:32.0000000").extidProgram("personal-char").nameProgram("value").scale("0 - 10").endDateScore("2019-01-25 00:00:00.0000000").nameScore("value").startDateScore("2019-01-21 00:00:00.0000000").extidTest("27f18987-bf6d-4d08-8aec-d6f145cafOff").nameTest("value").resultScoreNum(1.0).build();
 
         List<EntitySbertest> list = new ArrayList<>();
         list.add(entitySbertest);
-        targetRepository.saveAll(list, sql, jdbcTemplate);
+        list.add(entitySbertest2);
+        targetRepository.saveAll(list, targetTableName, jdbcTemplate);
 
-        sql = "select * from " + targetTableName + " where id = ?;";
-        List<EntitySbertest> resultList = targetRepository.findById(sql, jdbcTemplate, Long.valueOf(1243593));
-
-        assertThat(list.size(), Matchers.is(1));
+        EntitySbertest result = repositorySbertest.findById(targetTableName, jdbcTemplate, Long.valueOf(1243593));
+        assertThat(result.getId(), Matchers.is(Long.valueOf(1243593)));
     }
 
 }

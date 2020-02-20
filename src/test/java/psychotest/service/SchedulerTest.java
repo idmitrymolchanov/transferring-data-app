@@ -18,11 +18,11 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import psychotest.config.TestConfig;
 import psychotest.entity.EntitySbertest;
+import psychotest.repository.RepositorySbertest;
 import psychotest.repository.SourceRepository;
 import psychotest.repository.TargetRepository;
 
 import javax.sql.DataSource;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -47,8 +47,6 @@ public class SchedulerTest {
         this.targetTableName = targetTableName;
     }
 
-    private static JdbcTemplate jdbcTemplate;
-
     @Autowired
     @Qualifier("config")
     private DataSource dataSource;
@@ -59,27 +57,22 @@ public class SchedulerTest {
     @Autowired
     SourceRepository sourceRepository;
 
+    @Autowired
+    RepositorySbertest repositorySbertest;
+
     @Test
     public void saveAllSinseLastTargetDateTest(){
         DataSourceTransactionManager txManager = new DataSourceTransactionManager(dataSource);
-        jdbcTemplate = new JdbcTemplate(dataSource);
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         TransactionStatus transaction = txManager.getTransaction(new DefaultTransactionDefinition());
         txManager.commit(transaction);
 
-        String sql = "select max(cast(end_DATE_SCORE as date)) from " + targetTableName + "";
-        LocalDate localDate = targetRepository.getLastDate(sql, jdbcTemplate);
-
-        sql = "select * from " + sourceTableName + " where cast(end_DATE_SCORE as date) > ?;";
-        List<EntitySbertest> entitySbertestList = sourceRepository.findAllSinceLastTargetDate(sql, jdbcTemplate, localDate);
-
+        LocalDate localDate = targetRepository.getLastDate(targetTableName, jdbcTemplate);
+        List<EntitySbertest> entitySbertestList = sourceRepository.findAllSinceLastTargetDate(sourceTableName, jdbcTemplate, localDate);
         assertThat(entitySbertestList.size(), Matchers.is(1));
 
-        sql = "INSERT INTO " + targetTableName + "(id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
-        targetRepository.saveAll(entitySbertestList, sql, jdbcTemplate);
-
-        sql = "SELECT * from " + targetTableName + " where id = ?";
-        List<EntitySbertest> list = targetRepository.findById(sql, jdbcTemplate, Long.valueOf(1243583));
-
-        assertThat(list.get(0).getExtidBckgr(), Matchers.is("2168779357"));
+        targetRepository.saveAll(entitySbertestList, targetTableName, jdbcTemplate);
+        EntitySbertest result = repositorySbertest.findById(targetTableName, jdbcTemplate, Long.valueOf(1243583));
+        assertThat(result.getExtidBckgr(), Matchers.is("2168779357"));
     }
 }

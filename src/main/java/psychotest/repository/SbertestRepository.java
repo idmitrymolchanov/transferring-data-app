@@ -15,44 +15,14 @@ import java.util.Map;
 
 public abstract class SbertestRepository {
 
-    public List<EntitySbertest> findById(String SQL, JdbcTemplate jdbcTemplate, Long id){
-        try {
-            List<EntitySbertest> sberTest1s = new ArrayList<EntitySbertest>();
-
-            List<Map<String, Object>> rows = jdbcTemplate.queryForList(SQL, id);
-
-            for (Map<String, Object> row : rows) {
-                EntitySbertest entitySbertest = EntitySbertest
-                        .builder()
-                        .id((Long) row.get("id"))
-                        .extidBckgr((String) row.get("extid_BCKGR"))
-                        .extidUser((String) row.get("extid_USER"))
-                        .tabnum((String) row.get("tabnum"))
-                        .changeDate((String) row.get("change_DATE"))
-                        .extidProgram((String) row.get("extid_PROGRAM"))
-                        .nameProgram((String) row.get("name_PROGRAM"))
-                        .scale((String) row.get("scale"))
-                        .endDateScore((String) row.get("end_DATE_SCORE"))
-                        .nameScore((String) row.get("name_SCORE"))
-                        .startDateScore((String) row.get("start_DATE_SCORE"))
-                        .extidTest((String) row.get("extid_TEST"))
-                        .nameTest((String) row.get("name_TEST"))
-                        .resultScoreNum((Double) row.get("result_SCORE_NUM"))
-                        .build();
-                sberTest1s.add(entitySbertest);
-            }
-            return sberTest1s;
-        } catch (Exception e){
-            return Collections.emptyList();
-        }
-    }
-
-    public void saveAll(final List<EntitySbertest> employeeList, String SQL, JdbcTemplate jdbcTemplate){
+    public void saveAll(final List<EntitySbertest> employeeList, String tableName, JdbcTemplate jdbcTemplate){
         try {
             final int batchSize = 500;
+            String sql = "INSERT INTO $tableName (id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);"
+                    .replace("$tableName",tableName);
             List<List<EntitySbertest>> batchLists = Lists.partition(employeeList, batchSize);
             for (List<EntitySbertest> batch : batchLists) {
-                jdbcTemplate.batchUpdate(SQL, new BatchPreparedStatementSetter() {
+                jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
                     @Override
                     public void setValues(PreparedStatement ps, int i)
                             throws SQLException {
@@ -84,17 +54,21 @@ public abstract class SbertestRepository {
         }
     }
 
-    public LocalDate getLastDate(String sql, JdbcTemplate jdbcTemplate){
+    public LocalDate getLastDate(String tableName, JdbcTemplate jdbcTemplate){
+        String sql = "select max(cast(end_DATE_SCORE as date)) from $tableName"
+                .replace("$tableName", tableName);
         String lastData = jdbcTemplate.queryForObject(sql, new Object[]{}, String.class);
         return LocalDate.parse(lastData);
     }
 
-    public List<EntitySbertest> findAllSinceLastTargetDate(String sql, JdbcTemplate jdbcTemplate, LocalDate lastTargetTime) {
+    public List<EntitySbertest> findAllSinceLastTargetDate(String tableName, JdbcTemplate jdbcTemplate, LocalDate lastTargetTime) {
         try {
 
             List<EntitySbertest> sberTest2s = new ArrayList<>();
-            List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, lastTargetTime.plusDays(1));
+            String sql = "select id, extid_BCKGR, extid_USER, tabnum, change_DATE, extid_PROGRAM, name_PROGRAM, scale, end_DATE_SCORE, name_SCORE, start_DATE_SCORE, extid_TEST, name_TEST, result_SCORE_NUM from $tableName where cast(end_DATE_SCORE as date) > ?;"
+                    .replace("$tableName", tableName);
 
+            List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, lastTargetTime.plusDays(1));
             for (Map<String, Object> row : rows) {
                 EntitySbertest entitySbertest = EntitySbertest
                         .builder()
@@ -113,7 +87,6 @@ public abstract class SbertestRepository {
                         .nameTest((String) row.get("name_TEST"))
                         .resultScoreNum((Double) row.get("result_SCORE_NUM"))
                         .build();
-
                 sberTest2s.add(entitySbertest);
             }
             return sberTest2s;

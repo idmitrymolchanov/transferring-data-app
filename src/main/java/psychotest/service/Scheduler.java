@@ -1,9 +1,8 @@
 package psychotest.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import psychotest.entity.EntitySbertest;
 import psychotest.repository.SourceRepository;
@@ -14,13 +13,12 @@ import java.util.List;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class Scheduler {
 
-    @Autowired
-    public TargetRepository targetRepository;
+    private final TargetRepository targetRepository;
 
-    @Autowired
-    public SourceRepository sourceRepository;
+    private final SourceRepository sourceRepository;
 
     /**
      * determine the date of the last record in "target"DB.

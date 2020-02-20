@@ -1,6 +1,6 @@
 package psychotest.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import psychotest.entity.EntitySbertest;
 import psychotest.repository.TargetRepository;
@@ -9,10 +9,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TargetService {
 
-    @Autowired
-    public TargetRepository targetRepository;
+    private final TargetRepository targetRepository;
 
     public void saveAll(List<EntitySbertest> entitySbertests){
         targetRepository.save(entitySbertests);
@@ -20,10 +20,6 @@ public class TargetService {
 
     public LocalDate getLastDate(){
         return targetRepository.getLastDate();
-    }
-
-    public List<EntitySbertest> findById(Long id){
-        return targetRepository.findById(id);
     }
 
 }

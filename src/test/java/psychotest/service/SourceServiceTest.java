@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import psychotest.entity.EntitySbertest;
 import psychotest.repository.SourceRepository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,15 +27,13 @@ public class SourceServiceTest {
     @InjectMocks
     SourceService sourceService;
 
-    private static List<EntitySbertest> entitySbertestList;
-
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void findById_testOnListSize_OneEntryInListReturned() {
+    public void findAllSinceLastTargetDate_testOnIdentityValues_ListReturned() {
         EntitySbertest entitySbertest = EntitySbertest
                 .builder()
                 .id(Long.parseLong("1245678"))
@@ -53,22 +52,24 @@ public class SourceServiceTest {
                 .resultScoreNum(1.0)
                 .build();
 
-        entitySbertestList = new ArrayList<>();
-        entitySbertestList.add(entitySbertest);
+        List list = new ArrayList();
+        list.add(entitySbertest);
+        when(sourceRepository.findAllSinceLastTargetDate(LocalDate.parse("2018-11-10"))).thenReturn(list);
 
-        when(sourceRepository.findById(Long.parseLong("1245678"))).thenReturn(entitySbertestList);
-
-        List<EntitySbertest> empList = sourceService.findById(Long.parseLong("1245678"));
-        assertEquals(1, empList.size());
-    }
-
-    @Test
-    public void findById_testOnIdentityValues_ListByIdReturned() {
-        when(sourceRepository.findById(Long.parseLong("1245678"))).thenReturn(entitySbertestList);
-
-        List<EntitySbertest> entitySbertestList1 = sourceService.findById(Long.parseLong("1245678"));
+        List<EntitySbertest> entitySbertestList1 = sourceService.findAllSinceLastTargetDate(LocalDate.parse("2018-11-10"));
 
         assertEquals("2168779357", entitySbertestList1.get(0).getExtidBckgr());
         assertEquals("154708", entitySbertestList1.get(0).getExtidUser());
+        assertEquals("1497935", entitySbertestList1.get(0).getTabnum());
+        assertEquals("2019-01-25 08:21:32.0000000", entitySbertestList1.get(0).getChangeDate());
+        assertEquals("personal-char", entitySbertestList1.get(0).getExtidProgram());
+        assertEquals("value", entitySbertestList1.get(0).getNameProgram());
+        assertEquals("0 - 10", entitySbertestList1.get(0).getScale());
+        assertEquals("2019-03-25 00:00:00.0000000", entitySbertestList1.get(0).getEndDateScore());
+        assertEquals("value", entitySbertestList1.get(0).getNameScore());
+        assertEquals("2019-01-21 00:00:00.0000000", entitySbertestList1.get(0).getStartDateScore());
+        assertEquals("27f18987-bf6d-4d08-8aec-d6f145cafOff", entitySbertestList1.get(0).getExtidTest());
+        assertEquals("value", entitySbertestList1.get(0).getNameTest());
+        assertEquals(Double.valueOf(1.0), entitySbertestList1.get(0).getResultScoreNum());
     }
 }
