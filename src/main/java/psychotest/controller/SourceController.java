@@ -36,5 +36,4 @@ public class SourceController {
         List<EntitySbertest> entitySbertestList = sourceService.findAllSinceLastTargetDate(targetService.getLastDate());
         return entitySbertestList;
     }
-
 }
