@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import psychotest.entity.EntitySbertest;
+import psychotest.repository.SourceRepository;
 import psychotest.service.SourceService;
 import psychotest.service.TargetService;
 
@@ -12,11 +13,14 @@ import java.util.List;
 @RestController
 public class SourceController {
 
-    @Autowired
-    public SourceService sourceService;
+    private final SourceService sourceService;
+    private final TargetService targetService;
 
     @Autowired
-    public TargetService targetService;
+    public SourceController(SourceService sourceService, TargetService targetService) {
+        this.sourceService = sourceService;
+        this.targetService = targetService;
+    }
 
     @GetMapping(value = "/source/{id}")
     @ResponseStatus(HttpStatus.OK)

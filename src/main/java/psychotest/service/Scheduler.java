@@ -15,11 +15,14 @@ import java.util.List;
 @Service
 public class Scheduler {
 
-    @Autowired
-    public TargetRepository targetRepository;
+    private final TargetRepository targetRepository;
+    private final SourceRepository sourceRepository;
 
     @Autowired
-    public SourceRepository sourceRepository;
+    public Scheduler(TargetRepository targetRepository, SourceRepository sourceRepository) {
+        this.targetRepository = targetRepository;
+        this.sourceRepository = sourceRepository;
+    }
 
     /**
      * determine the date of the last record in "target"DB.

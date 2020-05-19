@@ -11,8 +11,12 @@ import java.util.List;
 @RestController
 public class TargetController {
 
+    public final TargetService targetService;
+
     @Autowired
-    public TargetService targetService;
+    public TargetController(TargetService targetService) {
+        this.targetService = targetService;
+    }
 
     @GetMapping(value = "/target/{id}")
     @ResponseStatus(HttpStatus.OK)

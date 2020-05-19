@@ -16,15 +16,17 @@ import java.util.List;
 public class TargetRepository extends SbertestRepository {
 
     private static String targetTableName;
+    private final JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public TargetRepository(@Qualifier("jdbcTemplateTarget") JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Value("${datasource.one.name}")
     public void setTargetTableName(String targetTableName) {
         this.targetTableName = targetTableName;
     }
-
-    @Autowired
-    @Qualifier("jdbcTemplateTarget")
-    private JdbcTemplate jdbcTemplate;
 
     private String sqlSelect;
     private String sqlInsert;

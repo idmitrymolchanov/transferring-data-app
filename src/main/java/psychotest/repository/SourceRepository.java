@@ -14,14 +14,17 @@ import java.util.*;
 public class SourceRepository extends SbertestRepository{
 
     private static String sourceTableName;
+    private final JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public SourceRepository(@Qualifier("jdbcTemplateSource") JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
     @Value("${datasource.two.name}")
     public void setSourceTableName(String sourceTableName) {
         this.sourceTableName = sourceTableName;
     }
-
-    @Autowired
-    @Qualifier("jdbcTemplateSource")
-    private JdbcTemplate jdbcTemplate;
 
     private String sqlSelect;
     private String sqlInsert;

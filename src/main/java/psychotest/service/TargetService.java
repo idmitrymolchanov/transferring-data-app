@@ -11,8 +11,12 @@ import java.util.List;
 @Service
 public class TargetService {
 
+    public final TargetRepository targetRepository;
+
     @Autowired
-    public TargetRepository targetRepository;
+    public TargetService(TargetRepository targetRepository) {
+        this.targetRepository = targetRepository;
+    }
 
     public void saveAll(List<EntitySbertest> entitySbertests){
         targetRepository.save(entitySbertests);

@@ -11,8 +11,12 @@ import java.util.List;
 @Service
 public class SourceService {
 
+    public final SourceRepository sourceRepository;
+
     @Autowired
-    public SourceRepository sourceRepository;
+    public SourceService(SourceRepository sourceRepository) {
+        this.sourceRepository = sourceRepository;
+    }
 
     public List<EntitySbertest> findAllSinceLastTargetDate(LocalDate localDate){
         return sourceRepository.findAllSinceLastTargetDate(localDate);
