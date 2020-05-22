@@ -34,4 +34,15 @@ public class ConfigLocal {
     public JdbcTemplate jdbcTemplateSource(@Qualifier("source") DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
+
+    @Bean(name = "userdb")
+    @ConfigurationProperties(prefix = "spring.userdb")
+    public DataSource dataSourceUser() {
+        return  DataSourceBuilder.create().build();
+    }
+
+    @Bean(name = "jdbcTemplateUser")
+    public JdbcTemplate jdbcTemplateUser(@Qualifier("userdb") DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
+    }
 }

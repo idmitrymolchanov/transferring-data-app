@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import psychotest.entity.EntitySbertest;
+import psychotest.entity.EntityUser;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
