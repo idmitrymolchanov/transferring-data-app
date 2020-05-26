@@ -1,6 +1,7 @@
 package psychotest.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import psychotest.entity.EntitySbertest;
 import psychotest.repository.TargetRepository;

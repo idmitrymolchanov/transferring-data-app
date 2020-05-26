@@ -12,35 +12,72 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>LogIn</title>
     <meta charset="utf-8">
-    <title>Регистрация</title>
+    <link rel = "stylesheet" href="/static/css/main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/static/css/registration.css"/>"/>
 </head>
 
 <body>
+
 <div>
-    <form:form method="POST" modelAttribute="userForm">
-        <h2>Регистрация</h2>
-        <div>
-            <form:input type="id" path="id" placeholder="Id"></form:input>
+    <form:form method="POST" modelAttribute="userForm" cssClass="my-form-style">
+        <blockquote class="blockquote text-center">
+            <p class="mb-0 h2 mt-4 mb-4">registration</p>
+        </blockquote>
+        <div class="form-group">
+        <div class="form-row mb-2">
+            <div class="col"></div>
+            <label for="id" class="col-2 col-form-label">id</label>
+            <div class="col-5">
+                <form:input type="text" path="id" placeholder="id" autofocus="true" class="form-control input-sm border border-info" id="id"></form:input>
+            </div>
+            <div class="col"></div>
         </div>
-        <div>
-            <form:input type="text" path="username" placeholder="Username"
-                        autofocus="true"></form:input>
-            <form:errors path="username"></form:errors>
-                ${usernameError}
+        <div class="form-row mb-2">
+            <div class="col"></div>
+            <label for="login" class="col-2 col-form-label">login</label>
+            <div class="col-5">
+                <form:input type="text" path="username" placeholder="login" class="form-control input-sm border border-info" id="login"></form:input>
+                <form:errors path="username"></form:errors>
+                    ${usernameError}
+            </div>
+            <div class="col"></div>
         </div>
-        <div>
-            <form:input type="password" path="password" placeholder="Password"></form:input>
+        <div class="form-row mb-2">
+            <div class="col"></div>
+            <label for="password" class="col-2 col-form-label">password</label>
+            <div class="col-5">
+                <form:input type="text" path="password" placeholder="password" class="form-control input-sm border border-info" id="password"></form:input>
+            </div>
+            <div class="col"></div>
         </div>
-        <div>
-            <form:input type="password" path="passwordCONFIRM"
-                        placeholder="Confirm your password"></form:input>
-            <form:errors path="password"></form:errors>
-                ${passwordError}
+        <div class="form-row mb-2">
+            <div class="col"></div>
+            <label for="conf-pass" class="col-2 col-form-label">confirm</label>
+            <div class="col-5">
+                <form:input type="text" path="passwordCONFIRM" placeholder="confirm your password" class="form-control input-sm border border-info" id="conf-pass"></form:input>
+                <form:errors path="password"></form:errors>
+                    ${passwordError}
+            </div>
+            <div class="col"></div>
         </div>
-        <button type="submit">Зарегистрироваться</button>
+        <div class="form-col">
+            <div class="col">
+                <button type="submit" class="btn btn-primary mt-4 mb-4 d-block mx-auto">Зарегистрироваться</button>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-3"></div>
+            <div class="col">
+                <u><a class="d-block mx-auto" href="/">Главная</a></u>
+            </div>
+        </div>
+        </div>
     </form:form>
-    <a href="/">Главная</a>
 </div>
 </body>
 </html>

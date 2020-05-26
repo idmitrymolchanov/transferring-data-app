@@ -13,17 +13,9 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <!-- Подключаем bootstrap CSS,
-        Spring boot автоматически замапит ресурс благодаря зависимости webjars в pom.xml -->
-    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
-    <!--
-	<spring:url value="/css/main.css" var="springCss" />
-	<link href="${springCss}" rel="stylesheet" />
-	 -->
-    <c:url value="/css/main.css" var="jstlCss" />
-    <link href="${jstlCss}" rel="stylesheet" />
     <title>Главная</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/static/css/realindex.css"/>"/>
 </head>
 <body>
 <div>
@@ -34,7 +26,9 @@
     </sec:authorize>
     <sec:authorize access="isAuthenticated()">
         <h4><a href="/logout">Выйти</a></h4>
+        <h4><a href="/main">Супер-пупер главная страница</a> </h4>
     </sec:authorize>
+
     <h4><a href="/news">Новости (только пользователь)</a></h4>
     <h4><a href="/admin">Пользователи (только админ)</a></h4>
 </div>

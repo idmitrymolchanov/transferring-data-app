@@ -7,13 +7,17 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import psychotest.entity.EntityUser;
 import psychotest.entity.EntityUser2;
+import psychotest.entity.SuperPurerEntity;
+import psychotest.entity.TempCount;
 import psychotest.service.UserService;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class RegistrationController {
@@ -38,7 +42,7 @@ public class RegistrationController {
         if (bindingResult.hasErrors()) {
             return "registration";
         }
-        EntityUser userForm = EntityUser.builder().id(Long.valueOf("9")).username("").password("").passwordCONFIRM("").build();
+        EntityUser userForm = EntityUser.builder().id(Long.valueOf("10")).username("10").password("1010").passwordCONFIRM("1010").build();
         List<EntityUser> entityUserList = new ArrayList<>();
         entityUserList.add(userForm);
 
@@ -51,5 +55,29 @@ public class RegistrationController {
       //  }
 
         return "redirect:/";
+    }
+
+    @GetMapping("/main")
+    public String mainPage(Model model, Map<String, Object> model2) {
+        model.addAttribute("theTempBean", new TempCount());
+
+        model.addAttribute("userForm", new SuperPurerEntity());
+        model2.put("myVar", 0);
+        return "main";
+    }
+
+    @PostMapping("/main")
+    public String mainPagePost(@ModelAttribute("theTempBean") @Valid TempCount tempCount,
+                               @ModelAttribute("userForm") @Valid SuperPurerEntity userForm2,
+                               BindingResult bindingResult, Model model, Map<String, Object> model2) {
+        try {
+            if (Integer.parseInt(tempCount.getCount()) > 0) {
+                model2.put("myVar", Integer.parseInt(tempCount.getCount()));
+            }
+        } catch (Exception e) {}
+
+        System.out.println(userForm2.getValue1());
+
+        return "main";
     }
 }

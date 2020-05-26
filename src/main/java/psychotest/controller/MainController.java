@@ -13,7 +13,7 @@ public class MainController {
     @Value("${welcome.message}")
     private String message = "Hello World";
 
-    @RequestMapping("/2122")
+    @RequestMapping("/777")
     public String welcome(Map<String, Object> model) {
         model.put("message", this.message);
         return "hello";
