@@ -9,8 +9,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class TempCount {
-    private String count;
-    private String tableName;
-    private String tableName2;
+public class EntityClass {
+    private Long id;
+    private String table_name;
+    private String quantity;
 }

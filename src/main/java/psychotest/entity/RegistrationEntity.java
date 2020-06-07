@@ -2,9 +2,11 @@ package psychotest.entity;
 
 import lombok.*;
 
-@Data
-@Builder(toBuilder = true)
-public class EntityUser {
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+public class RegistrationEntity {
     private Long id;
     private String username;
     private String password;
