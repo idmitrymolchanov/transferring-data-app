@@ -73,12 +73,11 @@ public class MainService {
         } catch (Exception e) {}
     }
 
-    public void saveTableName() {
-        EntityClass entityClass = new EntityClass();
+    public void saveTableName(EntityClass entityClass) {
         mainRepository.saveTableNameAll(entityClass);
     }
 
-    public String getTableNaME() {
+    public String getTableName() {
         EntityClass entityClass = mainRepository.getTableNameAll();
         return entityClass.getQuantity();
     }

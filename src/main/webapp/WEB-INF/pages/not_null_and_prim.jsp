@@ -25,13 +25,6 @@
 </head>
 <body>
 
-
-
-
-
-
-
-
 <div class="form-check col-auto">
     <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
     <label class="form-check-label" for="defaultCheck1">

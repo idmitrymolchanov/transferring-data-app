@@ -29,6 +29,8 @@
 <body>
 
 <div>
+    <%@include  file="/resources/static/htmlResources/horizontal_menu.html" %>
+
     <form:form action="/main" method="post" modelAttribute="theTempBean" cssClass="my-form-style">
         <blockquote class="blockquote text-center">
             <p class="mb-0 h2 mb-1">enter the number of columns</p>
@@ -536,8 +538,10 @@
             </c:if>
             <c:if test="${myVar > 0}">
                 <button type="submit" class="btn btn-primary mt-4 mb-4 d-block mx-auto">Сохранить данные и закрыть</button>
-                <u><a class="d-block mx-auto" href="/sqlPage">sqlPage</a></u>
         </c:if>
+            <c:if test="${Next > 0}">
+                <a href="/UNIQUE" class="btn btn-outline-primary mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Next Step</a>
+            </c:if>
             </div>
     </form:form>
 </div>

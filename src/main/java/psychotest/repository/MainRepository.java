@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.*;
 import org.springframework.stereotype.Repository;
+import psychotest.entity.DatasourceEntity;
 import psychotest.entity.EntityClass;
 import psychotest.entity.MainEntity;
 
@@ -68,33 +69,7 @@ public class MainRepository {
             quantityTable = list.size();
         }
     }
-/*
-    public void saveEntity(final ArrayList<EntityClass> list) {
-        try {
-            sqlInsert = "INSERT INTO "+ sourceTableName +"(value_en, type_en) VALUES(?,?);";
-            final int batchSize = 500;
-            List<List<EntityClass>> batchLists = Lists.partition(list, batchSize);
-            for (List<EntityClass> batch : batchLists) {
-                jdbcTemplate.batchUpdate(sqlInsert, new BatchPreparedStatementSetter() {
-                    @Override
-                    public void setValues(PreparedStatement ps, int i)
-                            throws SQLException {
-                        EntityClass entitySbertest = batch.get(i);
-                        System.out.println(entitySbertest.getType());
-                        ps.setString(1, entitySbertest.getValue());
-                        ps.setString(2, entitySbertest.getType());
-                    }
-                    @Override
-                    public int getBatchSize() {
-                        return batch.size();
-                    }
-                });
-            }
-        } catch (Exception e){
-            return;
-        }
-    }
-*/
+
     public void saveValuesInHelp(List<String> list, String sql) {
         try {
             Object[] objects = new Object[40];
@@ -107,12 +82,21 @@ public class MainRepository {
         } catch (Exception e) {}
     }
 
+    public void saveDatasource(List<String> list) {
+        try {
+            Object[] objects = new Object[6];
+            for(int i = 0; i < list.size(); i++)
+                objects[i] = list.get(i);
+
+            String sql = "INSERT INTO userdb.help_datasource (driver_class_name,url,username,password) VALUES (?,?,?,?)";
+            jdbcTemplate.update(sql, objects);
+        } catch (Exception e) {}
+    }
+
     public void saveTableNameAll(EntityClass entityClass) {
         try {
             String sql = "INSERT INTO userdb.help_table_name (name_table,quantity) VALUES(?,?);";
-            Object objects = entityClass;
-
-            jdbcTemplate.update(sql, new Object[]{entityClass.getTable_name(),entityClass.getQuantity()});
+            jdbcTemplate.update(sql, new Object[]{entityClass.getTable_name(), quantityTable});
         } catch (Exception e) {}
     }
 
@@ -125,7 +109,6 @@ public class MainRepository {
     public Integer getQuantityTable() {
         return quantityTable;
     }
-
 
     public MainEntity findByIdEntity(Long id){
         try {
