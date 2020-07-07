@@ -3,22 +3,31 @@ package psychotest.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import psychotest.service.UserDetailsServiceImpl;
 import psychotest.service.UserService;
-
+@Profile("local")
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserService userService;
+   /* private final UserService userService;
 
     @Autowired
     public WebSecurityConfig(UserService userService) {
         this.userService = userService;
     }
+*/
+
+   private final UserDetailsServiceImpl userDetailsService;
+    @Autowired
+   public WebSecurityConfig(UserDetailsServiceImpl userDetailsService) {
+       this.userDetailsService = userDetailsService;
+   }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -55,9 +64,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-              //  .withUser("user").password("password").roles("USER");
-                .withUser("user").password("password").roles("USER");
-       // auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
+   //     auth.inMemoryAuthentication()
+   //             .withUser("user").password("password").roles("USER");
+
+        // Setting Service to find User in the database.
+        // And Setting PassswordEncoder
+        //auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
 }

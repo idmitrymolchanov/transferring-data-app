@@ -5,12 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-public class EntityClass {
+@AllArgsConstructor
+@NoArgsConstructor
+public class HelpTableNameEntity {
     private Long id;
-    private String table_name;
-    private String quantity;
+    private String tableName;
 }

@@ -37,7 +37,7 @@
                 <div class="col"></div>
                 <!-- элемент input с id = datetimepicker1 -->
                 <div class="input-group col" id="datetimepicker1">
-                    <form:input type="text" class="form-control input-lg border border-info" path="date"></form:input>
+                    <form:input type="text" class="form-control input-lg border border-info" path="dateValue"></form:input>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -54,12 +54,8 @@
             $('#datetimepicker1').datetimepicker();
             });
         </script>
-        <c:if test="${next > 0}">
-            <a href="/UNIQUE" class="btn btn-outline-primary mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Next Step</a>
-        </c:if>
-    </form:form>
 
-    <form:form>
+
         <blockquote class="blockquote text-center">
             <p class="mb-0 h3 mt-4 mb-4">Select interval</p>
         </blockquote>
@@ -81,7 +77,13 @@
                 <div class="col"></div>
             </div>
         </div>
+
+        <c:if test="${next > 0}">
+            <a href="/UNIQUE" class="btn btn-outline-primary mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Next Step</a>
+        </c:if>
+
     </form:form>
+
 </div>
 
 </body>

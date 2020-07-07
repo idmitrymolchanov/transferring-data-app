@@ -5,15 +5,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-public class DatasourceEntity {
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserEntity {
+
     private Long id;
-    private String driver_name;
-    private String url;
     private String username;
     private String password;
-    private String role;
+
+    @Override
+    public String toString() {
+        return this.username + "/" + this.password;
+    }
 }

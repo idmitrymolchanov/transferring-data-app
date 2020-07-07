@@ -8,8 +8,12 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import psychotest.entity.HelpTableNameEntity;
 import psychotest.entity.RegistrationEntity;
+import psychotest.entity.UserEntity;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,14 +24,24 @@ import java.util.Map;
 @Repository
 @Profile("local")
 public class RoleRepo {
-    private static String sourceTableName;
-    private final JdbcTemplate jdbcTemplate;
+   // private static String sourceTableName;
+  //  private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    public RoleRepo(@Qualifier("jdbcTemplateUser") JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+ //   @Autowired
+ //   public RoleRepo(@Qualifier("jdbcTemplateUser") JdbcTemplate jdbcTemplate) {
+ //       this.jdbcTemplate = jdbcTemplate;
+ //   }
+
+    private Connection connect() {
+        Connection c = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:test.db");
+        } catch (Exception e) {
+        }
+        return c;
     }
-
+/*
     @Value("${datasource.three.name}")
     public void setSourceTableName(String sourceTableName) {
         this.sourceTableName = sourceTableName;
@@ -82,5 +96,27 @@ public class RoleRepo {
         } catch (Exception e){
             return;
         }
+    }
+*/
+    public void saveAll(UserEntity userEntity) {
+        String sql = "INSERT INTO APP_USER (USER_NAME, ENCRYTED_PASSWORD, ENABLED) VALUES (?,?,?);";
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            System.out.println("login = " + userEntity.getUsername() + " pass = " + userEntity.getPassword());
+            pstmt.setString(1, userEntity.getUsername());
+            pstmt.setString(2, userEntity.getPassword());
+            pstmt.setInt(3, 1);
+            pstmt.executeUpdate();
+            saveRole(userEntity.getUsername());
+        } catch (SQLException e) { }
+    }
+
+    public void saveRole(String role) {
+        String sql = "INSERT INTO USER_ROLE (USER_ID, ROLE_ID) VALUES (SELECT APP_USER.USER_ID FROM APP_USER WHERE APP_USER.USER_NAME=?,2);";
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, role);
+            pstmt.executeUpdate();
+        } catch (SQLException e) { }
     }
 }

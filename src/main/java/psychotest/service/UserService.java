@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import psychotest.entity.RegistrationEntity;
+import psychotest.entity.UserEntity;
 import psychotest.repository.RoleRepo;
 
 import java.util.List;
@@ -32,7 +33,13 @@ public class UserService implements UserDetailsService {
      //   }
 
         user.get(0).setPassword(bCryptPasswordEncoder.encode(user.get(0).getPassword()));
-        roleRepo.saveAllUser(user);
+   //     roleRepo.saveAllUser(user);
+        return true;
+    }
+
+    public boolean saveAll(UserEntity userEntity) {
+        userEntity.setPassword(bCryptPasswordEncoder.encode(userEntity.getPassword()));
+        roleRepo.saveAll(userEntity);
         return true;
     }
 

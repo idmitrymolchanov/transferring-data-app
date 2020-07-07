@@ -1,15 +1,11 @@
 package psychotest.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import psychotest.entity.DatasourceEntity;
-import psychotest.entity.MainEntity;
 import psychotest.repository.MainRepository;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.List;
-
+@Service
 public class DatasourceService {
 
     private final MainRepository mainRepository;
@@ -19,19 +15,15 @@ public class DatasourceService {
         this.mainRepository = mainRepository;
     }
 
+    public void saveDatasource(DatasourceEntity datasourceEntity) {
+        mainRepository.saveDatasourceTable(datasourceEntity);
+    }
 
-    public void sortList(DatasourceEntity datasourceEntity) {
-        List<String> datasourceProperty = new ArrayList<>();
-        try {
-            Class<? extends DatasourceEntity> datasourceEntityClass = datasourceEntity.getClass();
-            for (Field field : datasourceEntityClass.getDeclaredFields()) {
-                if (field.getModifiers() == Modifier.PRIVATE) {
-                    field.setAccessible(true);
-                    datasourceProperty.add(field.get(datasourceEntity).toString());
-                }
-            }
-        } catch (Exception e) {}
+    public DatasourceEntity getDatasourceById(Integer id) {
+        return mainRepository.getDatasourceById(id);
+    }
 
-        mainRepository.saveDatasource(datasourceProperty);
+    public String findLastDataSourceByUrl() {
+        return mainRepository.findLastDataSourceByUrl();
     }
 }

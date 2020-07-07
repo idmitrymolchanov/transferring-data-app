@@ -59,9 +59,7 @@
             <div class="col"></div>
             <label for="conf-pass" class="col-2 col-form-label">confirm</label>
             <div class="col-5">
-                <form:input type="text" path="passwordCONFIRM" placeholder="confirm your password" class="form-control input-sm border border-info" id="conf-pass"></form:input>
-                <form:errors path="password"></form:errors>
-                    ${passwordError}
+                <input type="text" placeholder="confirm your password" class="form-control input-sm border border-info" id="conf-pass">
             </div>
             <div class="col"></div>
         </div>

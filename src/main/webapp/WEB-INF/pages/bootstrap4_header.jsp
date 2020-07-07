@@ -3,7 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-    <title>MAIN</title>
+    <title>table_name</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
@@ -13,30 +13,5 @@
         .my-form-style {
             margin-top: 4%;
         }
-
-        .my-form-style-2 {
-            margin-top: 4%;
-        }
-
-        .own-class-for-h7{
-            color: dimgrey;
-        }
     </style>
 </head>
-<body>
-
-<div class="form-check col-auto">
-    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-    <label class="form-check-label" for="defaultCheck1">
-        NOT NULL
-    </label>
-</div>
-<div class="form-check col-auto">
-    <input class="form-check-input" type="checkbox" value="" id="defaultCheck">
-    <label class="form-check-label" for="defaultCheck1">
-        PRIMARY KEY
-    </label>
-</div>
-
-</body>
-</html>

@@ -40,9 +40,9 @@
                 <div class="col"></div>
                 <div class="col-2">
                     <a href="/logout" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Выйти</a>
-                    <a href="/sqlPageExist" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Задать соединение</a>
-                    <a href="/main" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Новая таблица</a>
-                    <a href="/main" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Текущие таблицы</a>
+                    <a href="/datasource_setting" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Задать соединение</a>
+                    <a href="/table_name_page" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Новая таблица</a>
+                    <a href="/all_tables_page" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Текущие таблицы</a>
                     <a href="/main" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Пользователи</a>
                     <a href="/main" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Добавить заметку</a>
                     <a href="/scheduler" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Last page, okay?</a>
