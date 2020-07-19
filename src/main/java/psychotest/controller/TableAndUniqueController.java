@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import psychotest.entity.UniqueValuesEntity;
-import psychotest.entity.HelpTableNameEntity;
+import psychotest.entity.TableNameEntity;
 import psychotest.service.HelpNameService;
 import psychotest.service.HelpValueService;
 
@@ -16,12 +16,12 @@ import java.util.Map;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @Controller
-public class MainControllerV2 {
+public class TableAndUniqueController {
     private final HelpNameService helpNameService;
     private final HelpValueService helpValueService;
 
     @Autowired
-    public MainControllerV2(HelpNameService helpNameService, HelpValueService helpValueService) {
+    public TableAndUniqueController(HelpNameService helpNameService, HelpValueService helpValueService) {
         this.helpNameService = helpNameService;
         this.helpValueService = helpValueService;
     }
@@ -33,13 +33,13 @@ public class MainControllerV2 {
 
     @GetMapping("/table_name_page")
     public String tableNamePage(Model model, Map<String, Object> myVar) {
-        model.addAttribute("theTempBean", new HelpTableNameEntity());
+        model.addAttribute("theTempBean", new TableNameEntity());
         myVar.put("myVar", 0);
         return "table_name_page";
     }
 
     @PostMapping("/table_name_page")
-    public String tableNamePaige(@ModelAttribute("theTempBean") @Valid HelpTableNameEntity value,
+    public String tableNamePaige(@ModelAttribute("theTempBean") @Valid TableNameEntity value,
                                  Map<String, Object> myVar) {
         try {
             if (value.getTableName() != null) {

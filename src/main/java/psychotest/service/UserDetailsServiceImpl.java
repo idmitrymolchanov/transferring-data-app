@@ -12,22 +12,22 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import psychotest.entity.UserEntity;
-import psychotest.repository.RoleDAO;
-import psychotest.repository.UserDAO;
+import psychotest.repository.reg_login.RoleDaoImpl;
+import psychotest.repository.reg_login.UserDaoImpl;
 
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private UserDAO appUserDAO;
+    private UserDaoImpl appUserDaoImpl;
 
     @Autowired
-    private RoleDAO appRoleDAO;
+    private RoleDaoImpl appRoleDaoImpl;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity appUser = this.appUserDAO.findUserAccount(username);
+        UserEntity appUser = this.appUserDaoImpl.findUserAccount(username);
 
         if (appUser == null) {
             System.out.println("User not found! " + username);
@@ -37,7 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         System.out.println("Found User: " + appUser);
 
         // [ROLE_USER, ROLE_ADMIN,..]
-        List<String> roleNames = this.appRoleDAO.getRoleNames(appUser.getId());
+        List<String> roleNames = this.appRoleDaoImpl.getRoleNames(appUser.getId());
 
         List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
         if (roleNames != null) {

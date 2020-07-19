@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class HelpSchedulerEntity {
+public class SchedulerEntity {
     private Long id;
     private String stringTableName;
     private String dateValue;

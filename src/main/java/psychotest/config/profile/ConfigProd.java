@@ -1,4 +1,4 @@
-package psychotest.config;
+package psychotest.config.profile;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,4 +1,4 @@
-package psychotest.configuration;
+package psychotest.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,20 +10,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import psychotest.service.UserDetailsServiceImpl;
-import psychotest.service.UserService;
+
 @Profile("local")
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-   /* private final UserService userService;
-
-    @Autowired
-    public WebSecurityConfig(UserService userService) {
-        this.userService = userService;
-    }
-*/
-
    private final UserDetailsServiceImpl userDetailsService;
+
     @Autowired
    public WebSecurityConfig(UserDetailsServiceImpl userDetailsService) {
        this.userDetailsService = userDetailsService;
@@ -64,12 +57,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-   //     auth.inMemoryAuthentication()
-   //             .withUser("user").password("password").roles("USER");
-
-        // Setting Service to find User in the database.
-        // And Setting PassswordEncoder
-        //auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
 }

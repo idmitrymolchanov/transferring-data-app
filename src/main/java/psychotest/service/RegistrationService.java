@@ -8,20 +8,20 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import psychotest.entity.RegistrationEntity;
 import psychotest.entity.UserEntity;
-import psychotest.repository.RoleRepo;
+import psychotest.repository.reg_login.RegistrationRepository;
 
 import java.util.List;
 
 @Service
-public class UserService implements UserDetailsService {
+public class RegistrationService implements UserDetailsService {
 
     BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
-    private final RoleRepo roleRepo;
+    private final RegistrationRepository registrationRepository;
 
     @Autowired
-    public UserService(RoleRepo roleRepo) {
-        this.roleRepo = roleRepo;
+    public RegistrationService(RegistrationRepository registrationRepository) {
+        this.registrationRepository = registrationRepository;
     }
 
     public boolean saveUser(List<RegistrationEntity> user) {
@@ -39,7 +39,7 @@ public class UserService implements UserDetailsService {
 
     public boolean saveAll(UserEntity userEntity) {
         userEntity.setPassword(bCryptPasswordEncoder.encode(userEntity.getPassword()));
-        roleRepo.saveAll(userEntity);
+        registrationRepository.saveAll(userEntity);
         return true;
     }
 

@@ -2,7 +2,7 @@ package psychotest.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import psychotest.entity.HelpTableNameEntity;
+import psychotest.entity.TableNameEntity;
 import psychotest.repository.HelpRepository;
 
 import java.util.List;
@@ -16,8 +16,8 @@ public class HelpNameService {
         this.helpRepository = helpRepository;
     }
 
-    public void saveTableName(HelpTableNameEntity helpTableNameEntity) {
-        helpRepository.saveTableName(helpTableNameEntity);
+    public void saveTableName(TableNameEntity tableNameEntity) {
+        helpRepository.saveTableName(tableNameEntity);
     }
 
     public String findLastByName() {
@@ -28,7 +28,7 @@ public class HelpNameService {
         helpRepository.deleteTableById(id);
     }
 
-    public List<HelpTableNameEntity> getAllTable() {
+    public List<TableNameEntity> getAllTable() {
         return helpRepository.getAllTable();
     }
 }

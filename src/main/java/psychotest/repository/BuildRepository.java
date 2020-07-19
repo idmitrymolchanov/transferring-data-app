@@ -20,7 +20,7 @@ public class BuildRepository {
     }
 
     public List<HelpValueAndTypeEntity> getTypeAndValue(String tableName) {
-        String sql = "SELECT * FROM TYPE_AND_VALUE WHERE string_table_name=?;";
+        String sql = "SELECT * FROM TYPE_AND_VALUE WHERE string_table_name=? ORDER BY id;";
         List<HelpValueAndTypeEntity> list = new ArrayList<>();
         try (Connection conn = this.connect();
              PreparedStatement stmt  = conn.prepareStatement(sql)) {

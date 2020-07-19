@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import psychotest.service.HelpNameService;
 
 @Controller
-public class AllPageController {
+public class ListActiveTableController {
     private final HelpNameService helpNameService;
 
     @Autowired
-    public AllPageController(HelpNameService helpNameService) {
+    public ListActiveTableController(HelpNameService helpNameService) {
         this.helpNameService = helpNameService;
     }
 

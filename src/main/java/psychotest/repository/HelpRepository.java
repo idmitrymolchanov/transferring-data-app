@@ -2,7 +2,7 @@ package psychotest.repository;
 
 import org.springframework.stereotype.Repository;
 import psychotest.entity.UniqueValuesEntity;
-import psychotest.entity.HelpTableNameEntity;
+import psychotest.entity.TableNameEntity;
 import psychotest.entity.HelpValueAndTypeEntity;
 
 import java.sql.*;
@@ -22,11 +22,11 @@ public class HelpRepository {
         return c;
     }
 
-    public void saveTableName(HelpTableNameEntity helpTableNameEntity) {
+    public void saveTableName(TableNameEntity tableNameEntity) {
         String sql = "INSERT INTO TABLE_NAME (name_table) VALUES (?);";
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, helpTableNameEntity.getTableName());
+            pstmt.setString(1, tableNameEntity.getTableName());
             pstmt.executeUpdate();
         } catch (SQLException e) { }
     }
@@ -126,14 +126,14 @@ public class HelpRepository {
         } catch (SQLException e) { }
     }
 
-    public List<HelpTableNameEntity> getAllTable() {
+    public List<TableNameEntity> getAllTable() {
         String sql = "SELECT * FROM TABLE_NAME";
-        List<HelpTableNameEntity> list = new ArrayList<>();
+        List<TableNameEntity> list = new ArrayList<>();
         try (Connection conn = this.connect();
              Statement stmt  = conn.createStatement();
              ResultSet rs    = stmt.executeQuery(sql)){
             while (rs.next()) {
-                HelpTableNameEntity entity = new HelpTableNameEntity();
+                TableNameEntity entity = new TableNameEntity();
                 entity.setId(rs.getLong("id"));
                 entity.setTableName(rs.getString("name_table"));
                 list.add(entity);

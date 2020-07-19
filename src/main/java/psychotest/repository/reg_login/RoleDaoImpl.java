@@ -1,18 +1,13 @@
-package psychotest.repository;
+package psychotest.repository.reg_login;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import psychotest.entity.UserEntity;
-import psychotest.service.UserMapper;
 
 @Repository
-public class RoleDAO {
+public class RoleDaoImpl implements RoleDao {
 
     private Connection connect() {
         Connection c = null;
@@ -24,6 +19,7 @@ public class RoleDAO {
         return c;
     }
 
+    @Override
     public List<String> getRoleNames(Long userId) {
         String sql = "Select r.Role_Name " //
                 + " from User_Role ur, App_Role r " //
@@ -40,17 +36,4 @@ public class RoleDAO {
 
         return roles;
     }
-/*
-    public List<String> getRoleNames(Long userId) {
-        String sql = "Select r.Role_Name " //
-                + " from User_Role ur, App_Role r " //
-                + " where ur.Role_Id = r.Role_Id and ur.User_Id = ? ";
-
-        Object[] params = new Object[] { userId };
-
-        List<String> roles = jdbcTemplate.queryForList(sql, params, String.class);
-
-        return roles;
-    }
-*/
 }

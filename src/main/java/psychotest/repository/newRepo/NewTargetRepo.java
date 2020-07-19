@@ -90,22 +90,9 @@ public class NewTargetRepo {
     }
 
     public String getLastValue(String tableName, String uniqueValue) {
-        String sql = "SELECT * FROM "+ tableName +" ORDER BY "+ uniqueValue +" DESC LIMIT 1;";
+        String sql = "SELECT "+uniqueValue+" FROM "+ tableName +" ORDER BY "+ uniqueValue +" DESC LIMIT 1;";
         String lastValue = jdbcTemplate.queryForObject(sql, new Object[]{}, String.class);
         return lastValue;
     }
 
-    public Integer getNumberLastTargetString(String tableName, String uniqueValue, String uniqueString, List<String> list){
-        String as = "";
-        for(int i = 0; i < list.size(); i ++) {
-            as += (list.get(i) + ",");
-            as = StringUtils.chop(as);
-        }
-        String sql = "SELECT row_number() OVER (ORDER BY "+ uniqueString +") "+ as +" \n" +
-                "FROM "+ tableName +" \n" +
-                "WHERE "+ uniqueString +"=?;";
-
-        Integer rowLastValue = jdbcTemplate.queryForObject(sql, new Object[]{}, Integer.class);
-        return rowLastValue;
-    }
 }

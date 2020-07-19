@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class HelpTableNameEntity {
+public class TableNameEntity {
     private Long id;
     private String tableName;
 }

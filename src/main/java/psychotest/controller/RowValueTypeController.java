@@ -22,13 +22,13 @@ import psychotest.service.HelpNameService;
 import psychotest.service.HelpValueService;
 
 @Controller
-public class TodoController {
+public class RowValueTypeController {
 
     private final HelpNameService helpNameService;
     private final HelpValueService helpValueService;
 
     @Autowired
-    public TodoController(HelpNameService helpNameService, HelpValueService helpValueService) {
+    public RowValueTypeController(HelpNameService helpNameService, HelpValueService helpValueService) {
         this.helpNameService = helpNameService;
         this.helpValueService = helpValueService;
     }
