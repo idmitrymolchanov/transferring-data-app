@@ -2,6 +2,7 @@ package psychotest.repository.reg_login;
 
 import org.springframework.stereotype.Repository;
 import psychotest.entity.UserEntity;
+import psychotest.inner_datasource.config.SQLiteConfig;
 import psychotest.service.UserMapper;
 
 import java.sql.*;
@@ -9,21 +10,11 @@ import java.sql.*;
 @Repository
 public class UserDaoImpl implements UserDao {
 
-    private Connection connect() {
-        Connection c = null;
-        try {
-            Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:test.db");
-        } catch (Exception e) {
-        }
-        return c;
-    }
-
     @Override
     public UserEntity findUserAccount(String userName) {
         String sql = UserMapper.BASE_SQL + " where u.User_Name = ? ";
         UserEntity userEntity = new UserEntity();
-        try (Connection conn = this.connect();
+        try (Connection conn = SQLiteConfig.getConnection();
              PreparedStatement stmt  = conn.prepareStatement(sql)) {
             stmt.setString(1, userName);
             ResultSet rs = stmt.executeQuery();

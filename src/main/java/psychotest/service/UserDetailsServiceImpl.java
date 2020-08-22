@@ -3,6 +3,7 @@ package psychotest.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,26 +16,29 @@ import psychotest.entity.UserEntity;
 import psychotest.repository.reg_login.RoleDaoImpl;
 import psychotest.repository.reg_login.UserDaoImpl;
 
-
+@Slf4j
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private UserDaoImpl appUserDaoImpl;
+    private final UserDaoImpl appUserDaoImpl;
+    private final RoleDaoImpl appRoleDaoImpl;
 
     @Autowired
-    private RoleDaoImpl appRoleDaoImpl;
+    public UserDetailsServiceImpl(UserDaoImpl appUserDaoImpl, RoleDaoImpl appRoleDaoImpl) {
+        this.appUserDaoImpl = appUserDaoImpl;
+        this.appRoleDaoImpl = appRoleDaoImpl;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity appUser = this.appUserDaoImpl.findUserAccount(username);
 
         if (appUser == null) {
-            System.out.println("User not found! " + username);
+            log.error("User not found! " + username);
             throw new UsernameNotFoundException("User " + username + " was not found in the database");
         }
 
-        System.out.println("Found User: " + appUser);
+        log.info("Found User: " + appUser);
 
         // [ROLE_USER, ROLE_ADMIN,..]
         List<String> roleNames = this.appRoleDaoImpl.getRoleNames(appUser.getId());

@@ -3,27 +3,27 @@ package psychotest.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import psychotest.entity.DatasourceEntity;
-import psychotest.repository.MainRepository;
+import psychotest.repository.DatasourceRepository;
 
 @Service
 public class DatasourceService {
 
-    private final MainRepository mainRepository;
+    private final DatasourceRepository datasourceRepository;
 
     @Autowired
-    public DatasourceService(MainRepository mainRepository) {
-        this.mainRepository = mainRepository;
+    public DatasourceService(DatasourceRepository datasourceRepository) {
+        this.datasourceRepository = datasourceRepository;
     }
 
     public void saveDatasource(DatasourceEntity datasourceEntity) {
-        mainRepository.saveDatasourceTable(datasourceEntity);
+        datasourceRepository.saveDatasourceTable(datasourceEntity);
     }
 
     public DatasourceEntity getDatasourceById(Integer id) {
-        return mainRepository.getDatasourceById(id);
+        return datasourceRepository.getDatasourceById(id);
     }
 
     public String findLastDataSourceByUrl() {
-        return mainRepository.findLastDataSourceByUrl();
+        return datasourceRepository.findLastDataSourceByUrl();
     }
 }

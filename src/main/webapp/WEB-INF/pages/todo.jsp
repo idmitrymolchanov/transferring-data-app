@@ -1,10 +1,10 @@
 <%@ include file="header.jsp"%>
 
-<div class="container">
+<div class="container mt-5">
     <div class="row">
         <div class="col-md-6 col-md-offset-3 ">
             <div class="panel panel-primary">
-                <div class="panel-heading">Add TODO</div>
+                <div class="panel-heading">Add new column</div>
                 <div class="panel-body">
                     <form:form method="post" modelAttribute="todo">
                         <form:hidden path="id" />
@@ -24,7 +24,7 @@
                             <form:errors path="stringType" cssClass="text-warning" />
                         </fieldset>
 
-                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="submit" class="btn btn-info d-block mx-auto border border-info">Save</button>
                     </form:form>
                 </div>
             </div>

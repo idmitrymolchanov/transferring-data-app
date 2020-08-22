@@ -6,26 +6,26 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import psychotest.service.HelpNameService;
+import psychotest.service.TableNameService;
 
 @Controller
 public class ListActiveTableController {
-    private final HelpNameService helpNameService;
+    private final TableNameService tableNameService;
 
     @Autowired
-    public ListActiveTableController(HelpNameService helpNameService) {
-        this.helpNameService = helpNameService;
+    public ListActiveTableController(TableNameService tableNameService) {
+        this.tableNameService = tableNameService;
     }
 
     @RequestMapping(value = "/all_tables_page", method = RequestMethod.GET)
     public String showTodos(ModelMap model) {
-        model.put("todos", helpNameService.getAllTable());
+        model.put("todos", tableNameService.getAllTable());
         return "all_tables_page";
     }
 
     @RequestMapping(value = "/delete_table", method = RequestMethod.GET)
     public String deleteTodo(@RequestParam long id) {
-        helpNameService.deleteTableById(Integer.parseInt("" + id));
+        tableNameService.deleteTableById(Integer.parseInt("" + id));
         // service.deleteTodo(id);
         return "redirect:/all_tables_page";
     }

@@ -25,9 +25,9 @@
                     <tr>
                         <td>${todo.stringValue}</td>
                         <td>${todo.stringType}</td>
-                        <td><a type="button" class="btn btn-success"
+                        <td><a type="button" class="btn btn-info"
                                href="/update-todo?id=${todo.id}">Update</a>
-                            <a type="button" class="btn btn-warning"
+                            <a type="button" class="btn btn-danger"
                                href="/delete-todo?id=${todo.id}">Delete</a></td>
                     </tr>
                 </c:forEach>

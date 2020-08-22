@@ -20,14 +20,14 @@
 <div class="container my-form-style">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3>Column's names and types</h3>
+            <h3>Users</h3>
         </div>
         <div class="panel-body">
             <table class="table table-striped">
                 <thead>
                 <tr>
                     <th width="40%">id</th>
-                    <th width="40%">Table</th>
+                    <th width="40%">login</th>
                     <th width="20%">Option</th>
                 </tr>
                 </thead>
@@ -35,7 +35,7 @@
                 <c:forEach items="${todos}" var="todo">
                     <tr>
                         <td>${todo.id}</td>
-                        <td>${todo.tableName}</td>
+                        <td>${todo.username}</td>
                         <td><a type="button" class="btn btn-secondary"
                                href="/update-todo?id=${todo.id}">Setting</a>
                             <a type="button" class="btn btn-secondary"

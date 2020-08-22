@@ -18,7 +18,7 @@
 <body>
 <%@include  file="/resources/static/htmlResources/horizontal_menu.html" %>
 
-<div class="container">
+<div class="container my-form-style">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3>Column's names and types</h3>
@@ -46,7 +46,7 @@
     <form:form method="post" modelAttribute="theTempBean" cssClass="my-form-style">
         <blockquote class="blockquote text-center">
             <p class="mb-0 h2 mb-1">enter the unique value</p>
-            <p class="mb-0 h7 mt-1 mb-4 own-class-for-h7">(if isn t it - fill in empty)</p>
+            <p class="mb-0 h7 mt-1 mb-4 own-class-for-h7">(if not, leave the field blank)</p>
         </blockquote>
         <div class="form-group">
             <div class="form-row mb-2">

@@ -5,13 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class HelpValueAndTypeEntity {
+public class DatasourceEntityConnection {
     private Long id;
-    private String StringTableName;
-    private String StringValue;
-    private String StringType;
+    private String source_url;
+    private String target_url;
 }

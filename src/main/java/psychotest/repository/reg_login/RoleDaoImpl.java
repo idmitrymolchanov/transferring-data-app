@@ -5,19 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
+import psychotest.inner_datasource.config.SQLiteConfig;
 
 @Repository
 public class RoleDaoImpl implements RoleDao {
-
-    private Connection connect() {
-        Connection c = null;
-        try {
-            Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:test.db");
-        } catch (Exception e) {
-        }
-        return c;
-    }
 
     @Override
     public List<String> getRoleNames(Long userId) {
@@ -25,7 +16,7 @@ public class RoleDaoImpl implements RoleDao {
                 + " from User_Role ur, App_Role r " //
                 + " where ur.Role_Id = r.Role_Id and ur.User_Id = ? ";
         List<String> roles = new ArrayList<>();
-        try (Connection conn = this.connect();
+        try (Connection conn = SQLiteConfig.getConnection();
              PreparedStatement stmt  = conn.prepareStatement(sql)) {
             stmt.setLong(1, userId);
             ResultSet rs = stmt.executeQuery();

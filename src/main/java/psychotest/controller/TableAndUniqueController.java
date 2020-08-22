@@ -7,8 +7,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import psychotest.entity.UniqueValuesEntity;
 import psychotest.entity.TableNameEntity;
-import psychotest.service.HelpNameService;
-import psychotest.service.HelpValueService;
+import psychotest.service.TableNameService;
+import psychotest.service.TypeValueService;
+import psychotest.service.UniqueValueService;
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -17,13 +18,16 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @Controller
 public class TableAndUniqueController {
-    private final HelpNameService helpNameService;
-    private final HelpValueService helpValueService;
+    private final TableNameService tableNameService;
+    private final TypeValueService typeValueService;
+    private final UniqueValueService uniqueValueService;
 
     @Autowired
-    public TableAndUniqueController(HelpNameService helpNameService, HelpValueService helpValueService) {
-        this.helpNameService = helpNameService;
-        this.helpValueService = helpValueService;
+    public TableAndUniqueController(TableNameService tableNameService, TypeValueService typeValueService,
+                                    UniqueValueService uniqueValueService) {
+        this.tableNameService = tableNameService;
+        this.typeValueService = typeValueService;
+        this.uniqueValueService = uniqueValueService;
     }
 
     @RequestMapping(value = "/", method = GET)
@@ -44,7 +48,7 @@ public class TableAndUniqueController {
         try {
             if (value.getTableName() != null) {
                 myVar.put("myVar", 1);
-                helpNameService.saveTableName(value);
+                tableNameService.saveTableName(value);
             }
         } catch (Exception e) {}
 
@@ -54,20 +58,20 @@ public class TableAndUniqueController {
     @GetMapping("/unique_values_page")
     public String uniquePage(ModelMap modelMap, Model model) {
         model.addAttribute("theTempBean", new UniqueValuesEntity());
-        String table_name = helpNameService.findLastByName();
-        modelMap.put("todos", helpValueService.findByTableName(table_name));
+        String table_name = tableNameService.findLastByName();
+        modelMap.put("todos", typeValueService.findByTableName(table_name));
         return "unique_values_page";
     }
 
     @PostMapping("/unique_values_page")
     public String uniquePage(@ModelAttribute("theTempBean") @Valid UniqueValuesEntity value,
                              ModelMap modelMap) {
-        String table_name = helpNameService.findLastByName();
-        modelMap.put("todos", helpValueService.findByTableName(table_name));
+        String table_name = tableNameService.findLastByName();
+        modelMap.put("todos", typeValueService.findByTableName(table_name));
         if(value.getStringValue() != null) {
             value.setUnique_value(true);
             value.setStringTableName(table_name);
-            helpValueService.saveUniqueValue(value);
+            uniqueValueService.saveUniqueValue(value);
         }
         return "unique_values_page";
     }

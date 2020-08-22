@@ -1,6 +1,5 @@
 package psychotest.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,19 +8,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import psychotest.entity.DatasourceEntity;
 import psychotest.service.DatasourceService;
-import psychotest.service.HelpNameService;
+import psychotest.service.TableNameService;
 
 import javax.validation.Valid;
 import java.util.Map;
 
 @Controller
 public class DatasourceController {
-    private final HelpNameService helpNameService;
+    private final TableNameService tableNameService;
     private final DatasourceService datasourceService;
 
     @Autowired
-    public DatasourceController(HelpNameService helpNameService, DatasourceService service) {
-        this.helpNameService = helpNameService;
+    public DatasourceController(TableNameService tableNameService, DatasourceService service) {
+        this.tableNameService = tableNameService;
         this.datasourceService = service;
     }
 

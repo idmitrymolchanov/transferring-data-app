@@ -7,8 +7,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -17,20 +15,20 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import psychotest.entity.HelpValueAndTypeEntity;
-import psychotest.service.HelpNameService;
-import psychotest.service.HelpValueService;
+import psychotest.entity.ValueTypeEntity;
+import psychotest.service.TableNameService;
+import psychotest.service.TypeValueService;
 
 @Controller
 public class RowValueTypeController {
 
-    private final HelpNameService helpNameService;
-    private final HelpValueService helpValueService;
+    private final TableNameService tableNameService;
+    private final TypeValueService typeValueService;
 
     @Autowired
-    public RowValueTypeController(HelpNameService helpNameService, HelpValueService helpValueService) {
-        this.helpNameService = helpNameService;
-        this.helpValueService = helpValueService;
+    public RowValueTypeController(TableNameService tableNameService, TypeValueService typeValueService) {
+        this.tableNameService = tableNameService;
+        this.typeValueService = typeValueService;
     }
 
     @InitBinder
@@ -42,8 +40,8 @@ public class RowValueTypeController {
 
     @RequestMapping(value = "/list-todos", method = RequestMethod.GET)
     public String showTodos(ModelMap model) {
-        String table_name = helpNameService.findLastByName();
-        model.put("todos", helpValueService.findByTableName(table_name));
+        String table_name = tableNameService.findLastByName();
+        model.put("todos", typeValueService.findByTableName(table_name));
         // model.put("todos", service.retrieveTodos(name));
         return "list-todos";
     }
@@ -60,45 +58,45 @@ public class RowValueTypeController {
 
     @RequestMapping(value = "/add-todo", method = RequestMethod.GET)
     public String showAddTodoPage(ModelMap model) {
-        model.addAttribute("todo", new HelpValueAndTypeEntity());
+        model.addAttribute("todo", new ValueTypeEntity());
         return "todo";
     }
 
     @RequestMapping(value = "/delete-todo", method = RequestMethod.GET)
     public String deleteTodo(@RequestParam long id) {
-        helpValueService.deleteById(Integer.parseInt("" + id));
+        typeValueService.deleteById(Integer.parseInt("" + id));
         // service.deleteTodo(id);
         return "redirect:/list-todos";
     }
 
     @RequestMapping(value = "/update-todo", method = RequestMethod.GET)
     public String showUpdateTodoPage(@RequestParam long id, ModelMap model) {
-        HelpValueAndTypeEntity valueAndTypeEntity = helpValueService.findById(Integer.parseInt(""+id));
+        ValueTypeEntity valueAndTypeEntity = typeValueService.findById(Integer.parseInt(""+id));
         model.put("todo", valueAndTypeEntity);
         return "todo";
     }
 
     @RequestMapping(value = "/update-todo", method = RequestMethod.POST)
-    public String updateTodo(ModelMap model, @Valid HelpValueAndTypeEntity todo, BindingResult result) {
+    public String updateTodo(ModelMap model, @Valid ValueTypeEntity todo, BindingResult result) {
 
         if (result.hasErrors()) {
             return "todo";
         }
 
-        todo.setStringTableName(helpNameService.findLastByName());
+        todo.setStringTableName(tableNameService.findLastByName());
        // + todoService.updateTodo(todo);
         return "redirect:/list-todos";
     }
 
     @RequestMapping(value = "/add-todo", method = RequestMethod.POST)
-    public String addTodo(ModelMap model, @Valid HelpValueAndTypeEntity todo, BindingResult result) {
+    public String addTodo(ModelMap model, @Valid ValueTypeEntity todo, BindingResult result) {
 
         if (result.hasErrors()) {
             return "todo";
         }
 
-        todo.setStringTableName(helpNameService.findLastByName());
-        helpValueService.saveTypeAndValue(todo);
+        todo.setStringTableName(tableNameService.findLastByName());
+        typeValueService.saveTypeAndValue(todo);
         return "redirect:/list-todos";
     }
 }

@@ -1,39 +1,31 @@
 package psychotest.repository;
 
 import org.springframework.stereotype.Repository;
-import psychotest.entity.HelpValueAndTypeEntity;
+import psychotest.entity.ValueTypeEntity;
+import psychotest.inner_datasource.config.SQLiteConfig;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class BuildRepository {
-    private Connection connect() {
-        Connection c = null;
-        try {
-            Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:test.db");
-        } catch (Exception e) {
-        }
-        return c;
-    }
+public class ForMainRequestRepository {
 
-    public List<HelpValueAndTypeEntity> getTypeAndValue(String tableName) {
+    public List<ValueTypeEntity> getTypeAndValue(String tableName) {
         String sql = "SELECT * FROM TYPE_AND_VALUE WHERE string_table_name=? ORDER BY id;";
-        List<HelpValueAndTypeEntity> list = new ArrayList<>();
-        try (Connection conn = this.connect();
+        List<ValueTypeEntity> list = new ArrayList<>();
+        try (Connection conn = SQLiteConfig.getConnection();
              PreparedStatement stmt  = conn.prepareStatement(sql)) {
             stmt.setString(1, tableName);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                HelpValueAndTypeEntity helpValueAndTypeEntity = new HelpValueAndTypeEntity();
-                helpValueAndTypeEntity.setId(rs.getLong("id"));
-                helpValueAndTypeEntity.setStringTableName(rs.getString("string_table_name"));
-                helpValueAndTypeEntity.setStringValue(rs.getString("string_value"));
-                helpValueAndTypeEntity.setStringType(rs.getString("string_type"));
-                list.add(helpValueAndTypeEntity);
+                ValueTypeEntity valueTypeEntity = new ValueTypeEntity();
+                valueTypeEntity.setId(rs.getLong("id"));
+                valueTypeEntity.setStringTableName(rs.getString("string_table_name"));
+                valueTypeEntity.setStringValue(rs.getString("string_value"));
+                valueTypeEntity.setStringType(rs.getString("string_type"));
+                list.add(valueTypeEntity);
             }
 
         } catch (SQLException e) { }
@@ -43,7 +35,7 @@ public class BuildRepository {
     public String getUniqueValue(String tableName) {
         String sql = "SELECT string_value FROM UNIQ_VALUES WHERE string_table_name=?;";
         String uniqueValue = null;
-        try (Connection conn = this.connect();
+        try (Connection conn = SQLiteConfig.getConnection();
              PreparedStatement stmt  = conn.prepareStatement(sql)) {
             stmt.setString(1, tableName);
             ResultSet rs = stmt.executeQuery();
