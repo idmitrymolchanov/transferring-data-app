@@ -9,8 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class ForMainRequestRepository {
+public class MainRequestDAOImpl implements MainRequestDAO {
 
+    @Override
     public List<ValueTypeEntity> getTypeAndValue(String tableName) {
         String sql = "SELECT * FROM TYPE_AND_VALUE WHERE string_table_name=? ORDER BY id;";
         List<ValueTypeEntity> list = new ArrayList<>();
@@ -32,6 +33,7 @@ public class ForMainRequestRepository {
         return list;
     }
 
+    @Override
     public String getUniqueValue(String tableName) {
         String sql = "SELECT string_value FROM UNIQ_VALUES WHERE string_table_name=?;";
         String uniqueValue = null;

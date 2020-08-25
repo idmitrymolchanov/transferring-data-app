@@ -9,8 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class UserListRepository {
+public class UsersDAOImpl implements UsersDAO {
 
+    @Override
     public List<UserEntity> getAllUsers() {
         String sql = "SELECT (id, user_name) FROM APP_USER";
         List<UserEntity> list = new ArrayList<>();

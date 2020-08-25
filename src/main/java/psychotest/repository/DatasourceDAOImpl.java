@@ -12,8 +12,9 @@ import java.util.List;
 
 @Repository
 @Profile("local")
-public class DatasourceRepository {
+public class DatasourceDAOImpl implements DatasourceDAO {
 
+    @Override
     public void saveDatasourceTable(DatasourceEntity datasourceEntity) {
         System.out.println(datasourceEntity.getRole());
         String sql = "INSERT INTO DATASOURCE_SETTING (driver_name,url,username,password,role) VALUES (?,?,?,?,?);";
@@ -29,6 +30,7 @@ public class DatasourceRepository {
         } catch (SQLException e) { }
     }
 
+    @Override
     public DatasourceEntity getDatasourceById(Integer id) {
         String sql = "SELECT * FROM DATASOURCE_SETTING WHERE id=?;";
         DatasourceEntity entity = new DatasourceEntity();
@@ -49,6 +51,7 @@ public class DatasourceRepository {
         return entity;
     }
 
+    @Override
     public DatasourceEntity getDatasourceByURL(String url) {
         String sql = "SELECT * FROM DATASOURCE_SETTING WHERE url=?;";
         DatasourceEntity entity = new DatasourceEntity();
@@ -69,6 +72,7 @@ public class DatasourceRepository {
         return entity;
     }
 
+    @Override
     public String findLastDataSourceByUrl() {
         String sql = "SELECT url FROM DATASOURCE_SETTING ORDER BY id DESC LIMIT 1;";
         String tableName = null;
@@ -82,6 +86,7 @@ public class DatasourceRepository {
         return tableName;
     }
 
+    @Override
     public List<String> getDatasourceBySourceRole(String sourceRole) {
         String sql = "SELECT * FROM DATASOURCE_SETTING WHERE role=?;";
         List<String> urlSourceNameList = new ArrayList<>();

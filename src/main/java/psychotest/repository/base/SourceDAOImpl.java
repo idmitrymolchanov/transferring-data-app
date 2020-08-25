@@ -1,4 +1,4 @@
-package psychotest.repository.newRepo;
+package psychotest.repository.base;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +12,15 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class NewSourceRepo {
+public class SourceDAOImpl implements SourceDAO {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public NewSourceRepo(@Qualifier("jdbcTemplateSource") JdbcTemplate jdbcTemplate) {
+    public SourceDAOImpl(@Qualifier("jdbcTemplateSource") JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Override
     public List<List<String>> findAllSinceLastTargetActivity(int lastRow, List<String> values, String tableName) {
         String sql = "SELECT * FROM "+ tableName +" LIMIT "+ lastRow +", 100;";
         System.out.println("in method");
@@ -42,6 +43,7 @@ public class NewSourceRepo {
         }
     }
 
+    @Override
     public Integer getNumberLastString(String tableName, String uniqueValue, String uniqueString, List<String> list){
         String as = "";
         for(int i = 0; i < list.size(); i ++) {

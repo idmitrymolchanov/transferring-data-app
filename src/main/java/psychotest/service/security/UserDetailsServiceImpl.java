@@ -1,4 +1,4 @@
-package psychotest.service;
+package psychotest.service.security;
 
 import java.util.ArrayList;
 import java.util.List;

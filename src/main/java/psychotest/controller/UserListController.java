@@ -6,6 +6,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import psychotest.service.UserListService;
+import psychotest.service.UserListServiceImpl;
 
 @Controller
 public class UserListController {

@@ -8,17 +8,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import psychotest.entity.UserEntity;
-import psychotest.service.RegistrationService;
+import psychotest.service.RegistrationServiceImpl;
 
 import javax.validation.Valid;
 
 @Controller
 public class RegistrationController {
 
-    private final RegistrationService registrationService;
+    private final RegistrationServiceImpl registrationService;
 
     @Autowired
-    public RegistrationController(RegistrationService registrationService) {
+    public RegistrationController(RegistrationServiceImpl registrationService) {
         this.registrationService = registrationService;
     }
 

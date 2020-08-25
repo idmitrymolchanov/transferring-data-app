@@ -3,7 +3,7 @@ package psychotest.repository.reg_login;
 import org.springframework.stereotype.Repository;
 import psychotest.entity.UserEntity;
 import psychotest.inner_datasource.config.SQLiteConfig;
-import psychotest.service.UserMapper;
+import psychotest.service.security.UserMapper;
 
 import java.sql.*;
 

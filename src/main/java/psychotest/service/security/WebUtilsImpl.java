@@ -1,11 +1,11 @@
-package psychotest.service;
+package psychotest.service.security;
 
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-public class WebUtils {
+public class WebUtilsImpl implements WebUtils{
 
     public static String toString(User user) {
         StringBuilder sb = new StringBuilder();

@@ -9,8 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 @Repository
-public class UniqueValueRepository {
+public class UniqueValueDAOImpl implements UniqueValueDAO {
 
+    @Override
     public void saveUniqueValue(UniqueValuesEntity value) {
         String sql = "INSERT INTO UNIQ_VALUES (string_table_name,string_value,unique_value) VALUES (?,?,?);";
         try (Connection conn = SQLiteConfig.getConnection();

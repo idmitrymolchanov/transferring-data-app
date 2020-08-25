@@ -11,8 +11,9 @@ import java.util.List;
 
 @Repository
 @Profile("local")
-public class DatasourceConnectionsRepo {
+public class DatasourceConnectionsDAOImpl implements DatasourceConnectionsDAO {
 
+    @Override
     public void saveDatasourceTable(DatasourceEntityConnection datasource) {
         String sql = "INSERT INTO DATASOURCE_CONNECTIONS (source_uri,target_uri) VALUES (?,?);";
         try (Connection conn = SQLiteConfig.getConnection();
@@ -23,6 +24,7 @@ public class DatasourceConnectionsRepo {
         } catch (SQLException e) { }
     }
 
+    @Override
     public List<DatasourceEntityConnection> getAllConnections() {
         String sql = "SELECT * FROM DATASOURCE_CONNECTIONS;";
         List<DatasourceEntityConnection> entityList = new ArrayList<>();

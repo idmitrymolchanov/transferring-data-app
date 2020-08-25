@@ -9,8 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class RowTypeValueRepository {
+public class TypeValueDAOImpl implements TypeValueDAO {
 
+    @Override
     public List<ValueTypeEntity> findByTableName(String tableName) {
         String sql = "SELECT * FROM TYPE_AND_VALUE WHERE string_table_name=?;";
         List<ValueTypeEntity> list = new ArrayList<>();
@@ -32,6 +33,7 @@ public class RowTypeValueRepository {
         return list;
     }
 
+    @Override
     public void deleteById(Integer id) {
         String sql = "DELETE FROM TYPE_AND_VALUE WHERE id = ?;";
         try (Connection conn = SQLiteConfig.getConnection();
@@ -41,6 +43,7 @@ public class RowTypeValueRepository {
         } catch (SQLException e) { }
     }
 
+    @Override
     public ValueTypeEntity findById(Integer id) {
         String sql = "SELECT * FROM TYPE_AND_VALUE WHERE id=?;";
         ValueTypeEntity valueTypeEntity = new ValueTypeEntity();
@@ -60,6 +63,7 @@ public class RowTypeValueRepository {
         return valueTypeEntity;
     }
 
+    @Override
     public void saveTypeAndValue(ValueTypeEntity valueTypeEntity) {
         String sql = "INSERT INTO TYPE_AND_VALUE (string_table_name,string_value,string_type) VALUES (?,?,?);";
         try (Connection conn = SQLiteConfig.getConnection();
@@ -71,6 +75,7 @@ public class RowTypeValueRepository {
         } catch (SQLException e) { }
     }
 
+    @Override
     public void deleteTableById(Integer id) {
         String sql = "DELETE FROM TYPE_AND_VALUE WHERE id = ?;";
         try (Connection conn = SQLiteConfig.getConnection();

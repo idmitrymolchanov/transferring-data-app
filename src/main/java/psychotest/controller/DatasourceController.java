@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import psychotest.entity.DatasourceEntity;
 import psychotest.service.DatasourceService;
+import psychotest.service.DatasourceServiceImpl;
 import psychotest.service.TableNameService;
+import psychotest.service.TableNameServiceImpl;
 
 import javax.validation.Valid;
 import java.util.Map;

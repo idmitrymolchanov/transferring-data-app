@@ -9,18 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class TableNameRepository {
+public class TableNameDAOImpl implements TableNameDAO {
 
-    private Connection connect() {
-        Connection c = null;
-        try {
-            Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:test.db");
-        } catch (Exception e) {
-        }
-        return c;
-    }
-
+    @Override
     public void saveTableName(TableNameEntity tableNameEntity) {
         String sql = "INSERT INTO TABLE_NAME (name_table) VALUES (?);";
         try (Connection conn = SQLiteConfig.getConnection(); //this.connect()
@@ -30,6 +21,7 @@ public class TableNameRepository {
         } catch (SQLException e) { }
     }
 
+    @Override
     public String findLastByName() {
         String sql = "SELECT name_table FROM TABLE_NAME ORDER BY id DESC LIMIT 1;";
         String tableName = null;
@@ -43,6 +35,7 @@ public class TableNameRepository {
         return tableName;
     }
 
+    @Override
     public List<TableNameEntity> getAllTable() {
         String sql = "SELECT * FROM TABLE_NAME";
         List<TableNameEntity> list = new ArrayList<>();

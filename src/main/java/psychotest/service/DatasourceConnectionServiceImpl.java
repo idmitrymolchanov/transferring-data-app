@@ -5,23 +5,26 @@ import org.springframework.stereotype.Service;
 import psychotest.config.profile.TomcatConfig;
 import psychotest.entity.DatasourceEntity;
 import psychotest.entity.DatasourceEntityConnection;
-import psychotest.repository.DatasourceConnectionsRepo;
-import psychotest.repository.DatasourceRepository;
+import psychotest.repository.DatasourceConnectionsDAO;
+import psychotest.repository.DatasourceConnectionsDAOImpl;
+import psychotest.repository.DatasourceDAO;
+import psychotest.repository.DatasourceDAOImpl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class DatasourceConnectionService {
-    private final DatasourceRepository dsRepo;
-    private final DatasourceConnectionsRepo dscRepo;
+public class DatasourceConnectionServiceImpl implements DatasourceConnectionService{
+    private final DatasourceDAO dsRepo;
+    private final DatasourceConnectionsDAO dscRepo;
 
     @Autowired
-    public DatasourceConnectionService (DatasourceRepository dsRepo, DatasourceConnectionsRepo dscRepo) {
+    public DatasourceConnectionServiceImpl(DatasourceDAO dsRepo, DatasourceConnectionsDAO dscRepo) {
         this.dsRepo = dsRepo;
         this.dscRepo = dscRepo;
     }
 
+    @Override
     public List<DatasourceEntity> getSourceTargetConfigs() {
         List<DatasourceEntityConnection> listCon = dscRepo.getAllConnections();
         String source = listCon.get(0).getSource_url();
@@ -36,10 +39,12 @@ public class DatasourceConnectionService {
         return listDs;
     }
 
+    @Override
     public boolean ifBothExist(List<DatasourceEntity> list) {
         return (list.get(0) != null && list.get(1) != null);
     }
 
+    @Override
     public void initDatasourceConnection(List<DatasourceEntity> listDs) {
         TomcatConfig tomcatConfig = new TomcatConfig(listDs);
     }

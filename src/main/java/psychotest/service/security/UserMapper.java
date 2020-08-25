@@ -1,4 +1,4 @@
-package psychotest.service;
+package psychotest.service.security;
 
 import org.springframework.jdbc.core.RowMapper;
 import psychotest.entity.UserEntity;

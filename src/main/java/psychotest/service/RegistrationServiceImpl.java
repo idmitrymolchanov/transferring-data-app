@@ -13,17 +13,18 @@ import psychotest.repository.reg_login.RegistrationRepository;
 import java.util.List;
 
 @Service
-public class RegistrationService implements UserDetailsService {
+public class RegistrationServiceImpl implements UserDetailsService, RegistrationService {
 
     BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     private final RegistrationRepository registrationRepository;
 
     @Autowired
-    public RegistrationService(RegistrationRepository registrationRepository) {
+    public RegistrationServiceImpl(RegistrationRepository registrationRepository) {
         this.registrationRepository = registrationRepository;
     }
 
+    @Override
     public boolean saveUser(List<RegistrationEntity> user) {
         System.out.println("++++++++++++++++++++++++++++++ " + user.get(0).getId());
        // EntityUser userFromDB = roleRepo.findByIdUser(user.get(0).getId()).get(0);
@@ -37,6 +38,7 @@ public class RegistrationService implements UserDetailsService {
         return true;
     }
 
+    @Override
     public boolean saveAll(UserEntity userEntity) {
         userEntity.setPassword(bCryptPasswordEncoder.encode(userEntity.getPassword()));
         registrationRepository.saveAll(userEntity);

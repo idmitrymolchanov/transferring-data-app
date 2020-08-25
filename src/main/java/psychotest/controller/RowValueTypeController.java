@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import psychotest.entity.ValueTypeEntity;
 import psychotest.service.TableNameService;
+import psychotest.service.TableNameServiceImpl;
 import psychotest.service.TypeValueService;
+import psychotest.service.TypeValueServiceImpl;
 
 @Controller
 public class RowValueTypeController {
@@ -26,7 +28,7 @@ public class RowValueTypeController {
     private final TypeValueService typeValueService;
 
     @Autowired
-    public RowValueTypeController(TableNameService tableNameService, TypeValueService typeValueService) {
+    public RowValueTypeController(TableNameService tableNameService, TypeValueServiceImpl typeValueService) {
         this.tableNameService = tableNameService;
         this.typeValueService = typeValueService;
     }

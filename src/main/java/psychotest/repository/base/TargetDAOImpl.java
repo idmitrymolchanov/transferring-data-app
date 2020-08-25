@@ -1,4 +1,4 @@
-package psychotest.repository.newRepo;
+package psychotest.repository.base;
 
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
@@ -16,14 +16,15 @@ import java.sql.Time;
 import java.util.List;
 
 @Repository
-public class NewTargetRepo {
+public class TargetDAOImpl implements TargetDAO {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public NewTargetRepo(@Qualifier("jdbcTemplateTarget") JdbcTemplate jdbcTemplate) {
+    public TargetDAOImpl(@Qualifier("jdbcTemplateTarget") JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Override
     public void saveAll(final List<List<String>> employeeList, List<String> types, List<String> fields, String tableName){
         String as = "";
         String p = "";
@@ -89,6 +90,7 @@ public class NewTargetRepo {
         }
     }
 
+    @Override
     public String getLastValue(String tableName, String uniqueValue) {
         String sql = "SELECT "+uniqueValue+" FROM "+ tableName +" ORDER BY "+ uniqueValue +" DESC LIMIT 1;";
         String lastValue = jdbcTemplate.queryForObject(sql, new Object[]{}, String.class);

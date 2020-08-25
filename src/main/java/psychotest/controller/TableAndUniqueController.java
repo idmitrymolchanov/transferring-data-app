@@ -7,9 +7,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import psychotest.entity.UniqueValuesEntity;
 import psychotest.entity.TableNameEntity;
-import psychotest.service.TableNameService;
-import psychotest.service.TypeValueService;
-import psychotest.service.UniqueValueService;
+import psychotest.service.*;
 
 import javax.validation.Valid;
 import java.util.Map;
