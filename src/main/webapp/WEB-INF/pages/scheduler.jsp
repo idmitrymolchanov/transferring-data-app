@@ -32,59 +32,58 @@
             <p class="mb-0 h1 mt-4 mb-4">Scheduler setting</p>
             <p class="mb-0 h3 mt-4 mb-4">choose date and time for first run</p>
         </blockquote>
-        <div class="form-group">
-            <div class="form-row mb-2">
-                <div class="col"></div>
-                <!-- элемент input с id = datetimepicker1 -->
-                <div class="input-group col" id="datetimepicker1">
-                    <form:input type="text" class="form-control input-lg border border-info" path="dateValue"></form:input>
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
+
+                <div class="form-group">
+                    <div class="form-row mb-2">
+                        <div class="col"></div>
+                        <!-- элемент input с id = datetimepicker1 -->
+                        <div class="input-group col-4" id="datetimepicker1">
+                            <form:input type="text" class="form-control input-lg border border-info" path="dateValue"></form:input>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                        <div class="col"></div>
+                    </div>
                 </div>
-                <div class="col"></div>
-            </div>
-        </div>
+
+                <!-- Инициализация виджета "Bootstrap datetimepicker" -->
+                <script>
+                    $(function () {
+                    // идентификатор элемента (например: #datetimepicker1), для которого необходимо инициализировать виджет Bootstrap DateTimePicker
+                    $('#datetimepicker1').datetimepicker();
+                    });
+                </script>
+
+
+                <blockquote class="blockquote text-center">
+                    <p class="mb-0 h3 mt-4 mb-4">Select interval</p>
+                </blockquote>
+                <div class="form-group">
+                    <div class="form-row mb-2">
+                        <div class="col"></div>
+                        <div class="col">
+                            <form:select path="periodValue" class="form-control input-lg" id="sel1">
+                                <option>1 day</option>
+                                <option>2 days</option>
+                                <option>3 days</option>
+                                <option>4 days</option>
+                                <option>5 days</option>
+                                <option>6 days</option>
+                                <option>every week</option>
+                                <option>28 days</option>
+                            </form:select>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                </div>
+
         <button class="btn btn-primary mt-4 mb-4 d-block mx-auto" type="submit">Submit</button>
 
-        <!-- Инициализация виджета "Bootstrap datetimepicker" -->
-        <script>
-            $(function () {
-            // идентификатор элемента (например: #datetimepicker1), для которого необходимо инициализировать виджет Bootstrap DateTimePicker
-            $('#datetimepicker1').datetimepicker();
-            });
-        </script>
+                <c:if test="${next > 0}">
+                    <a href="/table_name_page" class="btn btn-outline-primary mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Next Step</a>
+                </c:if>
 
-
-        <blockquote class="blockquote text-center">
-            <p class="mb-0 h3 mt-4 mb-4">Select interval</p>
-        </blockquote>
-        <div class="form-group">
-            <div class="form-row mb-2">
-                <div class="col"></div>
-                <div class="input-group col">
-                    <select path="type1" class="form-control input-lg" id="sel1">
-                        <option>1 day</option>
-                        <option>2 days</option>
-                        <option>3 days</option>
-                        <option>4 days</option>
-                        <option>5 days</option>
-                        <option>6 days</option>
-                        <option>every week</option>
-                        <option>every month</option>
-                    </select>
-                </div>
-                <div class="col"></div>
-            </div>
-        </div>
-
-        <c:if test="${next > 0}">
-            <a href="/UNIQUE" class="btn btn-outline-primary mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Next Step</a>
-        </c:if>
-
-    </form:form>
-
-</div>
-
-</body>
+            </form:form>
+        </body>
 </html>

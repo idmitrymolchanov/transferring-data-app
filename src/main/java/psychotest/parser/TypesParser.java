@@ -1,8 +1,8 @@
 package psychotest.parser;
 
-public class TypesParser {
-    public Integer getCodeByValue(String type) {
-        switch (type) {
+public class TypesParser implements Parser {
+    public Integer getCodeByValue(String value) {
+        switch (value) {
             case "CHAR":
             case "VARCHAR":
             case "TEXT":

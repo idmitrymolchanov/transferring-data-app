@@ -85,7 +85,7 @@ public class RowValueTypeController {
             return "todo";
         }
 
-        todo.setStringTableName(tableNameService.findLastByName());
+        todo.setHashTableName(tableNameService.findLastByName());
        // + todoService.updateTodo(todo);
         return "redirect:/list-todos";
     }
@@ -97,7 +97,7 @@ public class RowValueTypeController {
             return "todo";
         }
 
-        todo.setStringTableName(tableNameService.findLastByName());
+        todo.setHashTableName(tableNameService.findLastByName());
         typeValueService.saveTypeAndValue(todo);
         return "redirect:/list-todos";
     }

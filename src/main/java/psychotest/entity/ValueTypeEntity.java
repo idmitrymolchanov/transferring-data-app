@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ValueTypeEntity {
     private Long id;
-    private String StringTableName;
+    private String hashTableName;
     private String StringValue;
     private String StringType;
 }

@@ -31,25 +31,6 @@ public class DatasourceController {
         return "datasource_setting";
     }
 
-    @GetMapping("/datasource_target")
-    public String datasourceTarget(Model model, Map<String, Object> success) {
-        model.addAttribute("datasourceEntity", new DatasourceEntity());
-        success.put("success", 0);
-        return "datasource_target_page";
-    }
-
-    @PostMapping("/datasource_target")
-    public String datasourceTarget(@ModelAttribute("datasourceEntity") @Valid DatasourceEntity value,
-                              Map<String, Object> success) {
-        if(value.getDriver_name() != null) {
-            value.setRole("target");
-            datasourceService.saveDatasource(value);
-        }
-        if(datasourceService.findLastDataSourceByUrl().equals(value.getUrl()))
-            success.put("success", 1);
-        return "datasource_target_page";
-    }
-
     @GetMapping("/datasource_source")
     public String datasourceSource(Model model, Map<String, Object> success) {
         model.addAttribute("datasourceEntity", new DatasourceEntity());
@@ -61,7 +42,6 @@ public class DatasourceController {
     public String datasourceSource(@ModelAttribute("datasourceEntity") @Valid DatasourceEntity value,
                               Map<String, Object> success) {
         if(value.getDriver_name() != null) {
-            value.setRole("source");
             datasourceService.saveDatasource(value);
         }
         if(datasourceService.findLastDataSourceByUrl().equals(value.getUrl()))

@@ -13,14 +13,11 @@ public class UniqueValueDAOImpl implements UniqueValueDAO {
 
     @Override
     public void saveUniqueValue(UniqueValuesEntity value) {
-        String sql = "INSERT INTO UNIQ_VALUES (string_table_name,string_value,unique_value) VALUES (?,?,?);";
+        String sql = "INSERT INTO UNIQUE_VALUES (hash_table_name,string_value) VALUES (?,?);";
         try (Connection conn = SQLiteConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            int val = (value.isUnique_value()) ? 1 : 0;
-            System.out.println(value.getStringTableName() + " " + value.getStringValue() + " " + value.isUnique_value());
-            pstmt.setString(1, value.getStringTableName());
+            pstmt.setString(1, value.getHashTableName());
             pstmt.setString(2, value.getStringValue());
-            pstmt.setInt(3, val);
             pstmt.executeUpdate();
         } catch (SQLException e) { }
     }

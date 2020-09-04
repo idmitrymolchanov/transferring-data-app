@@ -9,23 +9,19 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Repository
 @Profile("local")
 public class DatasourceDAOImpl implements DatasourceDAO {
 
     @Override
     public void saveDatasourceTable(DatasourceEntity datasourceEntity) {
-        System.out.println(datasourceEntity.getRole());
-        String sql = "INSERT INTO DATASOURCE_SETTING (driver_name,url,username,password,role) VALUES (?,?,?,?,?);";
+        String sql = "INSERT INTO DATASOURCE_SETTING (driver_name,url,username,password) VALUES (?,?,?,?);";
         try (Connection conn = SQLiteConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            System.out.println(datasourceEntity.getRole() + " " + datasourceEntity.getDriver_name());
             pstmt.setString(1, datasourceEntity.getDriver_name());
             pstmt.setString(2, datasourceEntity.getUrl());
             pstmt.setString(3, datasourceEntity.getUsername());
             pstmt.setString(4, datasourceEntity.getPassword());
-            pstmt.setString(5, datasourceEntity.getRole());
             pstmt.executeUpdate();
         } catch (SQLException e) { }
     }
@@ -45,7 +41,6 @@ public class DatasourceDAOImpl implements DatasourceDAO {
                 entity.setUrl(rs.getString("url"));
                 entity.setUsername(rs.getString("username"));
                 entity.setPassword(rs.getString("password"));
-                entity.setRole(rs.getString("role"));
             }
         } catch (SQLException e) { }
         return entity;
@@ -66,7 +61,6 @@ public class DatasourceDAOImpl implements DatasourceDAO {
                 entity.setUrl(rs.getString("url"));
                 entity.setUsername(rs.getString("username"));
                 entity.setPassword(rs.getString("password"));
-                entity.setRole(rs.getString("role"));
             }
         } catch (SQLException e) { }
         return entity;
@@ -101,5 +95,4 @@ public class DatasourceDAOImpl implements DatasourceDAO {
         } catch (SQLException e) { }
         return urlSourceNameList;
     }
-
 }

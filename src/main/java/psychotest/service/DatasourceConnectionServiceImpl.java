@@ -48,4 +48,30 @@ public class DatasourceConnectionServiceImpl implements DatasourceConnectionServ
     public void initDatasourceConnection(List<DatasourceEntity> listDs) {
         TomcatConfig tomcatConfig = new TomcatConfig(listDs);
     }
+
+    public String getHashConnection() {
+        return null;
+    }
+
+    private String createHashConnection() {
+        int firstNumber = (int)(Math.random()*1000);
+        int secondNumber = (int)(Math.random()*1000);
+        return firstNumber + "salt_con" + secondNumber;
+    }
+
+    @Override
+    public void saveConnections(DatasourceEntityConnection datasource) {
+        datasource.setHash_connection(createHashConnection());
+        dscRepo.saveDatasourceTable(datasource);
+    }
+
+    @Override
+    public String getHashById(String id) {
+        return dscRepo.getHashConnection(Long.parseLong(id));
+    }
+
+    @Override
+    public List<DatasourceEntityConnection> getAllConn() {
+        return dscRepo.getAllConnections();
+    }
 }

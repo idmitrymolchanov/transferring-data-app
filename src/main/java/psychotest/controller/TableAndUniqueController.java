@@ -19,13 +19,15 @@ public class TableAndUniqueController {
     private final TableNameService tableNameService;
     private final TypeValueService typeValueService;
     private final UniqueValueService uniqueValueService;
+    private final DatasourceConnectionService dscService;
 
     @Autowired
     public TableAndUniqueController(TableNameService tableNameService, TypeValueService typeValueService,
-                                    UniqueValueService uniqueValueService) {
+                                    UniqueValueService uniqueValueService, DatasourceConnectionService dscService) {
         this.tableNameService = tableNameService;
         this.typeValueService = typeValueService;
         this.uniqueValueService = uniqueValueService;
+        this.dscService = dscService;
     }
 
     @RequestMapping(value = "/", method = GET)
@@ -46,6 +48,7 @@ public class TableAndUniqueController {
         try {
             if (value.getTableName() != null) {
                 myVar.put("myVar", 1);
+                value.setHash_connection(dscService.getHashById(DatasourceConnectionController.idForHashCon));
                 tableNameService.saveTableName(value);
             }
         } catch (Exception e) {}
@@ -65,10 +68,10 @@ public class TableAndUniqueController {
     public String uniquePage(@ModelAttribute("theTempBean") @Valid UniqueValuesEntity value,
                              ModelMap modelMap) {
         String table_name = tableNameService.findLastByName();
+
         modelMap.put("todos", typeValueService.findByTableName(table_name));
         if(value.getStringValue() != null) {
-            value.setUnique_value(true);
-            value.setStringTableName(table_name);
+            value.setHashTableName(table_name);
             uniqueValueService.saveUniqueValue(value);
         }
         return "unique_values_page";

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import psychotest.entity.DatasourceEntity;
 import psychotest.repository.DatasourceDAO;
-import psychotest.repository.DatasourceDAOImpl;
 
 @Service
 public class DatasourceServiceImpl implements DatasourceService {

@@ -8,18 +8,23 @@
             </blockquote>
 
 
-            <a href="/datasource_source" class="btn btn-outline-primary mt-4 mb-5 d-block mx-auto border border-info" role="button" aria-pressed="true">datasource_source</a>
+            <div class="m-5">
+                <a href="/datasource_source" class="btn btn-outline-primary mt-4 mb-5 d-block mx-auto border border-info" role="button" aria-pressed="true">ENTER DATASOURCE<img src="/resources/static/images/database.png" alt="База данных"></a></a>
+            </div>
+            <div class="m-5">
+                <a href="/datasource_list" class="btn btn-outline-primary mt-4 mb-5 d-block mx-auto border border-info" role="button" aria-pressed="true">CHECK ALL DATASOURCE<img src="/resources/static/images/database_list.png" alt="Список баз данных"></a>
+            </div>
+            <div class="m-5">
+                <a href="/datasource_connection" class="btn btn-outline-primary mt-4 mb-5 d-block mx-auto border border-info" role="button" aria-pressed="true">CREATE CONNECTION<img src="/resources/static/images/databases_con.png" alt="Настройка соединения"></a>
+            </div>
 
-            <a href="/datasource_target" class="btn btn-outline-primary mt-4 mb-5 d-block mx-auto border border-info" role="button" aria-pressed="true">datasource_target</a>
-
-            <a href="/datasource_list" class="btn btn-outline-primary mt-4 mb-5 d-block mx-auto border border-info" role="button" aria-pressed="true">datasource_list</a>
-<div class="form-row mb-2">
+        <div class="form-row mb-2">
             <div class="col"></div>
             <div class="col-3 text-center">
                 <a href="/" class="btn btn-primary d-block mt-4 mb-5 mx-auto .text-xs-center" role="button" aria-pressed="true">back</a>
             </div>
             <div class="col"></div>
-</div>
+        </div>
             </form>
     </div>
 

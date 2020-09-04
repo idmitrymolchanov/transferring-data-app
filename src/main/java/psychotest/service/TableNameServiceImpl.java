@@ -2,11 +2,10 @@ package psychotest.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import psychotest.controller.DatasourceConnectionController;
 import psychotest.entity.TableNameEntity;
 import psychotest.repository.TableNameDAO;
 import psychotest.repository.TypeValueDAO;
-import psychotest.repository.TypeValueDAOImpl;
-import psychotest.repository.TableNameDAOImpl;
 
 import java.util.List;
 
@@ -23,6 +22,7 @@ public class TableNameServiceImpl implements TableNameService {
 
     @Override
     public void saveTableName(TableNameEntity tableNameEntity) {
+        tableNameEntity.setHash_table_name(createHashTable());
         tableNameDAO.saveTableName(tableNameEntity);
     }
 
@@ -39,5 +39,11 @@ public class TableNameServiceImpl implements TableNameService {
     @Override
     public List<TableNameEntity> getAllTable() {
         return tableNameDAO.getAllTable();
+    }
+
+    private String createHashTable() {
+        int firstNumber = (int)(Math.random()*1000);
+        int secondNumber = (int)(Math.random()*1000);
+        return firstNumber + "salt" + secondNumber;
     }
 }

@@ -13,4 +13,5 @@ public class DatasourceEntityConnection {
     private Long id;
     private String source_url;
     private String target_url;
+    private String hash_connection;
 }

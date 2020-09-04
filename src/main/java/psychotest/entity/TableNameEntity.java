@@ -12,4 +12,6 @@ import lombok.Setter;
 public class TableNameEntity {
     private Long id;
     private String tableName;
+    private String hash_connection;
+    private String hash_table_name;
 }

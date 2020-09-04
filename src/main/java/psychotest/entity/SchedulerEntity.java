@@ -11,7 +11,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SchedulerEntity {
     private Long id;
-    private String stringTableName;
+    private String hashTableName;
     private String dateValue;
     private String periodValue;
+    private Long remainder;
 }

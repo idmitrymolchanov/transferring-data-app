@@ -13,7 +13,7 @@ public class TypeValueDAOImpl implements TypeValueDAO {
 
     @Override
     public List<ValueTypeEntity> findByTableName(String tableName) {
-        String sql = "SELECT * FROM TYPE_AND_VALUE WHERE string_table_name=?;";
+        String sql = "SELECT * FROM TYPE_AND_VALUE WHERE hash_table_name=?;";
         List<ValueTypeEntity> list = new ArrayList<>();
         try (Connection conn = SQLiteConfig.getConnection();
              PreparedStatement stmt  = conn.prepareStatement(sql)) {
@@ -23,7 +23,7 @@ public class TypeValueDAOImpl implements TypeValueDAO {
             while (rs.next()) {
                 ValueTypeEntity valueTypeEntity = new ValueTypeEntity();
                 valueTypeEntity.setId(rs.getLong("id"));
-                valueTypeEntity.setStringTableName(rs.getString("string_table_name"));
+                valueTypeEntity.setHashTableName(rs.getString("hash_table_name"));
                 valueTypeEntity.setStringValue(rs.getString("string_value"));
                 valueTypeEntity.setStringType(rs.getString("string_type"));
                 list.add(valueTypeEntity);
@@ -54,7 +54,7 @@ public class TypeValueDAOImpl implements TypeValueDAO {
 
             while (rs.next()) {
                 valueTypeEntity.setId(rs.getLong("id"));
-                valueTypeEntity.setStringTableName(rs.getString("string_table_name"));
+                valueTypeEntity.setHashTableName(rs.getString("hash_table_name"));
                 valueTypeEntity.setStringValue(rs.getString("string_value"));
                 valueTypeEntity.setStringType(rs.getString("string_type"));
             }
@@ -65,10 +65,10 @@ public class TypeValueDAOImpl implements TypeValueDAO {
 
     @Override
     public void saveTypeAndValue(ValueTypeEntity valueTypeEntity) {
-        String sql = "INSERT INTO TYPE_AND_VALUE (string_table_name,string_value,string_type) VALUES (?,?,?);";
+        String sql = "INSERT INTO TYPE_AND_VALUE (hash_table_name,string_value,string_type) VALUES (?,?,?);";
         try (Connection conn = SQLiteConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, valueTypeEntity.getStringTableName());
+            pstmt.setString(1, valueTypeEntity.getHashTableName());
             pstmt.setString(2, valueTypeEntity.getStringValue());
             pstmt.setString(3, valueTypeEntity.getStringType());
             pstmt.executeUpdate();

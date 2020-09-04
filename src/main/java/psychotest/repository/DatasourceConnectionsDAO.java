@@ -7,5 +7,6 @@ import java.util.List;
 public interface DatasourceConnectionsDAO {
     void saveDatasourceTable(DatasourceEntityConnection datasource);
     List<DatasourceEntityConnection> getAllConnections();
+    String getHashConnection(Long id);
 
 }

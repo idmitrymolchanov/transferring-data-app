@@ -11,7 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UniqueValuesEntity {
     private Long id;
-    private String stringTableName;
+    private String hashTableName;
     private String stringValue;
-    private boolean unique_value;
 }
