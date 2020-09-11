@@ -3,6 +3,8 @@ package psychotest.repository;
 import org.springframework.stereotype.Repository;
 import psychotest.entity.SchedulerEntity;
 import psychotest.inner_datasource.config.SQLiteConfig;
+import psychotest.parser.Parser;
+import psychotest.parser.SchedulerParser;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -47,9 +49,10 @@ public class SchedulerDAOImpl implements SchedulerDAO {
              PreparedStatement stmt  = conn.prepareStatement(sql)) {
             stmt.setString(1, hashTableName);
             ResultSet rs = stmt.executeQuery();
+            Parser parser = new SchedulerParser();
 
             while (rs.next()) {
-                period = Integer.parseInt(rs.getString("period_value"));
+                period = parser.getCodeByValue(rs.getString("period_value"));
                 remainder = rs.getInt("remainder");
             }
 

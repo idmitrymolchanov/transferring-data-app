@@ -1,4 +1,4 @@
-package psychotest.controller;
+package psychotest.controller.create;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -6,16 +6,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import psychotest.controller.create.domain.IdPageDomain;
 import psychotest.entity.DatasourceEntityConnection;
+import psychotest.inner_datasource.config.stack.Pull;
+import psychotest.inner_datasource.config.stack.TablesPull;
 import psychotest.service.DatasourceConnectionService;
 
 import javax.validation.Valid;
 import java.util.Map;
 
 @Controller
-public class DatasourceConnectionController {
+public class DatasourceConnectionController implements Page {
     private final DatasourceConnectionService dscService;
-    public static String idForHashCon;
+    private Pull pull = TablesPull.getInstance();
 
     @Autowired
     public DatasourceConnectionController(DatasourceConnectionService dscService) {
@@ -53,10 +56,16 @@ public class DatasourceConnectionController {
     public String selectConnection(@ModelAttribute("connectionEntity") @Valid DatasourceEntityConnection value,
                                    Map<String, Object> success, Map<String, Object> listConn) {
         if(value.getId() != null) {
-            idForHashCon = value.getId().toString();
+            pull.push(dscService.getHashById(value.getId().toString()));
+            System.out.println(pull.peek());
         }
         success.put("success", 1);
         listConn.put("todos", dscService.getAllConn());
         return "select_connection";
+    }
+
+    @Override
+    public String getId_page() {
+        return IdPageDomain.CONNECTION;
     }
 }

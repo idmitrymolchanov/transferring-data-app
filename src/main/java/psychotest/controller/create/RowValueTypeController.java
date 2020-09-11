@@ -1,4 +1,4 @@
-package psychotest.controller;
+package psychotest.controller.create;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,35 +15,34 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import psychotest.controller.create.domain.IdPageDomain;
 import psychotest.entity.ValueTypeEntity;
+import psychotest.inner_datasource.config.stack.Pull;
+import psychotest.inner_datasource.config.stack.TablesPull;
 import psychotest.service.TableNameService;
 import psychotest.service.TableNameServiceImpl;
 import psychotest.service.TypeValueService;
 import psychotest.service.TypeValueServiceImpl;
 
 @Controller
-public class RowValueTypeController {
-
-    private final TableNameService tableNameService;
+public class RowValueTypeController implements Page {
+    private Pull pull = TablesPull.getInstance();
     private final TypeValueService typeValueService;
 
     @Autowired
-    public RowValueTypeController(TableNameService tableNameService, TypeValueServiceImpl typeValueService) {
-        this.tableNameService = tableNameService;
+    public RowValueTypeController(TypeValueServiceImpl typeValueService) {
         this.typeValueService = typeValueService;
     }
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        // Date - dd/MM/yyyy
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
     }
 
     @RequestMapping(value = "/list-todos", method = RequestMethod.GET)
     public String showTodos(ModelMap model) {
-        String table_name = tableNameService.findLastByName();
-        model.put("todos", typeValueService.findByTableName(table_name));
+        model.put("todos", typeValueService.findByTableName(pull.peek()));
         // model.put("todos", service.retrieveTodos(name));
         return "list-todos";
     }
@@ -85,7 +84,7 @@ public class RowValueTypeController {
             return "todo";
         }
 
-        todo.setHashTableName(tableNameService.findLastByName());
+        todo.setHashTableName(pull.peek());
        // + todoService.updateTodo(todo);
         return "redirect:/list-todos";
     }
@@ -97,8 +96,13 @@ public class RowValueTypeController {
             return "todo";
         }
 
-        todo.setHashTableName(tableNameService.findLastByName());
+        todo.setHashTableName(pull.peek());
         typeValueService.saveTypeAndValue(todo);
         return "redirect:/list-todos";
+    }
+
+    @Override
+    public String getId_page() {
+        return IdPageDomain.VALUES;
     }
 }
