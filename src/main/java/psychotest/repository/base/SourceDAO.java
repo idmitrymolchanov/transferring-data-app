@@ -8,6 +8,7 @@ public interface SourceDAO {
     List<String> getTablesNames();
     List<String> getColumnsNames(String tableName);
     List<String> getColumnsTypes(String tableName);
+    List<List<String>> findAll(List<String> values, String tableName);
 
     void refreshCustomJdbc();
 }

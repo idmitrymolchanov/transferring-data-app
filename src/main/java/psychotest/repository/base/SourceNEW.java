@@ -95,8 +95,6 @@ public class SourceNEW {
         {
             return Collections.EMPTY_LIST;
         }
-
-        System.out.println(columnTypes);
         return columnTypes;
     }
 }

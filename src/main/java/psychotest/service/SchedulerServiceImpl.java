@@ -23,4 +23,9 @@ public class SchedulerServiceImpl implements SchedulerService {
     public void updateRemainder(String hashTableName) {
         schedulerDAO.updateRemainder(hashTableName);
     }
+
+    @Override
+    public SchedulerEntity findObjectByTableHash(String table_hash) {
+        return schedulerDAO.findSchedulerObjectByTableHash(table_hash);
+    }
 }

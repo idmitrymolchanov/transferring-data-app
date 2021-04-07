@@ -1,5 +1,7 @@
 package psychotest.service;
 
+import java.text.ParseException;
+
 public interface MainService {
-    void mainMethodScheduler();
+    void mainMethodScheduler() throws ParseException;
 }

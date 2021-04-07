@@ -56,6 +56,25 @@ public class SourceDAOImpl implements SourceDAO {
     }
 
     @Override
+    public List<List<String>> findAll(List<String> values, String tableName) {
+        String sql = "SELECT * FROM "+ tableName +";";
+        try {
+            List<List<String>> lists = new ArrayList<>();
+            List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+
+            for (Map<String, Object> row : rows) {
+                List<String> valueList = new ArrayList<>();
+                for(int i = 0; i < values.size(); i++)
+                    valueList.add(row.get(values.get(i)).toString());
+                lists.add(valueList);
+            }
+            return lists;
+        } catch (Exception e){
+            return Collections.EMPTY_LIST;
+        }
+    }
+
+    @Override
     public Integer getNumberLastString(String tableName, String uniqueValue, String uniqueString, List<String> list){
         String as = "";
         for(int i = 0; i < list.size(); i ++) {
@@ -63,7 +82,6 @@ public class SourceDAOImpl implements SourceDAO {
         }
         as = StringUtils.chop(as);
         as = StringUtils.chop(as);
-        System.out.println(as);
     /*    String sql = "SELECT row_number() OVER (ORDER BY "+ uniqueString +") as "+ as +" \n" +
                 " FROM "+ tableName +" \n" +
                 " WHERE "+ uniqueString +"="+uniqueValue+";";*/
@@ -143,8 +161,6 @@ public class SourceDAOImpl implements SourceDAO {
         {
             return Collections.EMPTY_LIST;
         }
-
-        System.out.println(columnTypes);
         return columnTypes;
     }
 

@@ -62,7 +62,6 @@ public class DatasourceConnectionController implements Page {
                                    Map<String, Object> success, Map<String, Object> listConn) {
         if(value.getId() != null) {
             pull.push(dscService.getHashById(value.getId().toString()));
-            System.out.println(pull.peek());
 
             DatasourceEntityConnection entityConnection = dscService.getConnById(value.getId());
             List<DatasourceEntity> entityList = dscService.getSourceTargetConfigs(entityConnection);

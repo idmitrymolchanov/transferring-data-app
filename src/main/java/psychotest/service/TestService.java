@@ -1,8 +1,6 @@
 package psychotest.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import psychotest.config.profile.ConfigLocal;
 import psychotest.entity.DatasourceEntity;

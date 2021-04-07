@@ -2,6 +2,7 @@ package psychotest.repository;
 
 import org.springframework.stereotype.Repository;
 import psychotest.entity.SchedulerEntity;
+import psychotest.entity.ValueTypeEntity;
 import psychotest.inner_datasource.config.SQLiteConfig;
 import psychotest.parser.Parser;
 import psychotest.parser.SchedulerParser;
@@ -25,6 +26,25 @@ public class SchedulerDAOImpl implements SchedulerDAO {
             pstmt.setLong(4, entity.getRemainder());
             pstmt.executeUpdate();
         } catch (SQLException e) { }
+    }
+
+    @Override
+    public SchedulerEntity findSchedulerObjectByTableHash(String table_hash) {
+        String sql = "SELECT * FROM SCHEDULER WHERE hash_table_name=?;";
+        SchedulerEntity entity = new SchedulerEntity();
+        try (Connection conn = SQLiteConfig.getConnection();
+             PreparedStatement stmt  = conn.prepareStatement(sql)) {
+            stmt.setString(1, table_hash);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                entity.setId(rs.getLong("id"));
+                entity.setHashTableName(rs.getString("hash_table_name"));
+                entity.setDateValue(rs.getString("date_value"));
+                entity.setPeriodValue(rs.getString("period_value"));
+                entity.setRemainder(rs.getLong("remainder"));
+            }
+        } catch (SQLException ignored) { }
+        return entity;
     }
 
     @Override

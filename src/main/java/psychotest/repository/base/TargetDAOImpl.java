@@ -103,8 +103,12 @@ public class TargetDAOImpl implements TargetDAO {
 
     @Override
     public String getLastValue(String tableName, String uniqueValue) {
-        String sql = "SELECT "+uniqueValue+" FROM "+ tableName +" ORDER BY "+ uniqueValue +" DESC LIMIT 1;";
-        String lastValue = jdbcTemplate.queryForObject(sql, new Object[]{}, String.class);
-        return lastValue;
+        try {
+            String sql = "SELECT " + uniqueValue + " FROM " + tableName + " ORDER BY " + uniqueValue + " DESC LIMIT 1;";
+            String lastValue = jdbcTemplate.queryForObject(sql, new Object[]{}, String.class);
+            return lastValue;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
