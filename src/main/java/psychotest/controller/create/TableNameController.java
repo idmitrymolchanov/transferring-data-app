@@ -19,6 +19,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 public class TableNameController implements Page {
     private final TableNameService tableNameService;
     private Pull pull = TablesPull.getInstance();
+    public static String tableNameForNextStep;
 
     @Autowired
     public TableNameController(TableNameService tableNameService) {
@@ -31,9 +32,12 @@ public class TableNameController implements Page {
     }
 
     @GetMapping("/table_name_page")
-    public String tableNamePage(Model model, Map<String, Object> myVar) {
+    public String tableNamePage(Model model, Map<String, Object> myVar, Map<String, Object> listNames) {
         model.addAttribute("theTempBean", new TableNameEntity());
         myVar.put("myVar", 0);
+
+        listNames.put("todos", tableNameService.getTablesNames());
+
         return "table_name_page";
     }
 
@@ -45,6 +49,7 @@ public class TableNameController implements Page {
                 myVar.put("myVar", 1);
                 value.setHash_connection(pull.peek());
                 tableNameService.saveTableName(value);
+                tableNameForNextStep = value.getTableName();
             }
         } catch (Exception ignored) {}
 

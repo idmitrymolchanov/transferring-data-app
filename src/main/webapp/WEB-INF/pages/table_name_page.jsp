@@ -50,6 +50,34 @@
         </c:if>
 
     </form:form>
+
+    <div class="panel panel-primary">
+        <blockquote class="blockquote text-center">
+            <div class="panel-heading">
+                <h4>list of tables for the current connection</h4>
+            </div>
+        </blockquote>
+        <div class="panel-body">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th width="20%"></th>
+                    <th width="40%">table name</th>
+                    <th width="40%"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${todos}" var="todo">
+                    <tr>
+                        <td></td>
+                        <td>${todo}</td>
+                        <td></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 </body>
 </html>

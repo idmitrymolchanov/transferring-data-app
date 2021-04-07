@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.embedded.tomcat.TomcatWebServer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jndi.JndiObjectFactoryBean;
 import psychotest.entity.DatasourceEntity;
@@ -15,9 +16,12 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.util.List;
 
+
 public class TomcatConfig {
-    private final DatasourceEntity datasourceEntitySource;
-    private final DatasourceEntity datasourceEntityTarget;
+    private DatasourceEntity datasourceEntitySource;
+    private DatasourceEntity datasourceEntityTarget;
+
+    public TomcatConfig(){}
 
     public TomcatConfig(List<DatasourceEntity> list) {
         this.datasourceEntityTarget = list.get(0);
@@ -26,6 +30,7 @@ public class TomcatConfig {
 
     @Bean
     public TomcatServletWebServerFactory tomcatFactory() {
+        System.out.println("in tomcat factory");
         return new TomcatServletWebServerFactory() {
 
             @Override
@@ -37,35 +42,36 @@ public class TomcatConfig {
             @Override
             protected void postProcessContext(Context context) {
                 //target
-                ContextResource resource = new ContextResource();
+                System.out.println("post");
+                try {
+                    ContextResource resource = new ContextResource();
 
-                resource.setType(DataSource.class.getName());
-                resource.setName("target");
-                resource.setProperty("factory", "org.apache.tomcat.jdbc.pool.DataSourceFactory");
-                resource.setProperty("driverClassName", datasourceEntityTarget.getDriver_name());
-                resource.setProperty("url", ""+datasourceEntityTarget.getUrl()+"?useUnicode=true&serverTimezone=UTC");
-                resource.setProperty("username", datasourceEntityTarget.getUsername());
-                resource.setProperty("password", datasourceEntityTarget.getPassword());
+                    resource.setType(DataSource.class.getName());
+                    resource.setName("target");
+                    setParameters(context, resource, datasourceEntityTarget);
+                    //source
+                    ContextResource resource2 = new ContextResource();
 
-                context.getNamingResources().addResource(resource);
-
-                //source
-                ContextResource resource2 = new ContextResource();
-
-                resource2.setType(DataSource.class.getName());
-                resource2.setName("source");
-                resource2.setProperty("factory", "org.apache.tomcat.jdbc.pool.DataSourceFactory");
-                resource2.setProperty("driverClassName", datasourceEntitySource.getDriver_name());
-                resource2.setProperty("url", ""+datasourceEntitySource.getUrl()+"?useUnicode=true&serverTimezone=UTC");
-                resource2.setProperty("username", datasourceEntitySource.getUsername());
-                resource2.setProperty("password", datasourceEntitySource.getPassword());
-
-                context.getNamingResources().addResource(resource2);
+                    resource2.setType(DataSource.class.getName());
+                    resource2.setName("source");
+                    setParameters(context, resource2, datasourceEntitySource);
+                } catch (NullPointerException ignored){}
             }
         };
     }
 
-    @Bean(name = "new-target")
+    private void setParameters(Context context, ContextResource resource, DatasourceEntity datasourceEntityTarget) {
+        System.out.println("param");
+        resource.setProperty("factory", "org.apache.tomcat.jdbc.pool.DataSourceFactory");
+        resource.setProperty("driverClassName", datasourceEntityTarget.getDriver_name());
+        resource.setProperty("url", ""+ datasourceEntityTarget.getUrl()+"?useUnicode=true&serverTimezone=UTC");
+        resource.setProperty("username", datasourceEntityTarget.getUsername());
+        resource.setProperty("password", datasourceEntityTarget.getPassword());
+
+        context.getNamingResources().addResource(resource);
+    }
+
+    @Bean(name = "new_target")
     public DataSource jndiDataSource() throws IllegalArgumentException, NamingException
     {
         JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
@@ -77,12 +83,12 @@ public class TomcatConfig {
         return (DataSource) bean.getObject();
     }
 
-    @Bean(name = "new-jdbcTemplateTarget")
-    public JdbcTemplate jdbcTemplateTarget(@Qualifier("new-target") DataSource dataSource) {
+    @Bean(name = "new_jdbcTemplateTarget")
+    public JdbcTemplate jdbcTemplateTarget(@Qualifier("new_target") DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
 
-    @Bean(name = "new-source")
+    @Bean(name = "new_source")
     public DataSource jndiDataSource1() throws IllegalArgumentException, NamingException
     {
         JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
@@ -94,8 +100,8 @@ public class TomcatConfig {
         return (DataSource) bean.getObject();
     }
 
-    @Bean(name = "new-jdbcTemplateSource")
-    public JdbcTemplate jdbcTemplateSource(@Qualifier("new-source") DataSource dataSource) {
+    @Bean(name = "new_jdbcTemplateSource")
+    public JdbcTemplate jdbcTemplateSource(@Qualifier("new_source") DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
 }

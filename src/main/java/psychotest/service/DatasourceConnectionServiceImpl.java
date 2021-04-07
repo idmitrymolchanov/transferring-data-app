@@ -6,9 +6,7 @@ import psychotest.config.profile.TomcatConfig;
 import psychotest.entity.DatasourceEntity;
 import psychotest.entity.DatasourceEntityConnection;
 import psychotest.repository.DatasourceConnectionsDAO;
-import psychotest.repository.DatasourceConnectionsDAOImpl;
 import psychotest.repository.DatasourceDAO;
-import psychotest.repository.DatasourceDAOImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +23,17 @@ public class DatasourceConnectionServiceImpl implements DatasourceConnectionServ
     }
 
     @Override
-    public List<DatasourceEntity> getSourceTargetConfigs() {
-        List<DatasourceEntityConnection> listCon = dscRepo.getAllConnections();
-        String source = listCon.get(0).getSource_url();
-        String target = listCon.get(0).getTarget_url();
+    public List<DatasourceEntity> getSourceTargetConfigs(DatasourceEntityConnection entityConnection) {
+       // List<DatasourceEntityConnection> listCon = dscRepo.getAllConnections();
+       // String source = listCon.get(0).getSource_url();
+       // String target = listCon.get(0).getTarget_url();
+
+        String source = entityConnection.getSource_url();
+        String target = entityConnection.getTarget_url();
+
+        System.out.println(source);
+        System.out.println(target);
+
         DatasourceEntity dsSource = dsRepo.getDatasourceByURL(source);
         DatasourceEntity dsTarget = dsRepo.getDatasourceByURL(target);
 
@@ -73,5 +78,10 @@ public class DatasourceConnectionServiceImpl implements DatasourceConnectionServ
     @Override
     public List<DatasourceEntityConnection> getAllConn() {
         return dscRepo.getAllConnections();
+    }
+
+    @Override
+    public DatasourceEntityConnection getConnById(Long id) {
+        return dscRepo.getConnectionsById(id);
     }
 }

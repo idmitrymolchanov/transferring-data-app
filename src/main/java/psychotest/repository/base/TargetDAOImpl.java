@@ -4,11 +4,13 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import psychotest.parser.TypesParser;
 
+import javax.sql.DataSource;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -18,10 +20,19 @@ import java.util.List;
 @Repository
 public class TargetDAOImpl implements TargetDAO {
     private final JdbcTemplate jdbcTemplate;
+    private final ApplicationContext context;
 
     @Autowired
-    public TargetDAOImpl(@Qualifier("jdbcTemplateTarget") JdbcTemplate jdbcTemplate) {
+    public TargetDAOImpl(@Qualifier("jdbcTemplateTarget") JdbcTemplate jdbcTemplate, ApplicationContext context) {
         this.jdbcTemplate = jdbcTemplate;
+        this.context = context;
+    }
+
+    @Override
+    public void refreshCustomJdbc() {
+        DataSource ds = (DataSource) context.getBean("target");
+        JdbcTemplate customJdbcTemplate = (JdbcTemplate) context.getBean("jdbcTemplateTarget");
+        customJdbcTemplate.setDataSource(ds);
     }
 
     @Override
@@ -96,5 +107,4 @@ public class TargetDAOImpl implements TargetDAO {
         String lastValue = jdbcTemplate.queryForObject(sql, new Object[]{}, String.class);
         return lastValue;
     }
-
 }

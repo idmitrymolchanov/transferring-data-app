@@ -9,4 +9,6 @@ public interface TypeValueService {
     void deleteById(Integer id);
     ValueTypeEntity findById(Integer id);
     void saveTypeAndValue(ValueTypeEntity valueTypeEntity);
+    List<String> getColumnsNames(String tableName);
+    List<String> getColumnsTypes(String tableName);
 }

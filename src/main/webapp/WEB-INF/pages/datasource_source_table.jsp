@@ -58,7 +58,7 @@
                 <p class="mb-0 h7 mt-4 mb-4">Saved</p>
             </blockquote>
             <div>
-                <a href="${pageContext.request.contextPath}/menu_page" class="btn btn-outline-primary mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Back menu</a>
+                <a href="${pageContext.request.contextPath}/datasource_setting" class="btn btn-outline-primary mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Back menu</a>
             </div>
         </c:if>
 

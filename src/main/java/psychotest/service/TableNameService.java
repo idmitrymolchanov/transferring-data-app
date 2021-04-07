@@ -9,4 +9,7 @@ public interface TableNameService {
     String findLastByName();
     void deleteTableById(Integer id);
     List<TableNameEntity> getAllTable();
+    List<String> getTablesNames();
+    List<String> getAllTableByHashConn(String hashConnection);
+    String getTableNameByTableHash(String tableHash);
 }

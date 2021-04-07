@@ -35,17 +35,16 @@ public class MainRequestDAOImpl implements MainRequestDAO {
 
     @Override
     public String getUniqueValue(String hashTableName) {
-        String sql = "SELECT string_value FROM UNIQ_VALUES WHERE hash_table_name=?;";
-        String uniqueValue = null;
+        String sql = "SELECT string_value FROM UNIQUE_VALUES WHERE hash_table_name=?;";
+        String uniqueValue;
         try (Connection conn = SQLiteConfig.getConnection();
              PreparedStatement stmt  = conn.prepareStatement(sql)) {
             stmt.setString(1, hashTableName);
             ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                uniqueValue = rs.getString("string_value");
-            }
+            if (rs.next())
+                return rs.getString("string_value");
 
         } catch (SQLException e) { }
-        return uniqueValue;
+        return "";
     }
 }

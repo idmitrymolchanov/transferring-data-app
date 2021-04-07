@@ -27,7 +27,7 @@ public class DatasourceConnectionsDAOImpl implements DatasourceConnectionsDAO {
 
     @Override
     public List<DatasourceEntityConnection> getAllConnections() {
-        String sql = "SELECT id,source_url,target_url FROM DATASOURCE_CONNECTIONS;";
+        String sql = "SELECT id,source_url,target_url,hash_connection FROM DATASOURCE_CONNECTIONS;";
         List<DatasourceEntityConnection> entityList = new ArrayList<>();
         try (Connection conn = SQLiteConfig.getConnection();
              PreparedStatement stmt  = conn.prepareStatement(sql)) {
@@ -38,10 +38,28 @@ public class DatasourceConnectionsDAOImpl implements DatasourceConnectionsDAO {
                 entity.setId(rs.getLong("id"));
                 entity.setSource_url(rs.getString("source_url"));
                 entity.setTarget_url(rs.getString("target_url"));
+                entity.setHash_connection(rs.getString("hash_connection"));
                 entityList.add(entity);
             }
         } catch (SQLException e) { }
         return entityList;
+    }
+
+    @Override
+    public DatasourceEntityConnection getConnectionsById(Long id) {
+        String sql = "SELECT id,source_url,target_url FROM DATASOURCE_CONNECTIONS where id=?;";
+        DatasourceEntityConnection entityCon = new DatasourceEntityConnection();
+        try (Connection conn = SQLiteConfig.getConnection();
+             PreparedStatement stmt  = conn.prepareStatement(sql)) {
+            stmt.setLong(1, id);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                entityCon.setId(rs.getLong("id"));
+                entityCon.setSource_url(rs.getString("source_url"));
+                entityCon.setTarget_url(rs.getString("target_url"));
+            }
+        } catch (SQLException e) { }
+        return entityCon;
     }
 
     @Override

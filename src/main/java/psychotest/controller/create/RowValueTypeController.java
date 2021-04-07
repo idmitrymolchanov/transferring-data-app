@@ -2,6 +2,8 @@ package psychotest.controller.create;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -28,10 +30,14 @@ import psychotest.service.TypeValueServiceImpl;
 public class RowValueTypeController implements Page {
     private Pull pull = TablesPull.getInstance();
     private final TypeValueService typeValueService;
+    private List<String> listNamesIn;
+    private List<String> listTypesIn;
+    public static boolean listNamesFlag;
 
     @Autowired
     public RowValueTypeController(TypeValueServiceImpl typeValueService) {
         this.typeValueService = typeValueService;
+        listNamesFlag = false;
     }
 
     @InitBinder
@@ -40,9 +46,27 @@ public class RowValueTypeController implements Page {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
     }
 
+    private void setListNames() {
+        listNamesIn = typeValueService.getColumnsNames(TableNameController.tableNameForNextStep);
+        listNamesFlag = true;
+    }
+
+    private void setListTypes() {
+        listTypesIn = typeValueService.getColumnsTypes(TableNameController.tableNameForNextStep);
+    }
+
     @RequestMapping(value = "/list-todos", method = RequestMethod.GET)
-    public String showTodos(ModelMap model) {
+    public String showTodos(ModelMap model, Map<String, Object> listNames, Map<String, Object> listTypes) {
         model.put("todos", typeValueService.findByTableName(pull.peek()));
+
+        if(!listNamesFlag) {
+            setListNames();
+            setListTypes();
+        }
+
+        listNames.put("names", listNamesIn);
+        listTypes.put("types", listTypesIn);
+
         // model.put("todos", service.retrieveTodos(name));
         return "list-todos";
     }
@@ -98,6 +122,35 @@ public class RowValueTypeController implements Page {
 
         todo.setHashTableName(pull.peek());
         typeValueService.saveTypeAndValue(todo);
+        return "redirect:/list-todos";
+    }
+
+    @RequestMapping(value = "/add-all-todo", method = RequestMethod.GET)
+    public String addAllTodoPage(Map<String, Object> listNames, Map<String, Object> listTypes) {
+        if(!listNamesFlag) {
+            setListNames();
+            setListTypes();
+        }
+        listNames.put("names", listNamesIn);
+        listTypes.put("types", listTypesIn);
+        return "add-all-todo";
+    }
+
+    @RequestMapping(value = "/add-all-todo", method = RequestMethod.POST)
+    public String addAllTodoPage() {
+        if(!listNamesFlag) {
+            setListNames();
+            setListTypes();
+        }
+
+        for (int i = 0; i < listNamesIn.size(); i++) {
+            ValueTypeEntity entity = new ValueTypeEntity();
+            entity.setStringValue(listNamesIn.get(i));
+            entity.setStringType(listTypesIn.get(i));
+            entity.setHashTableName(pull.peek());
+            typeValueService.saveTypeAndValue(entity);
+        }
+
         return "redirect:/list-todos";
     }
 

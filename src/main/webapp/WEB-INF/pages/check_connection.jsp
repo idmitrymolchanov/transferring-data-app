@@ -48,7 +48,7 @@
                 <p class="mb-0 h7 mt-4 mb-4">Saved</p>
             </blockquote>
             <div>
-                <a href="/list-todos" class="btn btn-outline-primary mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Next Step</a>
+                <a href="/datasource_setting" class="btn btn-outline-primary mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Menu page</a>
             </div>
         </c:if>
 

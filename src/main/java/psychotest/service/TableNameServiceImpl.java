@@ -7,6 +7,7 @@ import psychotest.inner_datasource.config.stack.Pull;
 import psychotest.inner_datasource.config.stack.TablesPull;
 import psychotest.repository.TableNameDAO;
 import psychotest.repository.TypeValueDAO;
+import psychotest.repository.base.SourceDAO;
 
 import java.util.List;
 
@@ -14,13 +15,15 @@ import java.util.List;
 public class TableNameServiceImpl implements TableNameService {
     private final TypeValueDAO typeValueDAO;
     private final TableNameDAO tableNameDAO;
+    private final SourceDAO sourceDAO;
     private String hashTable;
     private Pull pull = TablesPull.getInstance();
 
     @Autowired
-    public TableNameServiceImpl(TypeValueDAO typeValueDAO, TableNameDAO tableNameDAO) {
+    public TableNameServiceImpl(TypeValueDAO typeValueDAO, TableNameDAO tableNameDAO, SourceDAO sourceDAO) {
         this.typeValueDAO = typeValueDAO;
         this.tableNameDAO = tableNameDAO;
+        this.sourceDAO = sourceDAO;
     }
 
     @Override
@@ -44,6 +47,22 @@ public class TableNameServiceImpl implements TableNameService {
     @Override
     public List<TableNameEntity> getAllTable() {
         return tableNameDAO.getAllTable();
+    }
+
+    @Override
+    public List<String> getAllTableByHashConn(String hashConnection) {
+        return tableNameDAO.getAllTableByHashConnection(hashConnection);
+    }
+
+    @Override
+    public List<String> getTablesNames() {
+        sourceDAO.refreshCustomJdbc();
+        return sourceDAO.getTablesNames();
+    }
+
+    @Override
+    public String getTableNameByTableHash(String tableHash) {
+        return tableNameDAO.getTableNameByTableHash(tableHash);
     }
 
     private String createHashTable() {
