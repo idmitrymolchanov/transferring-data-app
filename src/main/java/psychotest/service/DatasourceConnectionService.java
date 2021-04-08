@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface DatasourceConnectionService {
     List<DatasourceEntity> getSourceTargetConfigs(DatasourceEntityConnection entityConnection);
-    boolean ifBothExist(List<DatasourceEntity> list);
-    void initDatasourceConnection(List<DatasourceEntity> listDs);
     void saveConnections(DatasourceEntityConnection datasource);
     String getHashById(String id);
     List<DatasourceEntityConnection> getAllConn();

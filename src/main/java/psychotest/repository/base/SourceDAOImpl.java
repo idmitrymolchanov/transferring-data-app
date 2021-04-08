@@ -76,26 +76,39 @@ public class SourceDAOImpl implements SourceDAO {
 
     @Override
     public Integer getNumberLastString(String tableName, String uniqueValue, String uniqueString, List<String> list){
-        String as = "";
-        for(int i = 0; i < list.size(); i ++) {
-            as += (list.get(i) + ", ");
+        String sql;
+        String driver = getDialect();
+        assert driver != null;
+        if(driver.contains("mysql")) {
+            sql = "SELECT rank from " +
+                    "(SELECT @i:=@i+1 AS rank, t."+ uniqueString +" " +
+                    "FROM "+ tableName +" AS t, (SELECT @i:=0) AS R) res " +
+                    "where "+ uniqueString +" = "+ uniqueValue +";";
         }
-        as = StringUtils.chop(as);
-        as = StringUtils.chop(as);
-    /*    String sql = "SELECT row_number() OVER (ORDER BY "+ uniqueString +") as "+ as +" \n" +
-                " FROM "+ tableName +" \n" +
-                " WHERE "+ uniqueString +"="+uniqueValue+";";*/
+        else
+            sql = "SELECT rn from" +
+                    "(SELECT "+ uniqueString +", ROW_NUMBER () OVER (ORDER BY "+ uniqueString +") as rn " +
+                    "FROM "+ tableName +") t where "+ uniqueString +" = "+ uniqueValue +";";
 
-     /*   jdbcTemplate.execute("SET @i = 0;");
-        String sql = "SELECT r FROM (" +
-                "SELECT @i := @i + 1 AS r, id as d " +
-                "FROM "+tableName+" as z ORDER BY id ASC) as m WHERE d=15;";*/
-
-        String sql = "SELECT id FROM "+ tableName +" WHERE "+ uniqueString +" = "+ uniqueValue +"";
-
-        //       String sql = "SELECT row_number() FROM "+ tableName +" ORDER BY "+ uniqueString +" DESC LIMIT 1";
         return jdbcTemplate.queryForObject(sql, new Object[]{}, Integer.class);
     }
+
+
+    /*
+    important
+    кароч, тут нужно реализовать такую же залупу, как в таргете выше, которая будет
+    лопределять типы и искать последнюю строчку по последней записи в таргете,
+    и тоже разбитие на диалекты, потому что лимита в майэскуэле(бл) нет
+
+    не хочу сейчас это делать
+
+    плюс это нао добавть в главный сервис, там если уникальная строка нулевая - ее фигарь
+    в условие
+
+    И еще в вебе нужно добавит определение id - "а можно ли???"
+    если можно - жопа решается, хзотя кода будет больше
+    Ну и тип по id в таргете - тоже не дело, надо исправить
+     */
 
     @Override
     public List<String> getTablesNames() {
@@ -168,5 +181,14 @@ public class SourceDAOImpl implements SourceDAO {
         DataSource dataSource = jdbcTemplate.getDataSource();
         assert dataSource != null;
         return DataSourceUtils.getConnection(dataSource);
+    }
+
+    private String getDialect() {
+        try (
+        Connection connection = getConnection()) {
+            return connection.getMetaData().getDriverVersion();
+        } catch (Exception e){
+            return null;
+        }
     }
 }

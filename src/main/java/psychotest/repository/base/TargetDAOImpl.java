@@ -1,22 +1,25 @@
 package psychotest.repository.base;
 
 import com.google.common.collect.Lists;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 import psychotest.parser.TypesParser;
 
 import javax.sql.DataSource;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Time;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
+@Slf4j
 @Repository
 public class TargetDAOImpl implements TargetDAO {
     private final JdbcTemplate jdbcTemplate;
@@ -96,7 +99,8 @@ public class TargetDAOImpl implements TargetDAO {
                     }
                 });
             }
-        } catch (Exception e){
+        } catch (Exception e) {
+            log.error("can not to save data in target");
             return;
         }
     }
@@ -108,6 +112,38 @@ public class TargetDAOImpl implements TargetDAO {
             String lastValue = jdbcTemplate.queryForObject(sql, new Object[]{}, String.class);
             return lastValue;
         } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public List<String> getValuesOfLastRow(String tableName, List<String> valueList) {
+        try {
+            String sql = "SELECT * FROM " + tableName + " WHERE id=(SELECT max(id) FROM " + tableName + ");";
+
+            List<String> list = new ArrayList<>();
+            List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+            for (Map<String, Object> row : rows) {
+                for (int i = 0; i < valueList.size(); i++)
+                    list.add(row.get(valueList.get(i)).toString());
+            }
+            return list;
+        } catch (Exception ignored) {
+            log.error("can not get values of last target row");
+            return Collections.EMPTY_LIST;
+        }
+    }
+
+    private Connection getConnection() {
+        DataSource dataSource = jdbcTemplate.getDataSource();
+        assert dataSource != null;
+        return DataSourceUtils.getConnection(dataSource);
+    }
+
+    private String getTargetDialect() {
+        try (Connection connection = getConnection()) {
+            return connection.getMetaData().getDriverVersion();
+        } catch (Exception e){
             return null;
         }
     }
