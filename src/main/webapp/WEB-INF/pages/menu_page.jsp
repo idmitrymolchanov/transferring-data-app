@@ -18,35 +18,40 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/static/css/realindex.css"/>"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-
+    <style>
+        h3 {
+            margin-top: 2%;
+            margin-left: 2%;
+        }
+        .left {
+            margin-left: 2%;
+        }
+    </style>
 </head>
 <body>
 <div>
-    <h3>${pageContext.request.userPrincipal.name}</h3>
+    <h3>->   Hello, ${pageContext.request.userPrincipal.name}!</h3>
     <sec:authorize access="!isAuthenticated()">
         <div>
             <form>
                 <div class="col"></div>
                 <div class="col-2">
-                    <a href="/login" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Войти</a>
-                    <a href="/registration" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Зарегистрироваться</a>
+                    <a href="/login" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">sign in</a>
+                    <a href="/registration" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">sign up</a>
                 </div>
             </form>
         </div>
     </sec:authorize>
     <sec:authorize access="isAuthenticated()">
         <div>
-            <form>
+            <form class="left">
                 <div class="col"></div>
                 <div class="col-2">
-                    <a href="/logout" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Выйти</a>
-                    <a href="/datasource_setting" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Задать соединение</a>
-                    <a href="/select_connection" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Новая таблица</a>
-                    <a href="/all_tables_page" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Текущие таблицы</a>
-                    <a href="/users" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Пользователи</a>
-                    <a href="/main" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Добавить заметку</a>
-                    <a href="/scheduler" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Scheduler</a>
-                    <a href="/select_connection" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Last page</a>
+                    <a href="/logout" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Logout</a>
+                    <a href="/datasource_setting" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Sources and Connections</a>
+                    <a href="/select_connection" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Add new Table</a>
+                    <a href="/all_tables_page" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Current Tables</a>
+                    <a href="/reports_and_users_page" class="btn btn-light mt-4 mb-4 d-block mx-auto border border-info" role="button" aria-pressed="true">Users and Reports</a>
                 </div>
             </form>
         </div>

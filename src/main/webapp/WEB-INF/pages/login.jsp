@@ -42,7 +42,7 @@
                 <div class="col"></div>
                     <div class="col-50">
                         <blockquote class="blockquote text-center">
-                        <small id="emailHelp" class="form-text text-muted mb-4"> We'll never share your email with anyone else </small>
+                        <small id="emailHelp" class="form-text text-muted mb-4">We ll never share ur personal data with anyone</small>
                         </blockquote>
                     </div>
                 <div class="col"></div>
@@ -64,7 +64,7 @@
             </div>
             <div class="form-col">
                 <div class="col">
-                    <u><a class="d-block mx-auto" href="/registration">Зарегистрироваться</a></u>
+                    <u><a class="d-block mx-auto" href="/registration">sign up</a></u>
                 </div>
             </div>
         </div>

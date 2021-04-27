@@ -31,14 +31,6 @@
         <div class="form-group">
         <div class="form-row mb-2">
             <div class="col"></div>
-            <label for="id" class="col-2 col-form-label">id</label>
-            <div class="col-5">
-                <form:input type="text" path="id" placeholder="id" autofocus="true" class="form-control input-sm border border-info" id="id"></form:input>
-            </div>
-            <div class="col"></div>
-        </div>
-        <div class="form-row mb-2">
-            <div class="col"></div>
             <label for="login" class="col-2 col-form-label">login</label>
             <div class="col-5">
                 <form:input type="text" path="username" placeholder="login" class="form-control input-sm border border-info" id="login"></form:input>
@@ -65,13 +57,13 @@
         </div>
         <div class="form-col">
             <div class="col">
-                <button type="submit" class="btn btn-primary mt-4 mb-4 d-block mx-auto">Зарегистрироваться</button>
+                <button type="submit" class="btn btn-primary mt-4 mb-4 d-block mx-auto">Submit</button>
             </div>
         </div>
         <div class="form-row">
             <div class="col-3"></div>
             <div class="col">
-                <u><a class="d-block mx-auto" href="/">Главная</a></u>
+                <u><a class="d-block mx-auto" href="/">main page</a></u>
             </div>
         </div>
         </div>

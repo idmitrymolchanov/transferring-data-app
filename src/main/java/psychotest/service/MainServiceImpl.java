@@ -52,7 +52,7 @@ public class MainServiceImpl implements MainService {
         sdfDateDMY = new SimpleDateFormat("dd/MM/yyyy");
     }
 
-    @Scheduled(fixedRate = i)
+ //   @Scheduled(fixedRate = i)
     @Override
     public void mainMethodScheduler() throws ParseException {
         int date;
