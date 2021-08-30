@@ -20,6 +20,9 @@
         .my-form-style {
             margin-top: 4%;
         }
+        .for_h3 {
+            margin-left: 4%;
+        }
     </style>
 </head>
 
@@ -54,7 +57,7 @@
 
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3>Column's names and types</h3>
+            <h3 class="for_h3">Available connections</h3>
         </div>
         <div class="panel-body">
             <table class="table table-striped">

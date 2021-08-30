@@ -20,7 +20,7 @@
 <div class="container my-form-style">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3>Column's names and types</h3>
+            <h3>All tables list</h3>
         </div>
         <div class="panel-body">
             <table class="table table-striped">
